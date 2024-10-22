@@ -1,0 +1,430 @@
+﻿@*
+@{
+    ViewData["Title"] = "Meld Avvik I Kart";
+}
+
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kartverket - Meld Avvik</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.pm@latest/dist/leaflet.pm.css" />
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            font-family: Arial, sans-serif;
+        }
+
+
+       /*  .container {
+            position: fixed;
+            margin: 0px;
+            padding: 0px;
+            display: flex;
+            width: 100%;
+            height: calc(100vh - 55px); /*For å ikke dekke navbar*/
+      /*   }  */
+
+        .container {
+            display: flex;
+            margin: 0;
+            padding: 0;
+            height: 100%; /* Full height of the viewport */
+            width: 120vw; /* Full width of the viewport */
+        }
+
+        .vedlegg label {
+            margin-top: 0px;
+            padding: 10px;
+            border: none;
+            border-radius: 0px;
+            background-color: #FFFFFF;
+            color: white;
+            cursor: pointer;
+        }
+
+        .vedlegg img {
+            height: 50px;
+            width: 50px;
+            cursor: pointer;
+        }
+
+        .left-container input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        .vedlegg input[type="file"] {
+            display: none;
+        }
+
+        .left-container {
+            background-color: #D8E3F2;
+            width: 30%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .right-container {
+            background-color: #F5F5F5;
+            width: 70%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .left-container button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #65C28B;
+            color: white;
+            cursor: pointer;
+        }
+
+            .left-container button:hover {
+                background-color: #58a77b;
+            }
+
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left-container">
+            <h2>Hva ønsker du å melde inn?</h2>
+            <form id="avvikForm" enctype="multipart/form-data">
+                <label for="sokInput">Søk</label>
+                <input type="text" id="sokInput" name="sok" />
+
+                <label for="typeAvvikInput">Type avvik</label>
+                <input type="text" id="typeAvvikInput" name="typeAvvik" />
+
+                <label for="beskrivelseInput">Beskrivelse</label>
+                <textarea id="beskrivelseInput" name="beskrivelse" rows="4"></textarea>
+
+                <div class="vedlegg">
+                    <p>Last opp bilde om ønskelig</p>
+                    <label for="file-upload">
+                        <img src="~/Images/Upload.png" alt="Last opp bilde" />
+                    </label>
+                    <input type="file" id="file-upload" name="file-upload" accept="image/*" />
+                </div>
+
+                <input type="hidden" id="mapData" name="mapData" />
+                <button type="submit">Send inn avvik</button>
+            </form>
+        </div>
+        <div class="right-container">
+            <div id="map"></div>
+        </div>
+    </div>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="https://unpkg.com/leaflet.pm@latest/dist/leaflet.pm.min.js"></script>
+    <script>
+        var map = L.map('map').setView([58.164048, 8.004007], 13);
+        var drawnItems = new L.FeatureGroup();
+        map.addLayer(drawnItems);
+
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+
+        map.pm.addControls({
+            position: 'bottomleft',
+            drawMarker: true,
+            drawPolyline: true,
+            drawPolygon: true,
+            editMode: true,
+            removalMode: true,
+        });
+
+        map.on('pm:create', function (e) {
+            drawnItems.addLayer(e.layer);
+            updateMapData();
+        });
+
+        map.on('pm:remove', function (e) {
+            drawnItems.removeLayer(e.layer);
+            updateMapData();
+        });
+
+        function updateMapData() {
+            var mapData = drawnItems.toGeoJSON();
+            document.getElementById('mapData').value = JSON.stringify(mapData);
+        }
+
+        document.getElementById('avvikForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            updateMapData();
+
+            var formData = new FormData(this);
+
+            fetch('/Avvik/SubmitAvvik', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Avvik er sendt inn!');
+                        window.location.href = "/Home/Start";
+                    } else {
+                        alert('Det oppstod en feil ved innsending av avvik.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Det oppstod en feil ved innsending av avvik.');
+                });
+        });
+    </script>
+</body>
+</html>
+*@
+
+
+    @{
+    ViewData["Title"] = "Kart";
+}
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet.pm@latest/dist/leaflet.pm.css" />
+
+<style>
+    /* Dette kan legges i site.css */
+    .map-container {
+        display: flex;
+        height: calc(100vh - 60px); /* Justert for navbar */
+        width: 100%;
+        position: absolute;
+        top: 60px;
+        left: 0;
+    }
+
+    .sidebar {
+        width: 350px;
+        background-color: #f0f4f8;
+        padding: 20px;
+        overflow-y: auto;
+    }
+
+    .search-panel h3 {
+        font-size: 16px;
+        margin-top: 20px;
+        margin-bottom: 10px;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    .upload-box {
+        border: 2px dashed #ccc;
+        padding: 20px;
+        text-align: center;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .upload-icon {
+        font-size: 24px;
+        color: #666;
+    }
+
+    .map-content {
+        flex: 1;
+        position: relative;
+        background-color: #e5e5e5;
+    }
+
+    .map-tools {
+        position: absolute;
+        left: 20px;
+        top: 20px;
+        background: white;
+        padding: 10px;
+        border-radius: 4px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        z-index: 1000;
+    }
+
+    .tool-btn {
+        display: block;
+        width: 100%;
+        padding: 8px;
+        margin: 4px 0;
+        border: none;
+        background: none;
+        text-align: left;
+        cursor: pointer;
+    }
+
+        .tool-btn:hover {
+            background-color: #f0f0f0;
+        }
+
+    .tool-icon {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        margin-right: 8px;
+        vertical-align: middle;
+    }
+
+    #map {
+        width: 100%;
+        height: 100%;
+    }
+</style>
+
+<div class="map-container">
+    <div class="sidebar">
+        <div class="search-panel">
+            <h3>Søk</h3>
+            <input type="text" class="form-control" placeholder="Søk etter sted" />
+
+            <h3>Type avvik</h3>
+            <select class="form-control">
+                <option>Velg type avvik</option>
+            </select>
+
+            <h3>Beskriv avvik</h3>
+            <textarea class="form-control" rows="4"></textarea>
+
+            <h3>Legg til dokumentasjon</h3>
+            <div class="upload-box">
+                <i class="upload-icon">↑</i>
+                <span>Last opp</span>
+            </div>
+
+            <button class="btn btn-success w-100 mt-3">Send inn</button>
+        </div>
+    </div>
+
+     <div class="map-content">
+       @* <div class="map-tools">
+            <button class="tool-btn">
+                <div class="tool-icon line-icon"></div>
+                <span>Linje</span>
+            </button>
+            <button class="tool-btn">
+                <div class="tool-icon area-icon"></div>
+                <span>Flate</span>
+            </button>
+            <button class="tool-btn">
+                <div class="tool-icon point-icon"></div>
+                <span>Punkt</span>
+            </button>
+            <button class="tool-btn">
+                <div class="tool-icon gps-icon"></div>
+                <span>GPS posisjon</span>
+            </button>
+        </div> *@
+        <div id="map"></div>
+    </div>
+</div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="https://unpkg.com/leaflet.pm@latest/dist/leaflet.pm.min.js"></script>
+
+<script>
+    var map = L.map('map').setView([58.164048, 8.004007], 13);
+
+    // L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    //     maxZoom: 19,
+    //     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    // }).addTo(map);
+
+
+    // Henter Kartverket sitt kart
+    L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/topo/default/webmercator/{z}/{y}/{x}.png', {
+        maxZoom: 18,
+        attribution: '&copy; <a href="http://www.kartverket.no/">Kartverket</a>'
+
+    }).addTo(map);
+
+    map.pm.addControls({
+        position: 'bottomleft',
+        drawMarker: true,
+        removalMode: true,
+        drawPolyline: true,
+        drawCircleMarker: false,
+        drawRectangle: false,
+        drawCircle: false,
+        drawPolygon: true,
+        editMode: false,
+        cutPolygon: false,
+    });
+
+
+    var currentLayer; //
+    map.on('pm:create', function (e) {
+        if (currentLayer) { //
+            map.removeLayer(currentLayer);
+        }
+        var geometryInfo = "";
+        geometryInfo = e.shape + ":" + geometryInfo; // Legger til formen til input
+
+        if (e.shape === 'Marker') {
+            var marker = e.layer;
+            var lat = marker.getLatLng().lat;
+            var lng = marker.getLatLng().lng;
+            geometryInfo = lat.toFixed(6) + "," + lng.toFixed(6);
+            document.getElementById("Koordinater").value = geometryInfo;
+        }
+
+        ////////////////
+        else if (e.shape === 'Polygon') {
+            var polygon = e.layer;
+            var coordinates = polygon.getLatLngs()[0];
+            geometryInfo = coordinates.map(function (coord) {
+                return coord.lat.toFixed(6) + "," + coord.lng.toFixed(6);
+            }).join(';');
+        }
+        else if (e.shape === 'Line' || e.shape === 'Polyline') {
+            var line = e.layer;
+            var coordinates = line.getLatLngs();
+            geometryInfo = coordinates.map(function (coord) {
+                return coord.lat.toFixed(6) + "," + coord.lng.toFixed(6);
+            }).join(';');
+        }
+        ////////////////
+
+        console.log("Geometri-informasjon: " + geometryInfo);
+    });
+
+    // if (geometryInfo) {
+    //     document.getElementById("Koordinater").value = geometryInfo;
+    //     console.log("Geometri-informasjon: " + geometryInfo);
+    // }
+
+    document.getElementById('avvikForm').addEventListener('submit', function (e) {
+        if (!document.getElementById("Koordinater").value) {
+            e.preventDefault();
+            alert("Vennligst velg en posisjon på kartet.");
+        }
+    });
+</script>
+
