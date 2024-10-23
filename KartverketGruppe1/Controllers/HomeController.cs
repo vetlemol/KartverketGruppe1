@@ -38,12 +38,44 @@ namespace KartverketGruppe1.Controllers
             return View();
         }
 
-
+        // Tom Liste for Stedsnavn for å kunne søke etter Stedsnavn i kartavvik uten error ved første visning
         public IActionResult KartInnmelding()
         {
-            return View();
+            return View(new List<StedsnavnViewModel>());
         }
 
+
+        // Håndterer søk etter Stedsnavn i kartinnmelding
+        // Funker, ikke rør :)
+        [HttpPost]
+        public async Task<IActionResult> SokStedsnavn(string? SokeTekst)
+        {
+            if (string.IsNullOrEmpty(SokeTekst))
+            {
+                return View("KartInnmelding");
+            }
+
+            // Får fortsatt ArgumentNullException hvis den ikke finner noe på søketekst
+
+            var stedsnavnResponse = await _stedsnavnService.GetStedsnavnAsync(SokeTekst);
+            if (stedsnavnResponse?.Navn != null && stedsnavnResponse.Navn.Any())
+            {
+                var viewModel = stedsnavnResponse.Navn.Select(n => new StedsnavnViewModel
+                {
+                    Nord = n.Representasjonspunkt.Nord,
+                    Øst = n.Representasjonspunkt.Øst
+                }).ToList();
+
+                return View("KartInnmelding", viewModel);
+            }
+            else
+            {
+                ViewData["Error"] = $"No results found for '{SokeTekst}'.";
+                return View("KartInnmelding");
+            }
+        }
+
+        
         public IActionResult Privacy()
         {
             return View();
