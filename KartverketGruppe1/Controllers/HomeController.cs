@@ -23,6 +23,11 @@ namespace KartverketGruppe1.Controllers
             return View();
         }
 
+        public IActionResult Arkiv()
+        {
+            return View();
+        }
+
         public IActionResult LagBruker()
         {
             return View();
@@ -49,6 +54,7 @@ namespace KartverketGruppe1.Controllers
         {
             return View();
         }
+
 
         // Håndterer søk etter Kommuneinformasjon
         [HttpPost]
