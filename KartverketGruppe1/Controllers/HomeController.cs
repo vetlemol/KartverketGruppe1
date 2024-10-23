@@ -39,7 +39,6 @@ namespace KartverketGruppe1.Controllers
         }
 
 
-
         public IActionResult KartInnmelding()
         {
             return View();
