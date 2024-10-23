@@ -50,7 +50,7 @@ namespace KartverketGruppe1.Controllers
             return View();
         }
 
-        // H?ndterer s?k etter Kommuneinformasjon
+        // Håndterer søk etter Kommuneinformasjon
         [HttpPost]
         public async Task<IActionResult> KommuneInfo(string kommuneNr)
         {
@@ -79,13 +79,13 @@ namespace KartverketGruppe1.Controllers
             }
         }
 
-        // View for s?k etter Stedsnavn og kommuneinformasjon
+        // View for søk etter Stedsnavn og kommuneinformasjon
         public IActionResult Søk()
         {
             return View();
         }
 
-        // H?ndterer s?k etter Stedsnavn
+        // Håndterer søk etter Stedsnavn
         [HttpPost]
         public async Task<IActionResult> Stedsnavn(string searchTerm)
         {
@@ -103,7 +103,9 @@ namespace KartverketGruppe1.Controllers
                     Skrivemåte = n.Skrivemåte,
                     Navneobjekttype = n.Navneobjekttype,
                     Språk = n.Språk,
-                    Navnestatus = n.Navnestatus
+                    Navnestatus = n.Navnestatus,
+                    Nord = n.Representasjonspunkt.Nord,
+                    Øst = n.Representasjonspunkt.Øst
                 }).ToList();
 
                 return View("Stedsnavn", viewModel);

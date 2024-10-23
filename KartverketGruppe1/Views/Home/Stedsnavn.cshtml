@@ -5,6 +5,7 @@
 
 @if (Model != null && Model.Any())
 {
+
     <table class="table">
         <thead>
             <tr>
@@ -12,6 +13,8 @@
                 <th>Objekttype</th>
                 <th>Språk</th>
                 <th>Status</th>
+                <th>Nord</th>
+                <th>Øst</th>
             </tr>
         </thead>
         <tbody>
@@ -22,7 +25,10 @@
                     <td>@item.Navneobjekttype</td>
                     <td>@item.Språk</td>
                     <td>@item.Navnestatus</td>
+                    <td>@item.Nord</td>
+                    <td>@item.Øst</td>
                 </tr>
+                
             }
         </tbody>
     </table>
@@ -31,3 +37,11 @@ else
 {
     <p>No results found.</p>
 }
+
+@if (Model != null && Model.Any())
+{
+    var førsteKoordinat = Model.First();
+    <p>Nord: @førsteKoordinat.Nord</p>
+    <p>Øst: @førsteKoordinat.Øst</p>
+}
+

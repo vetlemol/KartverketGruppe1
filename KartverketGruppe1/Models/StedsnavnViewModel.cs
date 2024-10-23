@@ -7,6 +7,8 @@
         public string? Språk { get; set; }
         public string? Navnestatus { get; set; }
         public string? Stedstatus { get; set; }
+        public double? Nord { get; set; }
+        public double? Øst { get; set; }
 
     }
 }
