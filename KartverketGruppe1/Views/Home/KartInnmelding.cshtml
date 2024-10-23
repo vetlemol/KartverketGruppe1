@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet.pm@latest/dist/leaflet.pm.css" />
 
 <style>
-    /* Dette kan legges i site.css */
+
     .map-container {
         display: flex;
         height: calc(100vh - 60px); /* Justert for navbar */
@@ -104,6 +104,12 @@
         <div class="search-panel">
             <h3>Søk</h3>
             <input type="text" class="form-control" placeholder="Søk etter sted" />
+            <form asp-action="Stedsnavn" method="post">
+                @Html.AntiForgeryToken()
+                <label for="searchTerm">Stedsnavn:</label>
+                <input type="text" class="form-control" id="searchTerm" name="searchTerm" />
+                <button type="submit">Søk</button>
+            </form>
             @* <form asp-action="Stedsnavn" method="post">
                 @Html.AntiForgeryToken()
                 <label for="searchTerm">Place Name:</label>
