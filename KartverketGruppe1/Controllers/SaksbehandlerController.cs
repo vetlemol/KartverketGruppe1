@@ -13,6 +13,11 @@ namespace KartverketGruppe1.Controllers
         {
             return View();
         }
+        public IActionResult Arbeidsbord()
+        {
+            return View();
+        }
+
     }
 
 
