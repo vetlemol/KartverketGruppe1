@@ -50,6 +50,11 @@ namespace KartverketGruppe1.Controllers
             return View();
         }
 
+        public IActionResult SaksbehandlerRediger()
+        {
+            return View();
+        }
+
         // Håndterer søk etter Kommuneinformasjon
         [HttpPost]
         public async Task<IActionResult> KommuneInfo(string kommuneNr)
