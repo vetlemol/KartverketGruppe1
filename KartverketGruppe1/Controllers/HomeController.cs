@@ -38,7 +38,7 @@ namespace KartverketGruppe1.Controllers
             return View();
         }
 
-        // Tom Liste for Stedsnavn for � kunne s�ke etter Stedsnavn i kartavvik uten error ved f�rste visning
+        // Tom Liste for Stedsnavn for å kunne søke etter Stedsnavn i kartavvik uten error ved første visning
         public IActionResult KartInnmelding()
         {
             return View(new List<StedsnavnViewModel>());
@@ -80,8 +80,17 @@ namespace KartverketGruppe1.Controllers
         {
             return View();
         }
+        
+        
+       public IActionResult Hjelp()
+    {
+        return View();
+    }
 
-        // Håndterer søk etter Kommuneinformasjon
+            
+        
+
+        // HÃ¥ndterer sÃ¸k etter Kommuneinformasjon
         [HttpPost]
         public async Task<IActionResult> KommuneInfo(string kommuneNr)
         {
@@ -110,12 +119,13 @@ namespace KartverketGruppe1.Controllers
             }
         }
 
-        // View for søk etter Stedsnavn og kommuneinformasjon
+        // View for sÃ¸k etter Stedsnavn og kommuneinformasjon
         public IActionResult Sok()
         {
             return View();
         }
-        // håndterer søk etter Stedsnavn
+
+        // Handterer sok etter Stedsnavn
         [HttpPost]
         public async Task<IActionResult> Stedsnavn(string searchTerm)
         {
@@ -130,12 +140,12 @@ namespace KartverketGruppe1.Controllers
             {
                 var viewModel = stedsnavnResponse.Navn.Select(n => new StedsnavnViewModel
                 {
-                    Skrivem�te = n.Skrivem�te,
+                    Skrivemate = n.Skrivemate,
                     Navneobjekttype = n.Navneobjekttype,
-                    Spr�k = n.Spr�k,
+                    Sprak = n.Sprak,
                     Navnestatus = n.Navnestatus,
                     Nord = n.Representasjonspunkt.Nord,
-                    �st = n.Representasjonspunkt.�st
+                    Ost = n.Representasjonspunkt.Ost
                 }).ToList();
 
                 return View("Stedsnavn", viewModel);
@@ -146,6 +156,11 @@ namespace KartverketGruppe1.Controllers
                 return View("Index");
             }
         }
+
+
+
+
+
 
         // Laster inn tilfeldig bakgrunnsbilde fra wwwroot/Bakgrunnsbilder
         public IActionResult GetRandomBackgroundImage()
@@ -164,11 +179,11 @@ namespace KartverketGruppe1.Controllers
             return Json(new { imagePath = $"/Bakgrunnsbilder/{randomImage}" });
         }
 
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
-
 }
