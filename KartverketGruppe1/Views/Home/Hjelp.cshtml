@@ -1,5 +1,170 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿
 @{
+    ViewData["Title"] = "Hjelp / Kontakt Oss";
 }
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #EAE7E7;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh; /* Sørger for at body fyller hele skjermen */
+    }
+
+    .container {
+        width: 75%;
+        margin: 0 auto;
+        padding: 50px 0;
+        flex: 1; /* Hovedinnholdet strekker seg før footeren */
+    }
+
+    h2 {
+        color: #2E7D32;
+        border-bottom: 2px solid #2E7D32;
+        display: inline-block;
+    }
+
+    .contact-info a, .help a {
+        text-decoration: none;
+        color: #2E7D32;
+    }
+
+    .contact-info a:hover, .help a:hover {
+        text-decoration: underline;
+    }
+      /* CSS for å senke annen og fjerde boks */
+    .row > div:nth-child(2),
+    .row > div:nth-child(4) {
+        margin-top: 40px; /* Juster høyden her som nødvendig */
+    }
+
+
+    .contact-icons {
+        display: flex;
+        align-items: center;
+        margin: 10px 0;
+    }
+    .footer {
+  background-color: #f8f8f8;
+  padding: 20px;
+  color: #333;
+  border-top: 10px solid #006400; /* Legger til en 5px linje på toppen i fargen #006400 */
+  text-align: left;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.footer-section {
+  margin: 10px;
+  flex: 1;
+  min-width: 200px;
+}
+
+.footer-section h3 {
+  margin-top: 0;
+}
+
+.footer-section a {
+  color: #006400;
+  text-decoration: none;
+}
+
+.footer-section a:hover,
+.footer-link:hover {
+  text-decoration: underline;
+}
+
+.footer-bottom {
+  text-align: left;
+  padding-top: 10px;
+  border-top: 1px solid #ccc;
+}
+
+
+</style>
+
+<body>
+    <div class="container">
+        <div class="content">
+            <div class="row">
+                <div class="col-md-3">
+                    <h2>Kontakt oss</h2>
+                    <div class="contact-info">
+                        <div class="contact-icons">
+                            <img src="~/images/telefon.jpg" alt="Telefon ikon" width="24" height="24">
+                            <span>Telefon</span>
+                        </div>
+                        <div class="contact-icons">
+                            <img src="~/images/email-icon.png" alt="E-post ikon" width="24" height="24">
+                            <a href="mailto:post@kartverket.no">E-post</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <h2> </h2>
+                    <div class="info-kontakt-oss">
+                        <a href="tel:+4732118000">32 11 80 00</a><br>
+                        <a href="mailto:post@kartverket.no">post@kartverket.no</a><br>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <h2>Hjelp</h2>
+                </div>
+                <div class="col-md-3">
+                    <h2> </h2>
+                    <div class="about">
+                       <a href="https://status.kartverket.no">Driftsmeldinger</a><br>
+                       <a href="https://www.kartverket.no/om-kartverket/faq">Ofte stilte spørsmål</a><br>
+                       <a href="https://www.kartverket.no/eiendom/skjema/alleskjema">Skjemaer</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+ </div>
+  </div>
+      <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <img src="KartverketGruppe1/wwwroot/Images/KartikusGlad.png" alt="Kartverket logo" />
+            </div>
+            <div class="footer-section">
+                <h3>Åpningstider (mandag–fredag):</h3>
+                <p>Kundesenter/sentralbord: 09.00–15.00</p>
+                <p>Resepsjon: 08.00–15.00</p>
+            </div>
+            <div class="footer-section">
+                <h3>Aktuelt</h3>
+                <a href="https://www.kartverket.no/om-kartverket/arrangement">Arrangementer og kurs</a><br />
+                <a href="https://www.kartverket.no/om-kartverket/nyheter">Nyheter</a><br />
+                <a href="https://www.kartverket.no/om-kartverket/jobb-i-kartverket">Ledige stillinger</a><br />
+                <a href="https://www.kartverket.no/om-kartverket/presse">Presse</a>
+            </div>
+             </div>
+        
+        </div>
+          <div class="footer-bottom">
+                <h3>Følg oss</h3> 
+                <a href="#" class="footer-link">Facebook</a> | 
+                <a href="#" class="footer-link">Instagram</a> | 
+                <a href="#" class="footer-link">LinkedIn</a> | 
+                <a href="#" class="footer-link">Nyhetsbrev</a> | 
+                <a href="#" class="footer-link">Video</a>
+        </div>
+    </footer>
+
+ 
+
+    <!-- Sjekk for oppdatert versjon av jQuery og Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
