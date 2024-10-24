@@ -2,6 +2,7 @@ using KartverketGruppe1.Services;
 using KartverketGruppe1.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using KartverketGruppe1.Data;
 
 namespace KartverketGruppe1.Controllers
 {
@@ -10,12 +11,14 @@ namespace KartverketGruppe1.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IKommuneInfoService _kommuneInfoService;
         private readonly IStedsnavnService _stedsnavnService;
+        private readonly ApplicationDbContext _context;
 
-        public HomeController(ILogger<HomeController> logger, IKommuneInfoService kommuneInfoService, IStedsnavnService stedsnavnService)
+        public HomeController(ILogger<HomeController> logger, IKommuneInfoService kommuneInfoService, IStedsnavnService stedsnavnService, ApplicationDbContext context)
         {
             _logger = logger;
             _kommuneInfoService = kommuneInfoService;
             _stedsnavnService = stedsnavnService;
+            _context = context;
         }
 
         public IActionResult Index()
@@ -24,6 +27,12 @@ namespace KartverketGruppe1.Controllers
         }
 
         public IActionResult LagBruker()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult BrukerProfil()
         {
             return View();
         }
@@ -161,10 +170,49 @@ namespace KartverketGruppe1.Controllers
 
 
 
-
-        // Laster inn tilfeldig bakgrunnsbilde fra wwwroot/Bakgrunnsbilder
-        public IActionResult GetRandomBackgroundImage()
+        [HttpGet]
+        public IActionResult TestVetle()
         {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult TestVetle(string Fornavn, string Etternavn, string Epost, string Ansvarsområde, string Avdeling, string Passord)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(Fornavn) || string.IsNullOrEmpty(Etternavn) || string.IsNullOrEmpty(Epost) || string.IsNullOrEmpty(Ansvarsområde) || string.IsNullOrEmpty(Passord))
+                {
+                    ViewData["Error"] = "Please fill out all fields.";
+                    return View();
+                }
+
+                var nysaksbehandler = new Saksbehandler
+                {
+                    Fornavn = Fornavn,
+                    Etternavn = Etternavn,
+                    Epost = Epost,
+                    Ansvarsområde = Ansvarsområde,
+                    Avdeling = Avdeling,
+                    Passord = Passord
+                };
+
+                _context.Saksbehandler.Add(nysaksbehandler);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch (Exception e)
+            {
+                ViewData["Error"] = e.Message;
+                return View();
+            }
+        }
+
+
+
+            // Laster inn tilfeldig bakgrunnsbilde fra wwwroot/Bakgrunnsbilder
+            public IActionResult GetRandomBackgroundImage()
+            {
             string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Bakgrunnsbilder");
             var files = Directory.GetFiles(path, "*.png").Select(Path.GetFileName).ToList();
 

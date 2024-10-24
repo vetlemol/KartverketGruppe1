@@ -26,7 +26,6 @@
 
   <ItemGroup>
     <Folder Include="APIModels\" />
-    <Folder Include="Data\" />
     <Folder Include="Services\" />
   </ItemGroup>
 
