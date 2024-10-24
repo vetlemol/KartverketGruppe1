@@ -22,15 +22,32 @@
     }
 
     h2 {
-        color: #2E7D32;
+        color: #1A532A;
         border-bottom: 2px solid #2E7D32;
         display: inline-block;
+        padding left: 30px;
     }
+     
+    a {
+    text-decoration: none;
+    color: #006400; /* Bruker samme grønnfarge for alle linker */
+}
+
+a:hover {
+    color: #006400;
+    text-decoration: underline;
+}
 
     .contact-info a, .help a {
         text-decoration: none;
         color: #2E7D32;
     }
+    .contact-info {
+         padding-top: 10px;
+        border-right: 1px solid #706F6E;
+    }
+
+
 
     .contact-info a:hover, .help a:hover {
         text-decoration: underline;
@@ -47,6 +64,13 @@
         align-items: center;
         margin: 10px 0;
     }
+    .help-info {
+    padding-top: 10px;
+    padding-right: 50;
+    padding-left: 10px;
+    border-left: 1px solid #706F6E; /* Legg til en linje for å matche høyre linje i 'Kontakt oss' */
+}
+
     .footer {
   background-color: #f8f8f8;
   padding: 20px;
@@ -62,22 +86,25 @@
 }
 
 .footer-section {
-  margin: 10px;
+  margin: 5px;
   flex: 1;
   min-width: 200px;
 }
 
 .footer-section h3 {
+       color: #1A532A;
   margin-top: 0;
 }
 
-.footer-section a {
+.footer-section a,
+.footer-link {
   color: #006400;
   text-decoration: none;
 }
 
 .footer-section a:hover,
 .footer-link:hover {
+    color:#006400;
   text-decoration: underline;
 }
 
@@ -98,12 +125,13 @@
                     <h2>Kontakt oss</h2>
                     <div class="contact-info">
                         <div class="contact-icons">
-                            <img src="~/images/telefon.jpg" alt="Telefon ikon" width="24" height="24">
+                            <img src="~/images/PhoneIcon.png" alt="Telefon ikon" width="22" height="22">
                             <span>Telefon</span>
                         </div>
+                          <p><p>
                         <div class="contact-icons">
-                            <img src="~/images/email-icon.png" alt="E-post ikon" width="24" height="24">
-                            <a href="mailto:post@kartverket.no">E-post</a>
+                            <img src="~/images/MailIcon.png" alt="E-post ikon" width="22" height="22">
+                            <a >E-post</a>
                         </div>
                     </div>
                 </div>
@@ -111,19 +139,25 @@
                     <h2> </h2>
                     <div class="info-kontakt-oss">
                         <a href="tel:+4732118000">32 11 80 00</a><br>
+                      <p><p>
                         <a href="mailto:post@kartverket.no">post@kartverket.no</a><br>
+                        
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <h2>Hjelp</h2>
-                </div>
-                <div class="col-md-3">
-                    <h2> </h2>
-                    <div class="about">
-                       <a href="https://status.kartverket.no">Driftsmeldinger</a><br>
-                       <a href="https://www.kartverket.no/om-kartverket/faq">Ofte stilte spørsmål</a><br>
-                       <a href="https://www.kartverket.no/eiendom/skjema/alleskjema">Skjemaer</a>
-                    </div>
+         <h2> Ressurser</h2>
+         </div>
+        <div class="col-md-3">
+      <h2> </h2>
+    <div class="about help-info"> <!-- Legg til help-info klassen her -->
+       <a href="https://status.kartverket.no">Driftsmeldinger</a><br>
+       <p><p>
+       <a href="https://www.kartverket.no/om-kartverket/faq">Ofte stilte spørsmål</a><br>
+       <p><p>
+       <a href="https://www.kartverket.no/eiendom/skjema/alleskjema">Skjemaer</a>
+    
+          </div>
+            </div>
                 </div>
             </div>
         </div>
@@ -133,10 +167,11 @@
       <footer class="footer">
         <div class="footer-content">
             <div class="footer-section">
-                <img src="KartverketGruppe1/wwwroot/Images/KartikusGlad.png" alt="Kartverket logo" />
+                <img src="~/images/KartikusGladTekst.png" alt="Kartverket logo" width="220" height="135" />
+
             </div>
             <div class="footer-section">
-                <h3>Åpningstider (mandag–fredag):</h3>
+                <h3>Åpningstider (man–fre):</h3>
                 <p>Kundesenter/sentralbord: 09.00–15.00</p>
                 <p>Resepsjon: 08.00–15.00</p>
             </div>
@@ -152,11 +187,11 @@
         </div>
           <div class="footer-bottom">
                 <h3>Følg oss</h3> 
-                <a href="#" class="footer-link">Facebook</a> | 
-                <a href="#" class="footer-link">Instagram</a> | 
-                <a href="#" class="footer-link">LinkedIn</a> | 
-                <a href="#" class="footer-link">Nyhetsbrev</a> | 
-                <a href="#" class="footer-link">Video</a>
+                <a href="https://www.facebook.com/kartverket.no" class="footer-link">Facebook</a> | 
+                <a href="https://www.instagram.com/kartverket.no/" class="footer-link">Instagram</a> | 
+                <a href="https://www.linkedin.com/company/kartverketno/posts/?feedView=all" class="footer-link">LinkedIn</a> | 
+                <a href="https://pub.dialogapi.no/s/3403d74a-8e34-4ab5-a221-1bf58c425982" class="footer-link">Nyhetsbrev</a> | 
+                <a href="https://vimeo.com/kartverket/videos" class="footer-link">Video</a>
         </div>
     </footer>
 
