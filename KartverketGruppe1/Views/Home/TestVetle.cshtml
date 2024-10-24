@@ -1,0 +1,67 @@
+﻿@model List<KartverketGruppe1.Models.StedsnavnViewModel>
+
+
+@{
+    ViewData["Title"] = "Kart";
+}
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet.pm@latest/dist/leaflet.pm.css" />
+
+<style>
+
+    .container {
+        display: flex;
+        height: calc(100vh - 60px); /* Justert for navbar */
+        width: 100%;
+        position: absolute;
+        top: 60px;
+        left: 0;
+    }
+
+    .map-container {
+        display: flex;
+        height: calc(100vh - 80px); /* Justert for navbar */
+        width: 100%;
+        position: absolute;
+        top: 30px;
+        left: 0;
+    }
+
+    .sidebar {
+        width: 350px;
+        background-color: #f0f4f8;
+        padding: 20px;
+        overflow-y: auto;
+    }
+
+    .column {
+        float: left;
+        padding: 10px;
+        height: 100%; /* Should be removed. Only for demonstration */
+    }
+
+        /* Left and right column */
+        .column.side {
+            width: 25%;
+        }
+
+        .column.small {
+            width: 5%;
+        }
+
+        /* Middle column */
+        .column.middle {
+            width: 25%;
+        }
+</style>
+
+<div class="container">
+    <div class="sidebar">
+
+    </div>
+    <div class="map-container">
+        <div class="column.side"
+    </div>
+    
+</div>
