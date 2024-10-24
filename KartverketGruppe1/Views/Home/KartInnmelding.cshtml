@@ -103,20 +103,12 @@
     <div class="sidebar">
         <div class="search-panel">
             <h3>Søk</h3>
-            <input type="text" class="form-control" placeholder="Søk etter sted" />
-            <form asp-action="Stedsnavn" method="post">
-                @Html.AntiForgeryToken()
-                <label for="searchTerm">Stedsnavn:</label>
-                <input type="text" class="form-control" id="searchTerm" name="searchTerm" />
-                <button type="submit">Søk</button>
+            
+            <form asp-action="SokStedsnavn" method="post">
+                @* @Html.AntiForgeryToken() *@
+                <input type="text" class="form-control" id="SokeTekst" name="SokeTekst" placeholder="Søk etter sted" />
+                
             </form>
-            @* <form asp-action="Stedsnavn" method="post">
-                @Html.AntiForgeryToken()
-                <label for="searchTerm">Place Name:</label>
-                <input type="text" id="searchTerm" name="searchTerm" />
-                <button type="submit">Search</button>
-            </form> *@ <!--Må endres for å ikke redirecte til stedsnavn.cshtml + design må fikses-->
-
 
 
 
@@ -140,49 +132,17 @@
     </div>
 
      <div class="map-content">
-       @* <div class="map-tools">
-            <button class="tool-btn">
-                <div class="tool-icon line-icon"></div>
-                <span>Linje</span>
-            </button>
-            <button class="tool-btn">
-                <div class="tool-icon area-icon"></div>
-                <span>Flate</span>
-            </button>
-            <button class="tool-btn">
-                <div class="tool-icon point-icon"></div>
-                <span>Punkt</span>
-            </button>
-            <button class="tool-btn">
-                <div class="tool-icon gps-icon"></div>
-                <span>GPS posisjon</span>
-            </button>
-        </div> *@
+       
         <div id="map"></div>
     </div>
 </div>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script src="https://unpkg.com/leaflet.pm@latest/dist/leaflet.pm.min.js"></script>
 
-<script>
-
-    // Forhåpentlig metode for å få kartet endre seg til dit man søker :))
-    // while (Model = null)
-    // {
-    //     var map = L.map('map').setView([58.164048, 8.004007], 13);
-    // } else {
-    //             var map = L.map('map').setView([Model.First().Nord, Model.First().Øst], 13);
-    // }
-
+<script>   
    
-   
-   
-   var map = L.map('map').setView([58.164048, 8.004007], 13);
-
-    // L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    //     maxZoom: 19,
-    //     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    // }).addTo(map);
+   // var map = L.map('map').setView([58.164048, 8.004007], 13);
+    var map = L.map('map');
 
 
     // Henter Kartverket sitt kart
@@ -192,6 +152,20 @@
 
     }).addTo(map);
 
+    // Finner første stedsnavn i listen og setter kartet til denne posisjonen
+    // HomeController SokStedsnavn
+    @if (Model.Any() && Model.First().Nord.HasValue && Model.First().Ost.HasValue)
+    {
+        @:map.setView([@Model.First().Nord, @Model.First().Ost], 13);
+    }
+    else
+    {
+        @:map.setView([58.164048, 8.004007], 13);
+    }
+
+
+
+    // Legger til Leaflet.pm kontroller
     map.pm.addControls({
         position: 'bottomleft',
         drawMarker: true,

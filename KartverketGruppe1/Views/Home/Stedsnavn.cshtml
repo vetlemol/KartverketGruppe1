@@ -21,12 +21,12 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td>@item.Skrivemåte</td>
+                    <td>@item.Skrivemate</td>
                     <td>@item.Navneobjekttype</td>
-                    <td>@item.Språk</td>
+                    <td>@item.Sprak</td>
                     <td>@item.Navnestatus</td>
                     <td>@item.Nord</td>
-                    <td>@item.Øst</td>
+                    <td>@item.Ost</td>
                 </tr>
                 
             }
@@ -42,6 +42,6 @@ else
 {
     var førsteKoordinat = Model.First();
     <p>Nord: @førsteKoordinat.Nord</p>
-    <p>Øst: @førsteKoordinat.Øst</p>
+    <p>Øst: @førsteKoordinat.Ost</p>
 }
 
