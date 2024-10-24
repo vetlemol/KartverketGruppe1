@@ -63,7 +63,7 @@ namespace KartverketGruppe1.Controllers
                 var viewModel = stedsnavnResponse.Navn.Select(n => new StedsnavnViewModel
                 {
                     Nord = n.Representasjonspunkt.Nord,
-                    �st = n.Representasjonspunkt.�st
+                    Ost = n.Representasjonspunkt.Ost
                 }).ToList();
 
                 return View("KartInnmelding", viewModel);
@@ -111,11 +111,10 @@ namespace KartverketGruppe1.Controllers
         }
 
         // View for søk etter Stedsnavn og kommuneinformasjon
-        public IActionResult Søk()
+        public IActionResult Sok()
         {
             return View();
         }
-
         // håndterer søk etter Stedsnavn
         [HttpPost]
         public async Task<IActionResult> Stedsnavn(string searchTerm)
@@ -131,12 +130,12 @@ namespace KartverketGruppe1.Controllers
             {
                 var viewModel = stedsnavnResponse.Navn.Select(n => new StedsnavnViewModel
                 {
-                    Skrivemåte = n.Skrivemåte,
+                    Skrivemate = n.Skrivemate,
                     Navneobjekttype = n.Navneobjekttype,
-                    Språk = n.Språk,
+                    Sprak = n.Sprak,
                     Navnestatus = n.Navnestatus,
                     Nord = n.Representasjonspunkt.Nord,
-                    Øst = n.Representasjonspunkt.Øst
+                    Ost = n.Representasjonspunkt.Ost
                 }).ToList();
 
                 return View("Stedsnavn", viewModel);
