@@ -1,4 +1,5 @@
 ﻿@model KartverketGruppe1.Models.BrukerProfilViewModel
+
 @{
     ViewData["Title"] = "Min Profil";
 }
@@ -33,13 +34,13 @@
 
         <div>
             <div style="margin-top: -40px; margin-left: 30px;">
-            @if (Model.UserProfile != null)
+            @if (Model != null)
             {
-                <p>@Model.UserProfile.Name</p>
-                <p>@Model.UserProfile.Email</p>
-                <p>@Model.UserProfile.Phone</p>
-                <p>@Model.UserProfile.BirthDate.ToString("dd.MM.yyyy")</p>
-                <p>@Model.UserProfile.Password</p>
+                <p>@Model.Name</p>
+                <p>@Model.Email</p>
+                <p>@Model.Phone</p>
+                <p>@Model.BirthDate.ToString("dd.MM.yyyy")</p>
+                <p>@Model.Password</p>
             }
             else
             {
@@ -52,12 +53,12 @@
             Rediger profil
         </button>
 
-    <div style="margin-top: 100px;">
+    <div style="margin-top: 70px;">
         <h4>Dine innmeldinger</h4>
         <div style="display: flex; gap: 5px; margin-bottom: 10px;">
-            @if (Model.UserProfile?.Years != null)
+            @if (Model != null && Model.Years != null)
             {
-                @foreach (var year in Model.UserProfile.Years)
+                @foreach (var year in Model.Years)
                 {
                     <button style="padding: 5px 10px; background-color: #d3e0d3; border: none; border-radius: 5px; cursor: pointer;">@year</button>
                 }
@@ -69,7 +70,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-    @if (Model?.UserProfile?.SubmissionsPerMonth != null)
+    @if (Model?.SubmissionsPerMonth != null)
     {
         <text>
         var ctx = document.getElementById('submissionChart').getContext('2d');
@@ -79,7 +80,7 @@
                 labels: ['Januar', 'Februar', 'Mars', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Desember'],
                 datasets: [{
                     label: 'Innmeldinger per måned',
-                    data: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.UserProfile.SubmissionsPerMonth)),
+                    data: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.SubmissionsPerMonth)),
                     backgroundColor: 'rgba(34, 139, 34, 0.7)',
                     borderColor: 'rgba(34, 139, 34, 1)',
                     borderWidth: 1

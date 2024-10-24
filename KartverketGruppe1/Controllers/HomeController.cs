@@ -38,7 +38,6 @@ namespace KartverketGruppe1.Controllers
             return View();
         }
 
-
         public IActionResult KartInnmelding()
         {
             return View();
@@ -47,6 +46,13 @@ namespace KartverketGruppe1.Controllers
         public IActionResult Privacy()
         {
             return View();
+        }
+
+        public IActionResult BrukerProfil()
+        {
+            var model = new BrukerProfilViewModel();
+            model.OnGet(); // Initialiserer eksempeldata
+            return View(model);
         }
 
         // H�ndterer s�k etter Kommuneinformasjon
@@ -78,13 +84,13 @@ namespace KartverketGruppe1.Controllers
             }
         }
 
-        // View for s�k etter Stedsnavn og kommuneinformasjon
-        public IActionResult S�k()
+        // View for søk etter Stedsnavn og kommuneinformasjon
+        public IActionResult Søk()
         {
             return View();
         }
 
-        // H�ndterer s�k etter Stedsnavn
+        // Håndterer søk etter Stedsnavn
         [HttpPost]
         public async Task<IActionResult> Stedsnavn(string searchTerm)
         {
@@ -99,12 +105,12 @@ namespace KartverketGruppe1.Controllers
             {
                 var viewModel = stedsnavnResponse.Navn.Select(n => new StedsnavnViewModel
                 {
-                    Skrivem�te = n.Skrivem�te,
+                    Skrivemåte = n.Skrivemåte,
                     Navneobjekttype = n.Navneobjekttype,
-                    Spr�k = n.Spr�k,
+                    Språk = n.Språk,
                     Navnestatus = n.Navnestatus,
                     Nord = n.Representasjonspunkt.Nord,
-                    �st = n.Representasjonspunkt.�st
+                    Øst = n.Representasjonspunkt.Øst
                 }).ToList();
 
                 return View("Stedsnavn", viewModel);
@@ -115,11 +121,6 @@ namespace KartverketGruppe1.Controllers
                 return View("Index");
             }
         }
-
-
-
-
-
 
         // Laster inn tilfeldig bakgrunnsbilde fra wwwroot/Bakgrunnsbilder
         public IActionResult GetRandomBackgroundImage()
@@ -138,11 +139,11 @@ namespace KartverketGruppe1.Controllers
             return Json(new { imagePath = $"/Bakgrunnsbilder/{randomImage}" });
         }
 
-
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
+
 }
