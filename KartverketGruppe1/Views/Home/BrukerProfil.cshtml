@@ -77,7 +77,7 @@
         var submissionChart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: ['Januar', 'Februar', 'Mars', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Desember'],
+                labels: ['Januar', 'Februar', 'Mars', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Desember'], // måned
                 datasets: [{
                     label: 'Innmeldinger per måned',
                     data: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.SubmissionsPerMonth)),

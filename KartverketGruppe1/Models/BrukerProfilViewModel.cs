@@ -14,7 +14,7 @@ namespace KartverketGruppe1.Models
 
         public void OnGet()
         {
-            // Initialiserer med eksempeldata
+            // Initialiserer med eksempel
             Name = "Karsten Pettersen";
             Email = "eksempel@epost.com";
             Phone = "+ 47 12345678";
