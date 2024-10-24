@@ -15,8 +15,8 @@ namespace KartverketGruppe1.Data
         public string Epost { get; set; }
         [Required]
         public string Passord { get; set; }
-        public string Telefonnummer { get; set; }
+        public string? Telefonnummer { get; set; }
         public DateTime? Fodselsdato { get; set; }
-        public byte[] Profilbilde { get; set; }
+        public byte[]? Profilbilde { get; set; }
     }
 }

@@ -5,7 +5,7 @@ namespace KartverketGruppe1.Data
 {
     public class Kommentar
     {
-        
+        // Må se over, får mange til mange fra console når jeg prøver add-migration
         public int KommentarID { get; set; }
 
         [Required]
