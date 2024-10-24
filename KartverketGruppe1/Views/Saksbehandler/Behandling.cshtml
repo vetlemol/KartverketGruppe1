@@ -1,5 +1,437 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>@ViewData["Title"]</title>
+
+    <!-- CSS-stiler -->
+    <style>
+        /* Fjerner marginer og padding fra både body og html for å sikre at menyen er helt venstrestilt */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+
+        /* Menybar til venstre, helt venstrestilt */
+        .side-navbar {
+            position: fixed; /* Fikserer menyen helt til venstre */
+            top: 50px;
+            left: 0;
+            width: 150px;
+            height: calc(100%); /* Full høyde på skjermen */
+            background-color: #96b7d6; /* Lys blå bakgrunnsfarge */
+            padding: 0; /* Fjerner padding for at menyen skal starte fra venstre */
+            box-sizing: border-box;
+        }
+
+        .side-navbar ul {
+            list-style-type: none;
+            padding-top: 80px;
+            margin: 0;
+        }
+
+        .side-navbar a {
+            color: rgb(16, 15, 15);
+            display: block;
+            padding: 10px;
+            text-decoration: none;
+        }
+
+        .side-navbar a:hover {
+            background-color: #5a8cba; /* Mørkere blå ved hover */
+        }
+
+       .box-container {
+            display: flex; /* Bruker flexbox for å legge boksene ved siden av hverandre */
+            gap: 5px; /* Avstand mellom boksene */
+            height: 80vh;
+            
+        }
+
+        .box {
+            flex: 1 1 calc(33%); /* Boksene vil ta lik plass ved siden av hverandre */
+            min-width: 300px; /* Minste bredde for hver boks */
+            background-color: #96b7d6;
+            padding: 60px;
+            box-sizing: border-box;
+            color: rgb(16, 15, 15);
+            border-radius: 5px;
+        }
+
+        .extra-box {
+            background-color: #f3f2f2; /* Ny bakgrunnsfarge for ekstraboksen */
+            padding: 20px;
+            border-radius: 10px;
+            color: #808080;
+            margin-bottom: 20px;
+        }
+
+        .extra-box2 {
+            background-color: #96b7d6; /* Ny bakgrunnsfarge for ekstraboksen */
+            padding: 5px 20px 20px 6px;
+            border-radius: 10px;
+            color: #030303;
+            margin-bottom: 20px;
+            height: 150px;
+        }
+
+        .extra-box2 p {
+            display: block; /* Sørger for at hvert element vises på en ny linje */
+        }
+
+        .extra-box3 {
+            background-color: #96b7d6; /* Ny bakgrunnsfarge for ekstraboksen */
+            padding: 5px 20px 20px 6px;
+            border-radius: 10px;
+            color: #0b0b0b;
+            margin-bottom: 5px;
+            height: 40px;
+            line-height: 1.5;
+            white-space: ellipsis;
+            margin-top: 50px;
+        }
+
+        .extra-box4 {
+            background-color: #f3f2f2; /* Ny bakgrunnsfarge for ekstraboksen */
+            padding: 2px 10px;
+            border-radius: 5px;
+            color: #5979b5;
+            margin-bottom: 20px;
+            height: 30px;
+            line-height: 1.1;
+            margin-top: 5px;
+        }
+
+        .extra-box5 {
+            background-color: #f3f2f2; /* Ny bakgrunnsfarge for ekstraboksen */
+            padding: 2px 10px;
+            border-radius: 5px;
+            color: #070707;
+            margin-bottom: 20px;
+            height: 150px;
+            line-height: 1.1;
+            margin-top: 80px;
+        }
+
+       
+
+
+        .extra-box5 select {
+            margin-top: 10px; /* Legger til litt plass over rullegardinmenyen */
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .execute-button {
+        padding: 5px 10px;
+        border-radius: 5px;
+        border: none;
+        background-color: #f3f2f2;
+        color: rgb(22, 91, 156);
+        cursor: pointer;
+    }
+
+    .execute-button:hover {
+        background-color: #4a7ba0; /* Mørkere blå ved hover */
+
+    }
+
+ .extra-box6 {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .dropdown-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .extra-box6 select {
+        padding: 5px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        width: 200px;
+    }
+
+    .extra-box7 {
+            background-color: #96b7d6; /* Ny bakgrunnsfarge for ekstraboksen */
+            padding: 2px 10px;
+            border-radius: 5px;
+            color: #070707;
+            margin-bottom: 20px;
+            height: 80px;
+            line-height: 1.1;
+            margin-top: 60px;
+    }
+
+          .extra-box8 {
+            background-color: #96b7d6; /* Ny bakgrunnsfarge for ekstraboksen */
+            padding: 2px 10px;
+            border-radius: 5px;
+            color: #070707;
+            margin-bottom: 20px;
+            height: 80px;
+            line-height: 1.1;
+            margin-top: 20px;
+        }
+
+        .extra-box9 {
+            background-color: #f1f6fa; /* Ny bakgrunnsfarge for ekstraboksen */
+            padding: 2px 10px;
+            border-radius: 5px;
+            color: #070707;
+            margin-bottom: 20px;
+            height: 150px;
+            line-height: 1.1;
+            margin-top: 20px;
+        }
+        .extra-box10 {
+            background-color: #96b7d6; /* Ny bakgrunnsfarge for ekstraboksen */
+            padding: 2px 10px;
+            border-radius: 5px;
+            color: #070707;
+            margin-bottom: 20px;
+            height: 80px;
+            line-height: 1.1;
+            margin-top: 20px;
+        }
+        .extra-box11 {
+            background-color: #e5e9ec; /* Ny bakgrunnsfarge for ekstraboksen */
+            padding: 2px 10px;
+            border-radius: 5px;
+            color: #070707;
+            margin-bottom: 20px;
+            height: 150px;
+            line-height: 1.1;
+            margin-top: 20px;
+        }
+          /* Knapp-container */
+        .button-container {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+            margin-right: 60px;
+        }
+
+        .button-container button {
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            background-color: #5a8cba;
+            color: black;
+            cursor: pointer;
+            width: 50px;
+        }
+
+         .button1 {
+        background-color: #c96767;
+        color: rgb(15, 15, 15);
+        width: 180px;
+        height: 40px;
+        border-radius: 10px;
+        border: 2px solid #888888;
+         align-items: center;
+        justify-content: center;
+        display: flex;
+        
+        
+    }
+
+    .button1:hover {
+        background-color: #4a7ba0; /* Mørkere blå ved hover */
+    }
+
+    .button2 {
+        background-color: #eae6e5;
+        color: black;
+        width: 180px;
+        height: 40px;
+        border-radius: 10px;
+        border:2px solid #888888;
+        align-items: center;
+        justify-content: center;
+         display: flex;
+
+
+    }
+
+    .button2:hover {
+        background-color: #e58e26; /* Mørkere oransje ved hover */
+    }
+
+    .button3 {
+        background-color: #8fc59b;
+        color: black;
+        width: 180px;
+        height: 40px;
+        border-radius: 10px;
+        border:2px solid #888888;
+         align-items: center;
+        justify-content: center;
+         display: flex;
+    }
+
+    .button3:hover {
+        background-color: #38ada9; /* Mørkere grønn ved hover */
+    }
+    .underline-text {
+    display: inline-block;
+    padding-bottom: 5px; /* Avstand mellom tekst og strek */
+    border-bottom: 2px solid #7C7C7C; /* Strek under teksten */
+    width: 100%;
 }
+
+        
+   
+
+        /* Blå container ved siden av menyen */
+        .blue-container {
+            margin-left: 150px; /* Flytter containeren til høyre for menyen */
+            padding: 0px;
+            height: 80vh; /* Full høyde på skjermen */
+            background-color: #96b7d6; /* Blå bakgrunn */
+            color: white;
+            // box-sizing: border-box;
+            overflow-y: auto; /* Gjør at containeren kan scrolle om nødvendig */
+            width: 1300px;
+        }
+
+    </style>
+</head>
+<body>
+
+<!-- Container for meny og innhold -->
+<div>
+    <!-- Menybar til venstre -->
+    <nav class="side-navbar">
+        <ul>
+            <li><a href="#">Bilde</a></li>
+            <li><a href="#">Mine hendelser</a></li>
+            <li><a href="#">Alle hendelser</a></li>
+            <li><a href="#">Arkiv</a></li>
+            <li><a href="#">Arbeidsbord</a></li>
+        </ul>
+    </nav>
+
+    <!-- Blå container med bokser -->
+    <div class="blue-container">
+        <div class="box-container"> 
+            <div class="box">
+                <h3> <span class="underline-text">Innmelding info</span></h3>
+                <p>Innhold for boks 1.</p>
+                <div class="extra-box">
+                    <p> Tekst:Her skal det være masse info om hva aviket er.</p>
+                </div>
+                <div class="extra-box2">
+                    <p> ID:<br>
+                        Kilde:<br>
+                        Dato:<br>
+                        Sist endret:<br>
+                        Kommune:<br>
+                    </p>
+                </div>
+                <div class="extra-box3">
+                    <p> Vedlegg:</p>
+                </div>
+                <div class="extra-box4">
+                    <p> Bilder.jpg</p>
+                </div>
+                <div class="extra-box5">
+                    <p> Kopier innmeldigen til:</p>
+                    <label for="dropdown"></label>
+                    <select id="dropdown" name="dropdown">
+                        <option value="option1">Bygg</option>
+                        <option value="option2">Eiendom</option>
+                        <option value="option3">Skog</option>
+                    </select>
+                    <button class="execute-button">Utfør</button>
+                </div>
+            </div>
+
+            <div class="box">
+                <h3> <span class="underline-text">Innmelding behandlig</span></h3>
+                <p>Innhold for boks 2.</p>
+                <div class="extra-box6">
+                    <h3></h3>
+                    <p></p>
+                     <label for="dropdown1">Produktnavn:</label>
+                    <select id="dropdown1" name="dropdown1">
+                        <option value="option1">Kartdata</option>
+                        <option value="option2">Alternativ 2</option>
+                        <option value="option3">Alternativ 3</option>
+                    </select>
+                    <label for="dropdown2">Prioritering:</label>
+                    <select id="dropdown2" name="dropdown2">
+                        <option value="option1">Vanlig prioritering</option>
+                        <option value="option2">høy prioritering</option>
+                        <option value="option3">lav prioritering</option>
+                    </select>
+                    <label for="dropdown3">Status:</label>
+                    <select id="dropdown3" name="dropdown3">
+                        <option value="option1">Ikke påbegynt</option>
+                        <option value="option2">Under behandlig</option>
+                        <option value="option3">Ferdig behandlet</option>
+                    </select>
+                </div>
+                <div class="extra-box7">
+                    <p> 
+                        Saksbehandler:    Navn Etternavn
+                    </p>
+                </div>
+                <div class="extra-box8">
+                    <p> Kommentar:<br>
+                        Ingen kommentarer..<br>
+                    </p>
+                </div>
+               
+            </div>
+
+            <div class="box">
+                <h3> <span class="underline-text">Kartutsnitt</span></h3>
+                <p>Innhold for boks 3.</p>
+                 <div class="extra-box9">
+                    <p> Kommentar:<br>
+                        Ingen kommentarer..<br>
+                    </p>
+                </div>
+                 <div class="extra-box10">
+                    <p> Tilbakemelding til innmelder:<br>           
+(Sendes når feilmelding avsluttes med statusendring) <br>   
+
+                    </p>
+                </div>
+                 <div class="extra-box11">
+                    <p> 
+                    </p>
+                </div>
+               
+               
+                </div>
+               
+            </div>
+        </div> 
+    </div>
+</div>
+ <!-- Knapp-container -->
+<div class="button-container">
+    <div class="button1">
+        <p>Slett</p>
+    </div>
+     <div class="button2">
+        <p>Lukk</p>
+    </div>
+     <div class="button3">
+        <p>Lagre</p>
+    </div> 
+</div>
+
+</div>
+
+
+</body>
+</html>
