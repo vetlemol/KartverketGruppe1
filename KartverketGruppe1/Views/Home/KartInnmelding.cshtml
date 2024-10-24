@@ -154,9 +154,9 @@
 
     // Finner første stedsnavn i listen og setter kartet til denne posisjonen
     // HomeController SokStedsnavn
-    @if (Model.Any() && Model.First().Nord.HasValue && Model.First().Øst.HasValue)
+    @if (Model.Any() && Model.First().Nord.HasValue && Model.First().Ost.HasValue)
     {
-        @:map.setView([@Model.First().Nord, @Model.First().Øst], 13);
+        @:map.setView([@Model.First().Nord, @Model.First().Ost], 13);
     }
     else
     {
