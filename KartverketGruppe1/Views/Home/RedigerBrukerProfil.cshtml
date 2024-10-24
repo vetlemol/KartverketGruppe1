@@ -1,4 +1,4 @@
-﻿@model KartverketGruppe1.Models.BrukerProfilViewModel
+@model KartverketGruppe1.Models.BrukerProfilViewModel
 
 @{
     ViewData["Title"] = "Min Profil";
@@ -77,7 +77,7 @@
         var submissionChart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: ['Januar', 'Februar', 'Mars', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Desember'], // måned
+                labels: ['Januar', 'Februar', 'Mars', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Desember'],
                 datasets: [{
                     label: 'Innmeldinger per måned',
                     data: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.SubmissionsPerMonth)),
