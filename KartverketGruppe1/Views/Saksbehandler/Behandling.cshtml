@@ -45,6 +45,7 @@
        .box-container {
             display: flex; /* Bruker flexbox for å legge boksene ved siden av hverandre */
             gap: 5px; /* Avstand mellom boksene */
+            height: 80vh;
             
         }
 
@@ -164,7 +165,7 @@
             margin-bottom: 20px;
             height: 80px;
             line-height: 1.1;
-            margin-top: 20px;
+            margin-top: 60px;
     }
 
           .extra-box8 {
@@ -177,12 +178,44 @@
             line-height: 1.1;
             margin-top: 20px;
         }
+
+        .extra-box9 {
+            background-color: #f1f6fa; /* Ny bakgrunnsfarge for ekstraboksen */
+            padding: 2px 10px;
+            border-radius: 5px;
+            color: #070707;
+            margin-bottom: 20px;
+            height: 150px;
+            line-height: 1.1;
+            margin-top: 20px;
+        }
+        .extra-box10 {
+            background-color: #96b7d6; /* Ny bakgrunnsfarge for ekstraboksen */
+            padding: 2px 10px;
+            border-radius: 5px;
+            color: #070707;
+            margin-bottom: 20px;
+            height: 80px;
+            line-height: 1.1;
+            margin-top: 20px;
+        }
+        .extra-box11 {
+            background-color: #e5e9ec; /* Ny bakgrunnsfarge for ekstraboksen */
+            padding: 2px 10px;
+            border-radius: 5px;
+            color: #070707;
+            margin-bottom: 20px;
+            height: 150px;
+            line-height: 1.1;
+            margin-top: 20px;
+        }
           /* Knapp-container */
         .button-container {
             display: flex;
-            justify-content: center;
+            justify-content: flex-end;
             gap: 10px;
             margin-top: 20px;
+            margin-right: 60px;
         }
 
         .button-container button {
@@ -190,13 +223,23 @@
             border-radius: 5px;
             border: none;
             background-color: #5a8cba;
-            color: white;
+            color: black;
             cursor: pointer;
+            width: 50px;
         }
 
          .button1 {
-        background-color: #5a8cba;
-        color: white;
+        background-color: #c96767;
+        color: rgb(15, 15, 15);
+        width: 180px;
+        height: 40px;
+        border-radius: 10px;
+        border: 2px solid #888888;
+         align-items: center;
+        justify-content: center;
+        display: flex;
+        
+        
     }
 
     .button1:hover {
@@ -204,8 +247,17 @@
     }
 
     .button2 {
-        background-color: #f3a683;
-        color: white;
+        background-color: #eae6e5;
+        color: black;
+        width: 180px;
+        height: 40px;
+        border-radius: 10px;
+        border:2px solid #888888;
+        align-items: center;
+        justify-content: center;
+         display: flex;
+
+
     }
 
     .button2:hover {
@@ -213,13 +265,26 @@
     }
 
     .button3 {
-        background-color: #78e08f;
-        color: white;
+        background-color: #8fc59b;
+        color: black;
+        width: 180px;
+        height: 40px;
+        border-radius: 10px;
+        border:2px solid #888888;
+         align-items: center;
+        justify-content: center;
+         display: flex;
     }
 
     .button3:hover {
         background-color: #38ada9; /* Mørkere grønn ved hover */
     }
+    .underline-text {
+    display: inline-block;
+    padding-bottom: 5px; /* Avstand mellom tekst og strek */
+    border-bottom: 2px solid #7C7C7C; /* Strek under teksten */
+    width: 100%;
+}
 
         
    
@@ -228,7 +293,7 @@
         .blue-container {
             margin-left: 150px; /* Flytter containeren til høyre for menyen */
             padding: 0px;
-            height: 100vh; /* Full høyde på skjermen */
+            height: 80vh; /* Full høyde på skjermen */
             background-color: #96b7d6; /* Blå bakgrunn */
             color: white;
             // box-sizing: border-box;
@@ -257,7 +322,7 @@
     <div class="blue-container">
         <div class="box-container"> 
             <div class="box">
-                <h3>Innmelding info</h3>
+                <h3> <span class="underline-text">Innmelding info</span></h3>
                 <p>Innhold for boks 1.</p>
                 <div class="extra-box">
                     <p> Tekst:Her skal det være masse info om hva aviket er.</p>
@@ -289,7 +354,7 @@
             </div>
 
             <div class="box">
-                <h3>Innmelding behandlig</h3>
+                <h3> <span class="underline-text">Innmelding behandlig</span></h3>
                 <p>Innhold for boks 2.</p>
                 <div class="extra-box6">
                     <h3></h3>
@@ -327,8 +392,23 @@
             </div>
 
             <div class="box">
-                <h3>Kartutsnitt</h3>
+                <h3> <span class="underline-text">Kartutsnitt</span></h3>
                 <p>Innhold for boks 3.</p>
+                 <div class="extra-box9">
+                    <p> Kommentar:<br>
+                        Ingen kommentarer..<br>
+                    </p>
+                </div>
+                 <div class="extra-box10">
+                    <p> Tilbakemelding til innmelder:<br>           
+(Sendes når feilmelding avsluttes med statusendring) <br>   
+
+                    </p>
+                </div>
+                 <div class="extra-box11">
+                    <p> 
+                    </p>
+                </div>
                
                
                 </div>
@@ -340,7 +420,7 @@
  <!-- Knapp-container -->
 <div class="button-container">
     <div class="button1">
-        <p>Slett innmelding</p>
+        <p>Slett</p>
     </div>
      <div class="button2">
         <p>Lukk</p>
