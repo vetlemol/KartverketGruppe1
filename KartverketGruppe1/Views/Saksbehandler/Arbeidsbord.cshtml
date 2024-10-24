@@ -51,12 +51,19 @@
                     background-color: transparent;
                     color: black;
                     padding: 5px;
+            }
+
+            .sidebar button {
+                    background-color: #65C28B;
+                    color: white;
+                    padding: 0px;
                     border: none;
                     border-radius: 5px;
                     cursor: pointer;
                     width: 100%;
                     font-size: 12px;
                     margin-bottom: 12px;
+
             }
 
             .map-content {
@@ -87,6 +94,7 @@
 
             .new-requests {
             background-color: #D8E3F2;
+
                 padding: 20px;
                 margin-bottom: 20px;
                 border-radius: 8px;
@@ -129,6 +137,7 @@
 
             button:hover {
                 background-color: #96B7D6;
+
             }
 
         .info p, .notification-list p {
@@ -162,6 +171,8 @@
                 .row{
                     display: flex;
                     width: 80%;
+                    width: 100%;
+
                 }
 
             /* Create three unequal columns that floats next to each other */
@@ -169,11 +180,13 @@
                 float: left;
                 padding: 5px;
                 margin-left: 50px;
+
             }
 
                 /* Left and right column */
                 .column.side {
                     width: 30%;
+
                     font-size: 14px;
                 }
 
@@ -186,6 +199,7 @@
                 .column.middle {
                     width: 40%;
                     font-size: 14px;    
+
                 }
 
     </style>
@@ -246,6 +260,7 @@
                 <div class="info">
                     <p><strong>Ansatt ID:</strong> 12379</p>
                     <p><strong>Ansatt:</strong> 1 år, 6 måneder</p>
+
                     <p><strong>Telefon:</strong> +47 123 45 678</p>
                     <p><strong>E-post:</strong> sak.saksbehandler@statkart.no</p>
                     <p><strong>Adresse:</strong> Hakkebakkeskogen 12, 1234 Kristiansand</p>
@@ -265,6 +280,7 @@
                 </div>
             </section>
         </div>
+
         <script>
             function redirectToMineHenvendelser() {
                 window.location.href = "/Saksbehandler/MineHenvendelser";
@@ -279,6 +295,7 @@
                 window.location.href = "/Saksbehandler/Arbeidsbord";
             }
         </script>
+
     </div>
 </body>
 </html>

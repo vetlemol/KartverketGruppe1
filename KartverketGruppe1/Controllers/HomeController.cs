@@ -38,15 +38,15 @@ namespace KartverketGruppe1.Controllers
             return View();
         }
 
-        // Tom Liste for Stedsnavn for � kunne s�ke etter Stedsnavn i kartavvik uten error ved f�rste visning
+        // Tom Liste for Stedsnavn for å kunne søke etter Stedsnavn i kartavvik uten error ved første visning
         public IActionResult KartInnmelding()
         {
             return View(new List<StedsnavnViewModel>());
         }
 
 
-        // H�ndterer s�k etter Stedsnavn i kartinnmelding
-        // Funker, ikke r�r :)
+        // Håndterer søk etter Stedsnavn i kartinnmelding
+        // Funker, ikke rør :)
         [HttpPost]
         public async Task<IActionResult> SokStedsnavn(string? SokeTekst)
         {
@@ -55,7 +55,7 @@ namespace KartverketGruppe1.Controllers
                 return View("KartInnmelding");
             }
 
-            // F�r fortsatt ArgumentNullException hvis den ikke finner noe p� s�ketekst
+            // Får fortsatt ArgumentNullException hvis den ikke finner noe på søketekst
 
             var stedsnavnResponse = await _stedsnavnService.GetStedsnavnAsync(SokeTekst);
             if (stedsnavnResponse?.Navn != null && stedsnavnResponse.Navn.Any())
@@ -80,8 +80,17 @@ namespace KartverketGruppe1.Controllers
         {
             return View();
         }
+        
+        
+       public IActionResult Hjelp()
+    {
+        return View();
+    }
 
-        // Håndterer søk etter Kommuneinformasjon
+            
+        
+
+        // HÃ¥ndterer sÃ¸k etter Kommuneinformasjon
         [HttpPost]
         public async Task<IActionResult> KommuneInfo(string kommuneNr)
         {
@@ -110,12 +119,13 @@ namespace KartverketGruppe1.Controllers
             }
         }
 
-        // View for søk etter Stedsnavn og kommuneinformasjon
+        // View for sÃ¸k etter Stedsnavn og kommuneinformasjon
         public IActionResult Sok()
         {
             return View();
         }
-        // håndterer søk etter Stedsnavn
+
+        // Handterer sok etter Stedsnavn
         [HttpPost]
         public async Task<IActionResult> Stedsnavn(string searchTerm)
         {
