@@ -115,7 +115,7 @@ namespace KartverketGruppe1.Controllers
         {
             return View();
         }
-        // håndterer søk etter Stedsnavn
+        // Handterer sok etter Stedsnavn
         [HttpPost]
         public async Task<IActionResult> Stedsnavn(string searchTerm)
         {
