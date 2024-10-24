@@ -38,13 +38,44 @@ namespace KartverketGruppe1.Controllers
             return View();
         }
 
-
-
+        // Tom Liste for Stedsnavn for å kunne søke etter Stedsnavn i kartavvik uten error ved første visning
         public IActionResult KartInnmelding()
         {
-            return View();
+            return View(new List<StedsnavnViewModel>());
         }
 
+
+        // Håndterer søk etter Stedsnavn i kartinnmelding
+        // Funker, ikke rør :)
+        [HttpPost]
+        public async Task<IActionResult> SokStedsnavn(string? SokeTekst)
+        {
+            if (string.IsNullOrEmpty(SokeTekst))
+            {
+                return View("KartInnmelding");
+            }
+
+            // Får fortsatt ArgumentNullException hvis den ikke finner noe på søketekst
+
+            var stedsnavnResponse = await _stedsnavnService.GetStedsnavnAsync(SokeTekst);
+            if (stedsnavnResponse?.Navn != null && stedsnavnResponse.Navn.Any())
+            {
+                var viewModel = stedsnavnResponse.Navn.Select(n => new StedsnavnViewModel
+                {
+                    Nord = n.Representasjonspunkt.Nord,
+                    Ost = n.Representasjonspunkt.Ost
+                }).ToList();
+
+                return View("KartInnmelding", viewModel);
+            }
+            else
+            {
+                ViewData["Error"] = $"No results found for '{SokeTekst}'.";
+                return View("KartInnmelding");
+            }
+        }
+
+        
         public IActionResult Privacy()
         {
             return View();
@@ -59,7 +90,7 @@ namespace KartverketGruppe1.Controllers
             
         
 
-        // Håndterer søk etter Kommuneinformasjon
+        // HÃ¥ndterer sÃ¸k etter Kommuneinformasjon
         [HttpPost]
         public async Task<IActionResult> KommuneInfo(string kommuneNr)
         {
@@ -88,13 +119,12 @@ namespace KartverketGruppe1.Controllers
             }
         }
 
-        // View for søk etter Stedsnavn og kommuneinformasjon
-        public IActionResult Søk()
+        // View for sÃ¸k etter Stedsnavn og kommuneinformasjon
+        public IActionResult Sok()
         {
             return View();
         }
-
-        // Handterer søk etter Stedsnavn
+        // hÃ¥ndterer sÃ¸k etter Stedsnavn
         [HttpPost]
         public async Task<IActionResult> Stedsnavn(string searchTerm)
         {
@@ -109,12 +139,12 @@ namespace KartverketGruppe1.Controllers
             {
                 var viewModel = stedsnavnResponse.Navn.Select(n => new StedsnavnViewModel
                 {
-                    Skrivemåte = n.Skrivemåte,
+                    Skrivemate = n.Skrivemate,
                     Navneobjekttype = n.Navneobjekttype,
-                    Språk = n.Språk,
+                    Sprak = n.Sprak,
                     Navnestatus = n.Navnestatus,
                     Nord = n.Representasjonspunkt.Nord,
-                    Øst = n.Representasjonspunkt.Øst
+                    Ost = n.Representasjonspunkt.Ost
                 }).ToList();
 
                 return View("Stedsnavn", viewModel);
