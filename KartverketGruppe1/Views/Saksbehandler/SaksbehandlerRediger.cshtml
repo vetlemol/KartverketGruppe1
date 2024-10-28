@@ -1,0 +1,158 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body, html
+                {
+                    height: calc(100% - 60px); /* For å ta høyde for top bar */
+                    display: flex;
+                    justify-content: center;
+                    align-items: flex-start;
+                    background-color: #F5F5F5;
+                    padding-top: 75px;
+                }
+
+                .navbar {
+                    position: fixed; /* Fest navigasjonsbaren øverst på siden */
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+
+                }
+
+                .container {
+                    height: calc(100% - 60px); /* For å ta høyde for top bar */
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    margin-top: 90px; /* Legg til margin for å skape avstand fra navigasjonsbaren*/
+
+                }
+
+                /* Styling for skjemaet */
+
+                .form-container {
+                    background-color: #E6EEF3;
+                    padding: 30px;
+                    border-radius: 10px;
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                    text-align: left;
+                    max-width: 400px;
+                    width: 100%;
+                    z-index: 1;
+                    font-size: 12px;
+
+                }
+
+                    .form-container .header {
+                        display: flex;
+                        align-items: center;
+                        margin-bottom: 20px;
+                    }
+
+                        .form-container .header img {
+                            max-width: 50px;
+                            margin-right: 10px;
+                            border-radius: 50%;
+                        }
+
+                    .form-container label {
+                        display: block; /* Gjør etikettene til blokkelementer */
+                        margin-bottom: 5px; /* Legg til margin under etikettene */
+                        font-size: 10px;
+                    }
+
+                    .form-container input {
+                        width: 100%; /* Gjør input-feltene 100% bredde */
+                        margin-bottom: 15px; /* Legg til margin under input-feltene */
+                        padding: 6px; /* Legg til padding for input-feltene */
+                        border: 1px solid #ccc; /* Legg til en grense for input-feltene */
+                        border-radius: 5px; /* Legg til avrundede hjørner for input-feltene */
+                    }
+
+            .form-container .dob-container {
+                display: flex;
+                justify-content: space-between;
+            }
+
+                .form-container .dob-container input {
+                    width: 30%; /* Juster bredden på input-feltene for dag, måned og år */
+                    padding: 6px; /* Juster padding for å gjøre feltene mindre */
+                    font-size: 10px; /* Juster font-størrelsen for å gjøre feltene mindre */
+                }
+
+                    .form-container button {
+                        background-color: #65C28B;
+                        color: white;
+                        padding: 6px; /* Juster padding for å endre størrelsen på kanppene*/
+                        border: none;
+                        border-radius: 5px;
+                        cursor: pointer;
+                        width: auto; /* Justert bredde for kanppene*/
+                        font-size: 12px;
+                        margin-right: 10px; /* Legg til avstand mellom knappene*/
+                    }
+
+                        .form-container button:hover {
+                            background-color: #58a77b;
+                        }
+
+                    .form-container img {
+                        max-width: 150px;
+                        margin-bottom: 10px;
+                    }
+
+    </style>
+</head>
+
+<body>
+    <div class="form-container">
+        <div class="header">
+            <img src="~/Images/Profilbilde.png" alt="Profilbilde" />
+            <h3>Sak Saksbehandler</h3>
+        </div>
+        <form id="saksbehandler-form">
+            <label for="telefonnummer">Telefonnummer:</label>
+            <input type="text" id="telefonnummer" name="telefonnummer" required>
+        </form>
+        <form id="saksbehandler-form">
+            <label for="e-post">E-post:</label>
+            <input type="email" id="e-post" name="e-post" required>
+        </form>
+        <form id="saksbehandler-form">
+            <label for="adresse">Adresse:</label>
+            <input type="text" id="adresse" name="adresse" required>
+        </form>
+        <form id="saksbehandler-form">
+            <label for="postnummer">Postnummer:</label>
+            <input type="text" id="postnummer" name="postnummer" required>
+        </form>
+        <form id="saksbehandler-form">
+            <label for="poststed">Poststed:</label>
+            <input type="text" id="poststed" name="poststed" required>
+        </form>
+        <form id="saksbehandler-form">
+            <label for="fødselsdato">Fødselsdato:</label>
+            <div class="dob-container">
+                <input type="number" id="dag" name="dag" placeholder="Dag" required>
+                <input type="number" id="måned" name="måned" placeholder="Måned" required>
+                <input type="text" id="år" name="år" placeholder="År" required>
+            </div>
+        </form>
+        <form id="saksbehandler-form">
+            <label for="lønnskonto">Lønnskonto:</label>
+            <input type="text" id="lønnskonto" name="lønnskonto" required>
+        </form>
+        <button onclick="redirectToArbeidsbord()">Lagre</button>
+        <button onclick="redirectToArbeidsbord()">Avbryt</button>
+    </div>
+    <script>
+        function redirectToArbeidsbord() {
+              window.location.href = "/Saksbehandler/Arbeidsbord";
+          }
+    </script>
+
+</body>
+</html>
+

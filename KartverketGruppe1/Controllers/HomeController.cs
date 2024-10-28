@@ -38,17 +38,25 @@ namespace KartverketGruppe1.Controllers
             return View();
         }
 
+<<<<<<< HEAD
         public IActionResult Hjelp()
+=======
+        // Tom Liste for Stedsnavn for å kunne søke etter Stedsnavn i kartavvik uten error ved første visning
+        public IActionResult KartInnmelding()
+>>>>>>> refs/remotes/origin/Marthe
         {
-            return View();
+            return View(new List<StedsnavnViewModel>());
         }
 
+<<<<<<< HEAD
         // Tom Liste for Stedsnavn for å kunne søke etter Stedsnavn i kartavvik uten error ved første visning
         public IActionResult KartInnmelding()
         {
             return View(new List<StedsnavnViewModel>());
         }
 
+=======
+>>>>>>> refs/remotes/origin/Marthe
 
         // Håndterer søk etter Stedsnavn i kartinnmelding
         // Funker, ikke rør :)
@@ -129,8 +137,12 @@ namespace KartverketGruppe1.Controllers
         {
             return View();
         }
+<<<<<<< HEAD
 
         // Handterer sok etter Stedsnavn
+=======
+        // hÃ¥ndterer sÃ¸k etter Stedsnavn
+>>>>>>> refs/remotes/origin/Marthe
         [HttpPost]
         public async Task<IActionResult> Stedsnavn(string searchTerm)
         {
