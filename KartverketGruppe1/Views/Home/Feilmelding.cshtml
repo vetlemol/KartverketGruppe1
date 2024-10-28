@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@{
+    ViewData["Title"] = "Kartikus Error";
+}
+
+<!DOCTYPE html>
 <html lang="no">
 <head>
     <meta charset="UTF-8">
@@ -29,7 +33,6 @@
             display: flex;
             justify-content: center;
             align-items: center;
-
         }
 
         .form-container {
@@ -43,7 +46,7 @@
             z-index: 1;
         }
 
-            .form-container h3 {
+            .form-container h2 {
                 color: #00509C;
                 margin-bottom: 20px;
             }
@@ -68,22 +71,22 @@
                     background-color: #58a77b;
                 }
 
-            .form-container img {
-                max-width:150px;
-                margin-bottom: 10px;
-            }
-
+                .form-container img {
+                    background-image: url('/Images/KartikusNy.png');
+                    max-width: 150px;
+                    margin-bottom: 10px;
+                }
     </style>
 </head>
 <body>
-    <div class="background-image"></div> <!-- Hente bakgrunnsbilde -->
+    <div class="background-image"></div> <!-- Bakgrunnsbildet -->
+
     <div class="container">
         <div class="form-container">
-            <img src="~/Images/Kartikus-loading.png" alt="Kartikus" />  <!-- Hente bilde av Kartikus -->
-            <h3>Gi meg litt tid til å tenke</h3>
-            <p>Laster, vennligst vent.</p>
-
-            <button id="go-back">Prøv igjen</button>
+            <img src="~/Images/KartikusNy.png" alt="Kartikus" />
+            <h2>En feil har oppstått</h2>
+            <p>Oops... her har det skjedd en feil <br /> Prøv igjen senere</p>
+            <button onclick="redirectToIndex()">Prøv igjen</button>
         </div>
     </div>
     <script>
@@ -92,5 +95,4 @@
         }
     </script>
 </body>
-
 </html>
