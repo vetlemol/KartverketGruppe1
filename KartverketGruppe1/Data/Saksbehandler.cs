@@ -5,7 +5,7 @@ namespace KartverketGruppe1.Data
     public class Saksbehandler
     {
         [Key]
-        public int Saksbehandler_ID { get; set; }
+        public int SaksbehandlerID { get; set; }
         [Required]
         public string Fornavn { get; set; }
         [Required]

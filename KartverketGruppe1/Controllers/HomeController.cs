@@ -2,6 +2,7 @@ using KartverketGruppe1.Services;
 using KartverketGruppe1.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using KartverketGruppe1.Data;
 
 namespace KartverketGruppe1.Controllers
 {
@@ -10,12 +11,14 @@ namespace KartverketGruppe1.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IKommuneInfoService _kommuneInfoService;
         private readonly IStedsnavnService _stedsnavnService;
+        private readonly ApplicationDbContext _context;
 
-        public HomeController(ILogger<HomeController> logger, IKommuneInfoService kommuneInfoService, IStedsnavnService stedsnavnService)
+        public HomeController(ILogger<HomeController> logger, IKommuneInfoService kommuneInfoService, IStedsnavnService stedsnavnService, ApplicationDbContext context)
         {
             _logger = logger;
             _kommuneInfoService = kommuneInfoService;
             _stedsnavnService = stedsnavnService;
+            _context = context;
         }
 
         public IActionResult Index()
@@ -24,6 +27,12 @@ namespace KartverketGruppe1.Controllers
         }
 
         public IActionResult LagBruker()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult BrukerProfil()
         {
             return View();
         }
@@ -38,19 +47,59 @@ namespace KartverketGruppe1.Controllers
             return View();
         }
 
-
+        // Tom Liste for Stedsnavn for Ã¥ kunne sÃ¸ke etter Stedsnavn i kartavvik uten error ved fÃ¸rste visning
         public IActionResult KartInnmelding()
         {
-            return View();
+            return View(new List<StedsnavnViewModel>());
         }
 
+
+        // HÃ¥ndterer sÃ¸k etter Stedsnavn i kartinnmelding
+        // Funker, ikke rÃ¸r :)
+        [HttpPost]
+        public async Task<IActionResult> SokStedsnavn(string? SokeTekst)
+        {
+            if (string.IsNullOrEmpty(SokeTekst))
+            {
+                return View("KartInnmelding");
+            }
+
+            // FÃ¥r fortsatt ArgumentNullException hvis den ikke finner noe pÃ¥ sÃ¸ketekst
+
+            var stedsnavnResponse = await _stedsnavnService.GetStedsnavnAsync(SokeTekst);
+            if (stedsnavnResponse?.Navn != null && stedsnavnResponse.Navn.Any())
+            {
+                var viewModel = stedsnavnResponse.Navn.Select(n => new StedsnavnViewModel
+                {
+                    Nord = n.Representasjonspunkt.Nord,
+                    Ost = n.Representasjonspunkt.Ost
+                }).ToList();
+
+                return View("KartInnmelding", viewModel);
+            }
+            else
+            {
+                ViewData["Error"] = $"No results found for '{SokeTekst}'.";
+                return View("KartInnmelding");
+            }
+        }
+
+        
         public IActionResult Privacy()
         {
             return View();
         }
+        
+        
+       public IActionResult Hjelp()
+    {
+        return View();
+    }
 
+            
+        
+        // Hï¿½ndterer sï¿½k etter Kommuneinformasjon
 
-        // Håndterer søk etter Kommuneinformasjon
         [HttpPost]
         public async Task<IActionResult> KommuneInfo(string kommuneNr)
         {
@@ -79,13 +128,13 @@ namespace KartverketGruppe1.Controllers
             }
         }
 
-        // View for søk etter Stedsnavn og kommuneinformasjon
-        public IActionResult Søk()
+        // View for sÃƒÂ¸k etter Stedsnavn og kommuneinformasjon
+        public IActionResult Sok()
         {
             return View();
         }
 
-        // Håndterer søk etter Stedsnavn
+        // Handterer sok etter Stedsnavn
         [HttpPost]
         public async Task<IActionResult> Stedsnavn(string searchTerm)
         {
@@ -100,12 +149,12 @@ namespace KartverketGruppe1.Controllers
             {
                 var viewModel = stedsnavnResponse.Navn.Select(n => new StedsnavnViewModel
                 {
-                    Skrivemåte = n.Skrivemåte,
+                    Skrivemate = n.Skrivemate,
                     Navneobjekttype = n.Navneobjekttype,
-                    Språk = n.Språk,
+                    Sprak = n.Sprak,
                     Navnestatus = n.Navnestatus,
                     Nord = n.Representasjonspunkt.Nord,
-                    Øst = n.Representasjonspunkt.Øst
+                    Ost = n.Representasjonspunkt.Ost
                 }).ToList();
 
                 return View("Stedsnavn", viewModel);
@@ -121,10 +170,49 @@ namespace KartverketGruppe1.Controllers
 
 
 
-
-        // Laster inn tilfeldig bakgrunnsbilde fra wwwroot/Bakgrunnsbilder
-        public IActionResult GetRandomBackgroundImage()
+        [HttpGet]
+        public IActionResult TestVetle()
         {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult TestVetle(string Fornavn, string Etternavn, string Epost, string AnsvarsomrÃ¥de, string Avdeling, string Passord)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(Fornavn) || string.IsNullOrEmpty(Etternavn) || string.IsNullOrEmpty(Epost) || string.IsNullOrEmpty(AnsvarsomrÃ¥de) || string.IsNullOrEmpty(Passord))
+                {
+                    ViewData["Error"] = "Please fill out all fields.";
+                    return View();
+                }
+
+                var nysaksbehandler = new Saksbehandler
+                {
+                    Fornavn = Fornavn,
+                    Etternavn = Etternavn,
+                    Epost = Epost,
+                    AnsvarsomrÃ¥de = AnsvarsomrÃ¥de,
+                    Avdeling = Avdeling,
+                    Passord = Passord
+                };
+
+                _context.Saksbehandler.Add(nysaksbehandler);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch (Exception e)
+            {
+                ViewData["Error"] = e.Message;
+                return View();
+            }
+        }
+
+
+
+            // Laster inn tilfeldig bakgrunnsbilde fra wwwroot/Bakgrunnsbilder
+            public IActionResult GetRandomBackgroundImage()
+            {
             string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Bakgrunnsbilder");
             var files = Directory.GetFiles(path, "*.png").Select(Path.GetFileName).ToList();
 

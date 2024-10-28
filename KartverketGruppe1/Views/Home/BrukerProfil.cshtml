@@ -1,5 +1,106 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model KartverketGruppe1.Models.BrukerProfilViewModel
+
 @{
+    ViewData["Title"] = "Min Profil";
 }
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<div style="display: flex; align-items: center; margin-top: 30px; margin-left: -80px; margin-bottom: 20px;">
+    <button onclick="window.history.back();" style="margin-right: 30px; padding: 5px 50px; background-color: transparent; color: #3b6e3b; border: none; cursor: pointer; display: flex; align-items: center;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3b6e3b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left">
+            <line x1="500" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+
+    </button>
+    <img src="~/images/KartikusMinProfil.png" alt="Profilbilde" style="border-radius: 50%; margin-right: 20px; width: 70px; height: 70px; object-fit: cover; border: 1px solid #3b6e3b;" />
+    <h3 style="color: #3b6e3b;">Min Profil</h3>
+</div>
+
+
+    <div class="profile-container" style="max-width: 1000px; margin: auto; padding: 30px; background-color: #D8E3F2; border-radius: 10px; position: relative; z-index: 1;">
+
+        <div style="margin-top: 30px; margin-left: 30px; display: flex;"> 
+            <div style="flex 1;">
+            <p><strong>Navn</strong></p>
+            <p><strong>E-postadresse</strong></p>
+            <p><strong>Telefon</strong></p>
+            <p><strong>Fødselsdato</strong></p>
+            <p><strong>Passord</strong></p>
+
+        </div>
+
+        <div style="border-left: 2px solid #3b6e3b; padding: 40px 60px 40px 30px; margin-left: 60px; flex: 2">
+
+        <div>
+            <div style="margin-top: -40px; margin-left: 30px;">
+            @if (Model != null)
+            {
+                <p>@Model.Name</p>
+                <p>@Model.Email</p>
+                <p>@Model.Phone</p>
+                <p>@Model.BirthDate.ToString("dd.MM.yyyy")</p>
+                <p>@Model.Password</p>
+            }
+            else
+            {
+                <p>Brukerprofilen er ikke tilgjengelig.</p>
+            }
+        </div>
+
+        <button style="position: absolute; top: 10px; right: 10px; padding: 5px 10px; background-color: transparent; color: #3b6e3b; border: none; cursor: pointer;" onclick="window.location.href = '@Url.Page("/EditProfile")'">
+            <i class="fas fa-pencil-alt" style="margin-right: 5px;"></i>
+            Rediger profil
+        </button>
+
+    <div style="margin-top: 70px;">
+        <h4>Dine innmeldinger</h4>
+        <div style="display: flex; gap: 5px; margin-bottom: 10px;">
+            @if (Model != null && Model.Years != null)
+            {
+                @foreach (var year in Model.Years)
+                {
+                    <button style="padding: 5px 10px; background-color: #d3e0d3; border: none; border-radius: 5px; cursor: pointer;">@year</button>
+                }
+            }
+        </div>
+        <canvas id="submissionChart" style="max-width: 80%; max-height: 70%;"></canvas>
+    </div>
+     </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+    @if (Model?.SubmissionsPerMonth != null)
+    {
+        <text>
+        var ctx = document.getElementById('submissionChart').getContext('2d');
+        var submissionChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Januar', 'Februar', 'Mars', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Desember'], // måned
+                datasets: [{
+                    label: 'Innmeldinger per måned',
+                    data: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.SubmissionsPerMonth)),
+                    backgroundColor: 'rgba(34, 139, 34, 0.7)',
+                    borderColor: 'rgba(34, 139, 34, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+        </text>
+    }
+    else
+    {
+        <text>
+        console.error('SubmissionsPerMonth data is not available.');
+        </text>
+    }
+    </script>
+</div>

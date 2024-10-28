@@ -5,14 +5,14 @@ namespace KartverketGruppe1.Data
 {
     public class Meldinger
     {
-        public int Melding_ID { get; set; }
+        public int MeldingerID { get; set; }
 
         [Required]
         public string Innhold { get; set; }
         [Required]
-        public DateTime Sende_Tidspunkt { get; set; }
+        public DateTime SendeTidspunkt { get; set; }
         [Required]
-        public int Innmelding_ID { get; set; }
+        public int InnmeldingID { get; set; }
 
         public Innmelding Innmelding { get; set; }
     }

@@ -26,9 +26,7 @@
 
   <ItemGroup>
     <Folder Include="APIModels\" />
-    <Folder Include="Data\" />
     <Folder Include="Services\" />
-    <Folder Include="Views\Saksbehandler\" />
   </ItemGroup>
 
 </Project>

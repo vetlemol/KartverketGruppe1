@@ -50,13 +50,13 @@ namespace KartverketGruppe1.APIModels
         public Representasjonspunkt Representasjonspunkt { get; set; }
 
         [JsonPropertyName("skrivemåte")]
-        public string? Skrivemåte { get; set; }
+        public string? Skrivemate { get; set; }
 
         [JsonPropertyName("skrivemåtestatus")]
-        public string? Skrivemåtestatus { get; set; }
+        public string? Skrivematestatus { get; set; }
 
         [JsonPropertyName("språk")]
-        public string? Språk { get; set; }
+        public string? Sprak { get; set; }
 
         [JsonPropertyName("stedsnummer")]
         public int? Stedsnummer { get; set; }
@@ -92,6 +92,6 @@ namespace KartverketGruppe1.APIModels
         public double? Nord { get; set; }
 
         [JsonPropertyName("\u00f8st")]
-        public double? Øst { get; set; }
+        public double? Ost { get; set; }
     }
 }
