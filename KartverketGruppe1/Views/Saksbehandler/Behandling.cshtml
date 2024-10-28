@@ -15,8 +15,8 @@
 
         /* Menybar til venstre, helt venstrestilt */
         .side-navbar {
-            position: fixed; /* Fikserer menyen helt til venstre */
-            top: 50px;
+            position: absolute; /* Fikserer menyen helt til venstre */
+            top: 60px;
             left: 0;
             width: 150px;
             height: calc(100%); /* Full høyde på skjermen */
@@ -29,13 +29,19 @@
             list-style-type: none;
             padding-top: 80px;
             margin: 0;
+            width: 100%;
+            padding: 0;
         }
 
         .side-navbar a {
-            color: rgb(16, 15, 15);
+            color: rgb(33, 40, 121);
             display: block;
-            padding: 10px;
+            padding: 20px;
             text-decoration: none;
+            border-bottom: 1px solid rgb(33, 40, 121);
+            width: 100%;
+            box-sizing: border-box;
+            margin-top: 40px;
         }
 
         .side-navbar a:hover {
@@ -46,6 +52,8 @@
             display: flex; /* Bruker flexbox for å legge boksene ved siden av hverandre */
             gap: 5px; /* Avstand mellom boksene */
             height: 80vh;
+            left: 0;
+            position: relative; /* Gjør det mulig å plassere linjen absolutt i forhold til .box-container */
             
         }
 
@@ -58,6 +66,34 @@
             color: rgb(16, 15, 15);
             border-radius: 5px;
         }
+
+ 
+
+.bottom-line {
+    position: absolute;
+    bottom: 0px;
+    left: 0;
+    width: 100%;
+    border-top: 2px solid #888888; /* Fargen og tykkelsen på streken */
+}
+
+    .contact-info {
+        font-size: 12px; /* Gjør teksten liten */
+        color: #000; /* Farge på teksten */
+        margin-top: 2px; /* Juster avstanden til linjen over */
+        margin-left: 60px;
+    }
+
+    .send-email {
+    color: #0068CB; /* Blå farge */
+    font-weight: bold;
+    position: absolute;
+    top: 20px;
+    right: 0;
+    cursor: pointer; /* Endrer musepekeren til en hånd for å indikere at det er klikkbart */
+    margin-right: 60px;
+}
+
 
         .extra-box {
             background-color: #f3f2f2; /* Ny bakgrunnsfarge for ekstraboksen */
@@ -111,7 +147,7 @@
             margin-bottom: 20px;
             height: 150px;
             line-height: 1.1;
-            margin-top: 80px;
+            margin-top: 20px;
         }
 
        
@@ -142,12 +178,19 @@
         display: flex;
         flex-direction: column;
         gap: 10px;
+        border-bottom: 2px solid #7C7C7C;
+        padding-bottom: 20px;
+        justify-content: flex-start;
+        line-height: 1;
+        position: relative;
+        padding-top: 0;
     }
 
     .dropdown-container {
         display: flex;
         align-items: center;
         gap: 10px;
+        margin-top: -95px;
     }
 
     .extra-box6 select {
@@ -187,7 +230,7 @@
             margin-bottom: 20px;
             height: 150px;
             line-height: 1.1;
-            margin-top: 20px;
+            margin-top: 10px;
         }
         .extra-box10 {
             background-color: #96b7d6; /* Ny bakgrunnsfarge for ekstraboksen */
@@ -238,6 +281,7 @@
          align-items: center;
         justify-content: center;
         display: flex;
+        margin-bottom: 60px;
         
         
     }
@@ -256,6 +300,7 @@
         align-items: center;
         justify-content: center;
          display: flex;
+         margin-bottom: 60px;
 
 
     }
@@ -274,31 +319,75 @@
          align-items: center;
         justify-content: center;
          display: flex;
+         margin-bottom: 60px;
     }
 
     .button3:hover {
         background-color: #38ada9; /* Mørkere grønn ved hover */
-    }
+    } 
+
+    .nynorsk-label {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Juster avstanden mellom avkrysningsboksen og teksten */
+    margin-top: 10px; /* Juster denne verdien for å flytte avkrysningsboksen høyere opp */
+}
+
+.nynorsk-label input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+}
+
+
+
     .underline-text {
     display: inline-block;
     padding-bottom: 5px; /* Avstand mellom tekst og strek */
     border-bottom: 2px solid #7C7C7C; /* Strek under teksten */
     width: 100%;
+
 }
 
-        
+.kart-link {
+    color: #0068CB; /* Blå farge */
+    font-weight: bold;
+    margin-bottom: 0px; /* Juster avstanden til elementet under */
+    margin-top: 10px;
+}
+
+.endre-link {
+    color: #0068CB; /* Blå farge */
+    font-weight: bold;
+    cursor: pointer; /* Endrer musepekeren til en hånd for å indikere at det er klikkbart */
+    margin-top: 10px; /* Juster avstanden til elementet over */
+    text-align: right;
+}
+
+.endre-link, .ny-kommentar-link {
+    color: #0068CB; /* Blå farge */
+    font-weight: bold;
+    cursor: pointer; /* Endrer musepekeren til en hånd for å indikere at det er klikkbart */
+    text-align: right; /* Høyrestiller teksten */
+    margin-top: 10px; /* Juster avstanden til elementet over */
+}
+
+ 
    
 
         /* Blå container ved siden av menyen */
         .blue-container {
-            margin-left: 150px; /* Flytter containeren til høyre for menyen */
+            margin-left: 10px; /* Flytter containeren til høyre for menyen */
             padding: 0px;
-            height: 80vh; /* Full høyde på skjermen */
+            padding-top: 15px;
+            height: 100%; /* Full høyde på skjermen */
             background-color: #96b7d6; /* Blå bakgrunn */
             color: white;
             // box-sizing: border-box;
             overflow-y: auto; /* Gjør at containeren kan scrolle om nødvendig */
             width: 1300px;
+            border: 2px solid #888888;
+            border-radius: 10px;
+            margin-top:40px;
         }
 
     </style>
@@ -323,9 +412,8 @@
         <div class="box-container"> 
             <div class="box">
                 <h3> <span class="underline-text">Innmelding info</span></h3>
-                <p>Innhold for boks 1.</p>
-                <div class="extra-box">
-                    <p> Tekst:Her skal det være masse info om hva aviket er.</p>
+            <div class="extra-box">
+                    <p> Tekst: Her skal det være masse info om hva aviket er.</p>
                 </div>
                 <div class="extra-box2">
                     <p> ID:<br>
@@ -355,10 +443,7 @@
 
             <div class="box">
                 <h3> <span class="underline-text">Innmelding behandlig</span></h3>
-                <p>Innhold for boks 2.</p>
                 <div class="extra-box6">
-                    <h3></h3>
-                    <p></p>
                      <label for="dropdown1">Produktnavn:</label>
                     <select id="dropdown1" name="dropdown1">
                         <option value="option1">Kartdata</option>
@@ -382,18 +467,20 @@
                     <p> 
                         Saksbehandler:    Navn Etternavn
                     </p>
+                     <p class="endre-link">Endre...</p> <!-- Legger til teksten her -->
                 </div>
                 <div class="extra-box8">
                     <p> Kommentar:<br>
                         Ingen kommentarer..<br>
                     </p>
+                    <p class="ny-kommentar-link">Ny kommentar...</p> <!-- Legger til teksten her -->
                 </div>
                
             </div>
 
             <div class="box">
                 <h3> <span class="underline-text">Kartutsnitt</span></h3>
-                <p>Innhold for boks 3.</p>
+                 <p class="kart-link">Se kart i eget vindu</p> <!-- Legger til teksten her -->
                  <div class="extra-box9">
                     <p> Kommentar:<br>
                         Ingen kommentarer..<br>
@@ -405,10 +492,37 @@
 
                     </p>
                 </div>
-                 <div class="extra-box11">
+                 <div class="extra-box12">
+        <label class="nynorsk-label">
+            <input type="checkbox" id="nynorsk-checkbox" onclick="toggleNynorsk()"> Bruk Nynorsk i tilbakemeldinger
+        </label>
+         </div>       
+     <div class="extra-box11">
                     <p> 
                     </p>
                 </div>
+                <div class="bottom-line"> 
+                    <p class="contact-info">
+                        Saksbehandler: Navn Etternavn (id:1234), navnetternavn@statkart.no, 123 45 678(tlf)<br>
+                        Innmelder: Navn Etternavn (id:1234), navnetternavn@mail.no, 123 45 678(tlf)<br>
+                        <span class="send-email">Send henvendelse som e-post</span> <!-- Legger til teksten her -->
+                    </p>
+                </div> <!-- Legger til linjen her -->
+                
+               
+</div>
+
+
+<script>
+    function toggleNynorsk() {
+        var checkbox = document.getElementById('nynorsk-checkbox');
+        if (checkbox.checked) {
+            alert('Nynorsk valgt for tilbakemeldinger');
+        } else {
+            alert('Nynorsk ikke valgt for tilbakemeldinger');
+        }
+    }
+</script>
                
                
                 </div>

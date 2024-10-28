@@ -71,6 +71,16 @@ namespace KartverketGruppe1.Controllers
 
             return View(model);
         }
+        public IActionResult Feilmelding()
+        {
+            return View();
+        }
+
+        public IActionResult Loading()
+        {
+            return View();
+        }
+
 
         public IActionResult Start()
         {
@@ -133,8 +143,8 @@ namespace KartverketGruppe1.Controllers
 
             
         
+        // H�ndterer s�k etter Kommuneinformasjon
 
-        // HÃ¥ndterer sÃ¸k etter Kommuneinformasjon
         [HttpPost]
         public async Task<IActionResult> KommuneInfo(string kommuneNr)
         {
