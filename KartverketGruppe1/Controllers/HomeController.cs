@@ -38,28 +38,13 @@ namespace KartverketGruppe1.Controllers
             return View();
         }
 
-<<<<<<< HEAD
-        public IActionResult Hjelp()
-=======
-        // Tom Liste for Stedsnavn for å kunne søke etter Stedsnavn i kartavvik uten error ved første visning
-        public IActionResult KartInnmelding()
->>>>>>> refs/remotes/origin/Marthe
-        {
-            return View(new List<StedsnavnViewModel>());
-        }
-
-<<<<<<< HEAD
-        // Tom Liste for Stedsnavn for å kunne søke etter Stedsnavn i kartavvik uten error ved første visning
+        // Tom Liste for Stedsnavn for a kunne soke etter Stedsnavn i kartavvik uten error ved forste visning
         public IActionResult KartInnmelding()
         {
             return View(new List<StedsnavnViewModel>());
         }
 
-=======
->>>>>>> refs/remotes/origin/Marthe
-
-        // Håndterer søk etter Stedsnavn i kartinnmelding
-        // Funker, ikke rør :)
+        // Handterer sok etter Stedsnavn i kartinnmelding
         [HttpPost]
         public async Task<IActionResult> SokStedsnavn(string? SokeTekst)
         {
@@ -67,8 +52,6 @@ namespace KartverketGruppe1.Controllers
             {
                 return View("KartInnmelding");
             }
-
-            // Får fortsatt ArgumentNullException hvis den ikke finner noe på søketekst
 
             var stedsnavnResponse = await _stedsnavnService.GetStedsnavnAsync(SokeTekst);
             if (stedsnavnResponse?.Navn != null && stedsnavnResponse.Navn.Any())
@@ -88,22 +71,17 @@ namespace KartverketGruppe1.Controllers
             }
         }
 
-        
         public IActionResult Privacy()
         {
             return View();
         }
-        
-        
-       public IActionResult Hjelp()
-    {
-        return View();
-    }
 
-            
-        
+        public IActionResult Hjelp()
+        {
+            return View();
+        }
 
-        // HÃ¥ndterer sÃ¸k etter Kommuneinformasjon
+        // Handterer sok etter Kommuneinformasjon
         [HttpPost]
         public async Task<IActionResult> KommuneInfo(string kommuneNr)
         {
@@ -132,17 +110,13 @@ namespace KartverketGruppe1.Controllers
             }
         }
 
-        // View for sÃ¸k etter Stedsnavn og kommuneinformasjon
+        // View for sok etter Stedsnavn og kommuneinformasjon
         public IActionResult Sok()
         {
             return View();
         }
-<<<<<<< HEAD
 
         // Handterer sok etter Stedsnavn
-=======
-        // hÃ¥ndterer sÃ¸k etter Stedsnavn
->>>>>>> refs/remotes/origin/Marthe
         [HttpPost]
         public async Task<IActionResult> Stedsnavn(string searchTerm)
         {
@@ -174,11 +148,6 @@ namespace KartverketGruppe1.Controllers
             }
         }
 
-
-
-
-
-
         // Laster inn tilfeldig bakgrunnsbilde fra wwwroot/Bakgrunnsbilder
         public IActionResult GetRandomBackgroundImage()
         {
@@ -195,37 +164,6 @@ namespace KartverketGruppe1.Controllers
 
             return Json(new { imagePath = $"/Bakgrunnsbilder/{randomImage}" });
         }
-
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-    }
-}
-
-
-
-
-
-        // Laster inn tilfeldig bakgrunnsbilde fra wwwroot/Bakgrunnsbilder
-        public IActionResult GetRandomBackgroundImage()
-        {
-            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Bakgrunnsbilder");
-            var files = Directory.GetFiles(path, "*.png").Select(Path.GetFileName).ToList();
-
-            if (files.Count == 0)
-            {
-                return Json(new { error = "Ingen bilder funnet" });
-            }
-
-            Random rnd = new Random();
-            string randomImage = files[rnd.Next(files.Count)];
-
-            return Json(new { imagePath = $"/Bakgrunnsbilder/{randomImage}" });
-        }
-
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
