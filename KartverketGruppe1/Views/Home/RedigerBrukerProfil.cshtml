@@ -5,14 +5,22 @@
 }
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-<div style="display: flex; align-items: center; margin-top: 30px; margin-left: -80px; margin-bottom: 20px;">
-    <button onclick="window.history.back();" style="margin-right: 30px; padding: 5px 50px; background-color: transparent; color: #3b6e3b; border: none; cursor: pointer; display: flex; align-items: center;">
+<div style="display: flex; align-items: center; margin-top: 30px; margin-bottom: 20px;">
+    <button onclick="window.history.back();" style="margin-left: -30px; margin-right: 20px; padding: 5px; background-color: transparent; color: #3b6e3b; border: none; cursor: pointer; display: flex; align-items: center;">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3b6e3b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left">
             <line x1="500" y1="12" x2="5" y2="12"></line>
             <polyline points="12 19 5 12 12 5"></polyline>
         </svg>
-    <img src="~/images/KartikusMinProfil.png" alt="Profilbilde" style="border-radius: 50%; margin-right: 10px; margin-left: 70px; width: 70px; height: 70px; object-fit: cover; border: 1px solid #3b6e3b;" />
-    <h3 style="color: #3b6e3b;">Rediger Profil</h3>
+    </button>
+
+    <div style="position: relative; margin-right: 20px; margin-left: 75px;">
+        <img src="~/images/KartikusMinProfil.png" alt="Profilbilde" style="border-radius: 50%; width: 70px; height: 70px; object-fit: cover; border: 1px solid #3b6e3b;" />
+        <label for="profileImageUpload" style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 70px; height: 35px; background-color: rgba(0, 0, 0, 0.3); border-bottom-left-radius: 35px; border-bottom-right-radius: 35px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+            <span style="color: white; font-size: 12px;">ENDRE</span>
+        </label>
+        <input type="file" id="profileImageUpload" name="profileImageUpload" style="display: none;" />
+    </div>
+    <h3 style="color: #3b6e3b;">Min Profil</h3>
 </div>
 
 <div class="profile-container" style="max-width: 1000px; margin: auto; padding: 30px; background-color: #D8E3F2; border-radius: 10px; position: relative; z-index: 1;">
@@ -23,22 +31,31 @@
             <p style="margin-bottom: 45px;"><strong>E-postadresse</strong></p>
             <p style="margin-bottom: 45px;"><strong>Telefon</strong></p>
             <p style="margin-bottom: 45px;"><strong>Fødselsdato</strong></p>
+            <p style="margin-bottom: 45px;"><strong>Nytt passord</strong></p>
+            <p style="margin-bottom: 45px;"><strong>Gjenta passord</strong></p>
         </div>
 
-        <div style="border-left: 2px solid #3b6e3b; padding: 20px 60px 40px 30px; margin-left: 60px; flex: 2">
-        <div style="margin-bottom: 20px; margin-top: -30px;">
-            <input type="text" id="Name" name="Name" value="@Model.Name" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" />
+        <div style="border-left: 2px solid #3b6e3b; margin-top: -10px; padding: 30px 60px 40px 30px; margin-left: 60px; flex: 1">
+                <div style="margin-bottom: 20px; margin-top: -30px;">
+                    <input type="text" id="Name" name="Name" value="@Model.Name" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" />
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <input type="email" id="Email" name="Email" value="@Model.Email" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" />
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <input type="text" id="Phone" name="Phone" value="@Model.Phone" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" />
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <input type="date" id="BirthDate" name="BirthDate" value="@Model.BirthDate.ToString("yyyy-MM-dd")" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" />
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <input type="password" id="Password" name="Password" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" />
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <input type="password" id="ConfirmPassword" name="ConfirmPassword" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" />
+                </div>
+                <button type="submit" style="margin-left: 470px; padding: 10px 20px; background-color: #3b6e3b; color: white; border: none; border-radius: 5px; cursor: pointer;">Lagre endringer</button>
+            </div>
         </div>
-        <div style="margin-bottom: 20px;">
-            <input type="email" id="Email" name="Email" value="@Model.Email" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" />
-        </div>
-        <div style="margin-bottom: 20px;">
-            <input type="text" id="Phone" name="Phone" value="@Model.Phone" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" />
-        </div>
-        <div style="margin-bottom: 20px;">
-            <input type="date" id="BirthDate" name="BirthDate" value="@Model.BirthDate.ToString("yyyy-MM-dd")" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" />
-        </div>
-        <button type="submit" style="padding: 10px 20px; background-color: #3b6e3b; color: white; border: none; border-radius: 5px; cursor: pointer;">Lagre endringer</button>
-    </div>    
     </form>
 </div>
