@@ -68,7 +68,7 @@
             border-radius: 10px;
             padding: 15px;
             margin-bottom: 10px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border: 1px solid #ccc;
         }
 
             .item-box .info {
@@ -107,6 +107,39 @@
             color: #333;
         }
 
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 5px; /* Avstand mellom sidetallene */
+            padding: 10px;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+        }
+
+            .pagination a {
+                padding: 8px 12px;
+                color: #1A3F71; /* Mørkeblå tekstfarge */
+                text-decoration: none;
+                border-radius: 4px;
+                font-weight: normal;
+            }
+
+                .pagination a:hover {
+                    background-color: #e6edf5;
+                }
+
+            .pagination .arrow {
+                font-weight: bold;
+                color: #1A3F71; /* Mørkeblå tekstfarge for pilene */
+            }
+
+            .pagination .active {
+                background-color: green;
+                color: white; /* Grønn tekstfarge på aktiv side */
+            }
+
+
         .sidebar {
             width: 200px;
             background-color: #D8E3F2;
@@ -123,38 +156,38 @@
                 display: block;
                 margin: 20px auto;
                 border-radius: 50%;
-                width: 80px;
-                height: 80px;
+                width: 65px;
+                height: 65px;
                 object-fit: cover;
             }
 
         .menu-item {
             text-align: center;
-            margin-top: 60px; /* Økt fra 40px til 60px for mer mellomrom */
-            font-size: 16px; /* Fortsatt 16px */
+            margin-top: 50px; /* Økt fra 40px til 60px for mer mellomrom */
+            font-size: 14px; /* Fortsatt 16px */
             font-weight: normal; /* Normal vekt */
         }
 
             .menu-item img {
-                width: 40px;
-                height: 40px;
+                width: 30px;
+                height: 30px;
                 margin-bottom: 5px;
             }
 
             .menu-item a {
-                text-decoration: none;
-                color: #333;
+                text-align: center;
+                color: #1A3F71;
                 font-weight: normal; /* Normal vekt */
             }
 
                 .menu-item a:hover {
-                    color: #007bff;
+                    color: #e6edf5;
                 }
 
         .logout {
             text-align: center;
-            margin-top: 50px;
-            font-size: 16px;
+            margin-top: 30px;
+            font-size: 14px;
         }
 
             .logout a {
@@ -163,9 +196,9 @@
                 font-weight: bold;
             }
 
-                .logout a:hover {
-                    color: darkgreen;
-                }
+            .logout a:hover {
+            background-color: #e6edf5;
+        }
 
         body {
             background-color: #EAE7E7;
@@ -178,21 +211,29 @@
 </head>
 <body>
     <div class="sidebar">
-        <img src="profile-picture.jpg" alt="Profilbilde" class="profile-pic">
+        <img src="~/Images/Profilbilde.png" alt="Profilbilde" class="profile-pic">
         <div class="menu-item">
-            <img src="mine-henvendelser-icon.png" alt="Mine henvendelser">
+            <img src="~/Images/ClipboardIcon.png" alt="Mine henvendelser">
+        </div>
+        <div
             <a href="#">MINE HENVENDELSER</a>
         </div>
         <div class="menu-item">
-            <img src="alle-henvendelser-icon.png" alt="Alle henvendelser">
+            <img src="~/Images/FolderIcon.png" alt="Alle henvendelser">
+        </div>
+        <div
             <a href="#">ALLE HENVENDELSER</a>
         </div>
         <div class="menu-item">
-            <img src="arkiv-icon.png" alt="Arkiv">
+            <img src="~/Images/Arkiv.png" alt="Arkiv">
+        </div>
+            <div
             <a href="#">ARKIV</a>
         </div>
         <div class="menu-item">
-            <img src="arbeidsbord-icon.png" alt="Arbeidsbord">
+            <img src="~/Images/Arbeidsbord.png" alt="Arbeidsbord">
+        </div>
+        <div
             <a href="#">ARBEIDSBORD</a>
         </div>
         <div class="logout">
@@ -215,7 +256,7 @@
         <!-- Hver enkelt boks med informasjon -->
         <div class="item-box">
             <div class="info">
-                <img src="info-icon.png" alt="Info ikon">
+                <img src="~/Images/Utropstegn.png" alt="Info ikon">
                 <span>Kristiansand, Agder</span>
                 <span>Type</span>
                 <span>Saks-ID: 123-25</span>
@@ -230,7 +271,7 @@
 
         <div class="item-box">
             <div class="info">
-                <img src="info-icon.png" alt="Info ikon">
+                <img src="~/Images/Location.png" alt="Info ikon">
                 <span>Kristiansand, Agder</span>
                 <span>Type</span>
                 <span>Saks-ID: 123-25</span>
@@ -245,7 +286,7 @@
 
         <div class="item-box">
             <div class="info">
-                <img src="info-icon.png" alt="Info ikon">
+                <img src="~/Images/Location.png" alt="Info ikon">
                 <span>Kristiansand, Agder</span>
                 <span>Type</span>
                 <span>Saks-ID: 123-25</span>
@@ -261,7 +302,7 @@
         <!-- Seks nye bokser med endret informasjon -->
         <div class="item-box">
             <div class="info">
-                <img src="info-icon.png" alt="Info ikon">
+                <img src="~/Images/Anker.png" alt="Info ikon">
                 <span>Kristiansand, Agder</span>
                 <span>Type</span>
                 <span>Saks-ID: 456-78</span>
@@ -276,7 +317,7 @@
 
         <div class="item-box">
             <div class="info">
-                <img src="info-icon.png" alt="Info ikon">
+                <img src="~/Images/Location.png" alt="Info ikon">
                 <span>Kristiansand, Agder</span>
                 <span>Type</span>
                 <span>Saks-ID: 234-56</span>
@@ -291,7 +332,7 @@
 
         <div class="item-box">
             <div class="info">
-                <img src="info-icon.png" alt="Info ikon">
+                <img src="~/Images/Utropstegn.png" alt="Info ikon">
                 <span>Kristiansand, Agder</span>
                 <span>Type</span>
                 <span>Saks-ID: 678-90</span>
@@ -306,7 +347,7 @@
 
         <div class="item-box">
             <div class="info">
-                <img src="info-icon.png" alt="Info ikon">
+                <img src="~/Images/Eiendom.png" alt="Info ikon">
                 <span>Kristiansand, Agder</span>
                 <span>Type</span>
                 <span>Saks-ID: 135-79</span>
@@ -321,7 +362,7 @@
 
         <div class="item-box">
             <div class="info">
-                <img src="info-icon.png" alt="Info ikon">
+                <img src="~/Images/Anker.png" alt="Info ikon">
                 <span>Kristiansand, Agder</span>
                 <span>Type</span>
                 <span>Saks-ID: 246-80</span>
@@ -336,7 +377,7 @@
 
         <div class="item-box">
             <div class="info">
-                <img src="info-icon.png" alt="Info ikon">
+                <img src="~/Images/Location.png" alt="Info ikon">
                 <span>Kristiansand, Agder</span>
                 <span>Type</span>
                 <span>Saks-ID: 357-91</span>
@@ -351,7 +392,7 @@
 
         <div class="item-box">
             <div class="info">
-                <img src="info-icon.png" alt="Info ikon">
+                <img src="~/Images/Location.png" alt="Info ikon">
                 <span>Kristiansand, Agder</span>
                 <span>Type</span>
                 <span>Saks-ID: 468-02</span>
@@ -366,7 +407,7 @@
 
         <div class="item-box">
             <div class="info">
-                <img src="info-icon.png" alt="Info ikon">
+                <img src="~/Images/Eiendom.png" alt="Info ikon">
                 <span>Kristiansand, Agder</span>
                 <span>Type</span>
                 <span>Saks-ID: 579-13</span>
@@ -381,7 +422,7 @@
 
         <div class="item-box">
             <div class="info">
-                <img src="info-icon.png" alt="Info ikon">
+                <img src="~/Images/Anker.png" alt="Info ikon">
                 <span>Kristiansand, Agder</span>
                 <span>Type</span>
                 <span>Saks-ID: 680-24</span>
@@ -396,7 +437,7 @@
 
         <div class="item-box">
             <div class="info">
-                <img src="info-icon.png" alt="Info ikon">
+                <img src="~/Images/Utropstegn.png" alt="Info ikon">
                 <span>Kristiansand, Agder</span>
                 <span>Type</span>
                 <span>Saks-ID: 791-35</span>
@@ -411,7 +452,7 @@
 
         <div class="item-box">
             <div class="info">
-                <img src="info-icon.png" alt="Info ikon">
+                <img src="~/Images/Location.png" alt="Info ikon">
                 <span>Kristiansand, Agder</span>
                 <span>Type</span>
                 <span>Saks-ID: 802-46</span>
@@ -426,7 +467,7 @@
 
         <div class="item-box">
             <div class="info">
-                <img src="info-icon.png" alt="Info ikon">
+                <img src="~/Images/Anker.png" alt="Info ikon">
                 <span>Kristiansand, Agder</span>
                 <span>Type</span>
                 <span>Saks-ID: 913-57</span>
@@ -437,7 +478,19 @@
             <div class="status status-handled">
                 Behandlet
             </div>
+
+
         </div>
+        <div class="pagination">
+            <a href="#" class="arrow">←</a>
+            <a href="#">Forrige</a>
+            <a href="#" class="page">1</a>
+            <a href="#" class="page active">2</a>
+            <a href="#" class="page">3</a>
+            <a href="#">Neste</a>
+            <a href="#" class="arrow">→</a>
+        </div>
+
     </div>
 
 </body>
