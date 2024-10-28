@@ -26,7 +26,7 @@ namespace KartverketGruppe1.Controllers
 
     }
 
-    }
+    
 
    
 }
