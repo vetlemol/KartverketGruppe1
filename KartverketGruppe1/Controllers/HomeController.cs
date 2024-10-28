@@ -31,11 +31,17 @@ namespace KartverketGruppe1.Controllers
             return View();
         }
 
-        [HttpGet]
-        public IActionResult BrukerProfil()
+        public IActionResult Feilmelding()
         {
             return View();
         }
+
+        public IActionResult Loading()
+        {
+            return View();
+        }
+
+
 
         public IActionResult Start()
         {
