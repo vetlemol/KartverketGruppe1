@@ -66,10 +66,11 @@ namespace KartverketGruppe1.Controllers
                 _brukerProfil.BirthDate = model.BirthDate;
                 _brukerProfil.Password = model.Password;
 
-                return RedirectToAction("BrukerProfil");
-            }
 
-            return View(model);
+                return View(model); 
+            }
+            
+            return RedirectToAction("BrukerProfil");
         }
         public IActionResult Feilmelding()
         {
