@@ -10,9 +10,10 @@ namespace KartverketGruppe1.Models
         public string Phone { get; set; }
         public DateTime BirthDate { get; set; }
         public string Password { get; set; }
+        public string GjentaPassword { get; set; }
         public List<int> SubmissionsPerMonth { get; set; }
         public List<int> Years { get; set; }
-
+        public string ProfileImagePath { get; set; }
         
     }
 
