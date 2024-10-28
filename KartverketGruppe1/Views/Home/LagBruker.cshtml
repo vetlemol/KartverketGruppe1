@@ -100,24 +100,29 @@
             <h2>Registrer din nye bruker her</h2>
             <p></p>
 
-            <form asp-action="HjemSkjerm" method="post">
-                <label for="Fornavn">Fornavn:</label>
+            <form asp-action="LagBruker" method="post">
+                <label for="Fornavn">* Fornavn:</label>
                 <input type="text" id="Fornavn" name="Fornavn" required>
                 <br>
-                <label for="Etternavn">Etternavn:</label>
+                <label for="Etternavn">* Etternavn:</label>
                 <input type="text" id="Etternavn" name="Etternavn" required>
                 <br>
-                <label for="Epost">Epost:</label>
+                <label for="Epost">* Epost:</label>
                 <input type="email" id="Epost" name="Epost" required>
                 <br>
-                <label for="Passord">Passord:</label>
+                <label for="Passord">* Passord:</label>
                 <input type="password" id="Passord" name="Passord" required>
+                <br>
+                <label for="Telefonnummer"> Telefon</label>
+                <input type="text" id="Telefonnummer" name="Telefonnummer">
                 <br>
                 <button type="submit">Submit</button>
             </form>
         </div>
     </div>
 </body>
+</html>
+
 <script>
     function setRandomBackground() { // Funksjon for å hente random bilde fra 'Bakgrunnsbilder'
         fetch('/Home/GetRandomBackgroundImage')
@@ -135,4 +140,3 @@
 
     window.onload = setRandomBackground;
 </script>
-</html>
