@@ -26,12 +26,90 @@ namespace KartverketGruppe1.Controllers
             return View();
         }
 
+        [HttpPost]
+        public IActionResult Index(Bruker bruker)
+        {
+            var user = _context.Bruker.SingleOrDefault(u => u.Epost == bruker.Epost && u.Passord == bruker.Passord);
+            if (user != null)
+            {
+                HttpContext.Session.SetInt32("BrukerID", user.BrukerID);
+                return RedirectToAction("FjernOversikt", new { id = user.BrukerID });
+            }
+            else
+            {
+                ViewBag.Error = "Invalid email or password.";
+                return View();
+            }
+
+        }
+
+
+        public IActionResult FjernOversikt(int id)
+        {
+            var bruker = _context.Bruker.Find(id);
+            var innmeldinger = _context.Innmelding.Where(i => i.BrukerID == id).ToList();
+            ViewBag.Bruker = bruker;
+            ViewBag.Innmeldinger = innmeldinger;
+            return View();
+        }
+
+
+        [HttpGet]
         public IActionResult LagBruker()
         {
             return View();
         }
 
-   private static BrukerProfilViewModel _brukerProfil = new BrukerProfilViewModel
+        [HttpPost]
+        public IActionResult LagBruker(Bruker bruker)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    if (bruker.Telefonnummer != null)
+                    {
+                        bruker = new Bruker
+                        {
+                            Fornavn = bruker.Fornavn,
+                            Etternavn = bruker.Etternavn,
+                            Epost = bruker.Epost,
+                            Passord = bruker.Passord,
+                            Telefonnummer = bruker.Telefonnummer,
+                        };
+
+                    }
+                    else
+                    {
+                        bruker = new Bruker
+                        {
+                            Fornavn = bruker.Fornavn,
+                            Etternavn = bruker.Etternavn,
+                            Epost = bruker.Epost,
+                            Passord = bruker.Passord
+                        };
+                    }
+
+                    _context.Bruker.Add(bruker);
+                    _context.SaveChanges();
+                    return RedirectToAction("BrukerProfil");
+
+                }
+                else
+                {
+                    return View(Feilmelding);
+                }
+            }
+            catch (Exception e)
+            {
+                ViewData["Error"] = e.Message;
+                return View();
+            }
+        }
+           
+
+
+        private static BrukerProfilViewModel _brukerProfil = new BrukerProfilViewModel
         {
             Name = "Ola Nordmann",
             Email = "eksempel@epost.com",
@@ -71,6 +149,8 @@ namespace KartverketGruppe1.Controllers
 
             return View(model);
         }
+
+
         public IActionResult Feilmelding()
         {
             return View();

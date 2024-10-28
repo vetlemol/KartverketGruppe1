@@ -1,5 +1,30 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    ViewData["Title"] = "Bruker Hjemskjerm";
+    var user = ViewBag.Bruker as KartverketGruppe1.Data.Bruker;
+    var innmeldinger = ViewBag.Innmeldinger as List<KartverketGruppe1.Data.Innmelding>;
 }
+
+<h2>Welcome, @user.Fornavn @user.Etternavn</h2>
+
+<h3>Your Innmeldinger</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Beskrivelse</th>
+            <th>BrukerId</th>
+            <th>Type</th>
+            <th>Dato</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var innmelding in innmeldinger)
+        {
+            <tr>
+                <td>@innmelding.Innmeldingsbeskrivelse</td>
+                <td>@innmelding.BrukerID</td>
+                <td>@innmelding.Dato</td>
+                <td>@innmelding.Avvikstype</td>
+            </tr>
+        }
+    </tbody>
+</table>
