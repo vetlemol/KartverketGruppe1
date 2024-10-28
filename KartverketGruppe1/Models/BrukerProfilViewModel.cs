@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+
 namespace KartverketGruppe1.Models
 {
     public class BrukerProfilViewModel
@@ -26,3 +29,6 @@ namespace KartverketGruppe1.Models
     }
 
 }
+
+
+

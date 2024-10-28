@@ -2,6 +2,9 @@ using KartverketGruppe1.Services;
 using KartverketGruppe1.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace KartverketGruppe1.Controllers
 {
@@ -82,15 +85,53 @@ namespace KartverketGruppe1.Controllers
         }
         
         
-       public IActionResult Hjelp()
-    {
-        return View();
-    }
+        public IActionResult Hjelp()
+        {
+            return View();
+        }
 
-            
-        
+        private static BrukerProfilViewModel _brukerProfil = new BrukerProfilViewModel
+        {
+            Name = "Ola Nordmann",
+            Email = "eksempel@epost.com",
+            Phone = "+47 12345678",
+            BirthDate = new DateTime(1990, 1, 1),
+            Password = "********",
+            SubmissionsPerMonth = new List<int> { 3, 2, 0, 3, 1, 0, 2, 1, 0, 4, 0, 0 },
+            Years = new List<int> { 2022, 2023, 2024 }
+        };
 
-        // HÃ¥ndterer sÃ¸k etter Kommuneinformasjon
+        [HttpGet]
+        public IActionResult BrukerProfil()
+        {
+            return View(_brukerProfil);
+        }
+
+        [HttpGet]
+        public IActionResult RedigerBrukerProfil()
+        {
+            return View(_brukerProfil);
+        }
+
+        [HttpPost]
+        public IActionResult RedigerBrukerProfil(BrukerProfilViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                // Oppdaterer brukerinformasjon
+                _brukerProfil.Name = model.Name;
+                _brukerProfil.Email = model.Email;
+                _brukerProfil.Phone = model.Phone;
+                _brukerProfil.BirthDate = model.BirthDate;
+                _brukerProfil.Password = model.Password;
+
+                return RedirectToAction("BrukerProfil");
+            }
+
+            return View(model);
+        }
+
+        // Håndterer søk etter Kommuneinformasjon
         [HttpPost]
         public async Task<IActionResult> KommuneInfo(string kommuneNr)
         {
@@ -159,9 +200,6 @@ namespace KartverketGruppe1.Controllers
 
 
 
-
-
-
         // Laster inn tilfeldig bakgrunnsbilde fra wwwroot/Bakgrunnsbilder
         public IActionResult GetRandomBackgroundImage()
         {
@@ -178,7 +216,6 @@ namespace KartverketGruppe1.Controllers
 
             return Json(new { imagePath = $"/Bakgrunnsbilder/{randomImage}" });
         }
-
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
