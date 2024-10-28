@@ -2,6 +2,7 @@ using KartverketGruppe1.Services;
 using KartverketGruppe1.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using KartverketGruppe1.Data;
 
 namespace KartverketGruppe1.Controllers
 {
@@ -10,12 +11,14 @@ namespace KartverketGruppe1.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IKommuneInfoService _kommuneInfoService;
         private readonly IStedsnavnService _stedsnavnService;
+        private readonly ApplicationDbContext _context;
 
-        public HomeController(ILogger<HomeController> logger, IKommuneInfoService kommuneInfoService, IStedsnavnService stedsnavnService)
+        public HomeController(ILogger<HomeController> logger, IKommuneInfoService kommuneInfoService, IStedsnavnService stedsnavnService, ApplicationDbContext context)
         {
             _logger = logger;
             _kommuneInfoService = kommuneInfoService;
             _stedsnavnService = stedsnavnService;
+            _context = context;
         }
 
         public IActionResult Index()
@@ -28,6 +31,57 @@ namespace KartverketGruppe1.Controllers
             return View();
         }
 
+   private static BrukerProfilViewModel _brukerProfil = new BrukerProfilViewModel
+        {
+            Name = "Ola Nordmann",
+            Email = "eksempel@epost.com",
+            Phone = "+47 12345678",
+            BirthDate = new DateTime(1990, 1, 1),
+            Password = "********",
+            SubmissionsPerMonth = new List<int> { 3, 2, 0, 3, 1, 0, 2, 1, 0, 4, 0, 0 },
+            Years = new List<int> { 2022, 2023, 2024 }
+        };
+
+        [HttpGet]
+        public IActionResult BrukerProfil()
+        {
+            return View(_brukerProfil);
+        }
+
+        [HttpGet]
+        public IActionResult RedigerBrukerProfil()
+        {
+            return View(_brukerProfil);
+        }
+
+        [HttpPost]
+        public IActionResult RedigerBrukerProfil(BrukerProfilViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                // Oppdaterer brukerinformasjon
+                _brukerProfil.Name = model.Name;
+                _brukerProfil.Email = model.Email;
+                _brukerProfil.Phone = model.Phone;
+                _brukerProfil.BirthDate = model.BirthDate;
+                _brukerProfil.Password = model.Password;
+
+                return RedirectToAction("BrukerProfil");
+            }
+
+            return View(model);
+        }
+        public IActionResult Feilmelding()
+        {
+            return View();
+        }
+
+        public IActionResult Loading()
+        {
+            return View();
+        }
+
+
         public IActionResult Start()
         {
             return View();
@@ -38,15 +92,15 @@ namespace KartverketGruppe1.Controllers
             return View();
         }
 
-        // Tom Liste for Stedsnavn for � kunne s�ke etter Stedsnavn i kartavvik uten error ved f�rste visning
+        // Tom Liste for Stedsnavn for å kunne søke etter Stedsnavn i kartavvik uten error ved første visning
         public IActionResult KartInnmelding()
         {
             return View(new List<StedsnavnViewModel>());
         }
 
 
-        // H�ndterer s�k etter Stedsnavn i kartinnmelding
-        // Funker, ikke r�r :)
+        // Håndterer søk etter Stedsnavn i kartinnmelding
+        // Funker, ikke rør :)
         [HttpPost]
         public async Task<IActionResult> SokStedsnavn(string? SokeTekst)
         {
@@ -55,7 +109,7 @@ namespace KartverketGruppe1.Controllers
                 return View("KartInnmelding");
             }
 
-            // F�r fortsatt ArgumentNullException hvis den ikke finner noe p� s�ketekst
+            // Får fortsatt ArgumentNullException hvis den ikke finner noe på søketekst
 
             var stedsnavnResponse = await _stedsnavnService.GetStedsnavnAsync(SokeTekst);
             if (stedsnavnResponse?.Navn != null && stedsnavnResponse.Navn.Any())
@@ -80,8 +134,17 @@ namespace KartverketGruppe1.Controllers
         {
             return View();
         }
+        
+        
+       public IActionResult Hjelp()
+    {
+        return View();
+    }
 
-        // Håndterer søk etter Kommuneinformasjon
+            
+        
+        // H�ndterer s�k etter Kommuneinformasjon
+
         [HttpPost]
         public async Task<IActionResult> KommuneInfo(string kommuneNr)
         {
@@ -110,12 +173,13 @@ namespace KartverketGruppe1.Controllers
             }
         }
 
-        // View for søk etter Stedsnavn og kommuneinformasjon
+        // View for sÃ¸k etter Stedsnavn og kommuneinformasjon
         public IActionResult Sok()
         {
             return View();
         }
-        // håndterer søk etter Stedsnavn
+
+        // Handterer sok etter Stedsnavn
         [HttpPost]
         public async Task<IActionResult> Stedsnavn(string searchTerm)
         {
@@ -151,10 +215,49 @@ namespace KartverketGruppe1.Controllers
 
 
 
-
-        // Laster inn tilfeldig bakgrunnsbilde fra wwwroot/Bakgrunnsbilder
-        public IActionResult GetRandomBackgroundImage()
+        [HttpGet]
+        public IActionResult TestVetle()
         {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult TestVetle(string Fornavn, string Etternavn, string Epost, string Ansvarsområde, string Avdeling, string Passord)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(Fornavn) || string.IsNullOrEmpty(Etternavn) || string.IsNullOrEmpty(Epost) || string.IsNullOrEmpty(Ansvarsområde) || string.IsNullOrEmpty(Passord))
+                {
+                    ViewData["Error"] = "Please fill out all fields.";
+                    return View();
+                }
+
+                var nysaksbehandler = new Saksbehandler
+                {
+                    Fornavn = Fornavn,
+                    Etternavn = Etternavn,
+                    Epost = Epost,
+                    Ansvarsområde = Ansvarsområde,
+                    Avdeling = Avdeling,
+                    Passord = Passord
+                };
+
+                _context.Saksbehandler.Add(nysaksbehandler);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch (Exception e)
+            {
+                ViewData["Error"] = e.Message;
+                return View();
+            }
+        }
+
+
+
+            // Laster inn tilfeldig bakgrunnsbilde fra wwwroot/Bakgrunnsbilder
+            public IActionResult GetRandomBackgroundImage()
+            {
             string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Bakgrunnsbilder");
             var files = Directory.GetFiles(path, "*.png").Select(Path.GetFileName).ToList();
 
