@@ -31,6 +31,46 @@ namespace KartverketGruppe1.Controllers
             return View();
         }
 
+   private static BrukerProfilViewModel _brukerProfil = new BrukerProfilViewModel
+        {
+            Name = "Ola Nordmann",
+            Email = "eksempel@epost.com",
+            Phone = "+47 12345678",
+            BirthDate = new DateTime(1990, 1, 1),
+            Password = "********",
+            SubmissionsPerMonth = new List<int> { 3, 2, 0, 3, 1, 0, 2, 1, 0, 4, 0, 0 },
+            Years = new List<int> { 2022, 2023, 2024 }
+        };
+
+        [HttpGet]
+        public IActionResult BrukerProfil()
+        {
+            return View(_brukerProfil);
+        }
+
+        [HttpGet]
+        public IActionResult RedigerBrukerProfil()
+        {
+            return View(_brukerProfil);
+        }
+
+        [HttpPost]
+        public IActionResult RedigerBrukerProfil(BrukerProfilViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                // Oppdaterer brukerinformasjon
+                _brukerProfil.Name = model.Name;
+                _brukerProfil.Email = model.Email;
+                _brukerProfil.Phone = model.Phone;
+                _brukerProfil.BirthDate = model.BirthDate;
+                _brukerProfil.Password = model.Password;
+
+                return RedirectToAction("BrukerProfil");
+            }
+
+            return View(model);
+        }
         public IActionResult Feilmelding()
         {
             return View();
@@ -40,7 +80,6 @@ namespace KartverketGruppe1.Controllers
         {
             return View();
         }
-
 
 
         public IActionResult Start()
