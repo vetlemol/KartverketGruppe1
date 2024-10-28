@@ -21,15 +21,16 @@ namespace KartverketGruppe1.Controllers
             _context = context;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult Index(Bruker bruker)
+        public IActionResult Index(string Epost, string Passord)
         {
-            var user = _context.Bruker.SingleOrDefault(u => u.Epost == bruker.Epost && u.Passord == bruker.Passord);
+            var user = _context.Bruker.SingleOrDefault(u => u.Epost == Epost && u.Passord == Passord);
             if (user != null)
             {
                 HttpContext.Session.SetInt32("BrukerID", user.BrukerID);
