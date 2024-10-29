@@ -51,11 +51,11 @@
             color: black;
             padding: 20px;
             width: 1250px;
-            height: auto; /* Justert for å håndtere flere bokser */
+            height: auto;
             border-radius: 15px;
             text-align: center;
-            margin-left: 140px;
-            margin-top: 50px;
+            margin-left: 80px;
+            margin-top: 150px;
             margin-bottom: 0px;
         }
 
@@ -83,7 +83,6 @@
                     margin-right: 15px;
                 }
 
-                /* Plassér innholdet horisontalt */
                 .item-box .info span {
                     font-size: 14px;
                     margin-right: 40px;
@@ -111,7 +110,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 5px; /* Avstand mellom sidetallene */
+            gap: 5px;
             padding: 10px;
             font-family: Arial, sans-serif;
             font-size: 14px;
@@ -119,7 +118,7 @@
 
             .pagination a {
                 padding: 8px 12px;
-                color: #1A3F71; /* Mørkeblå tekstfarge */
+                color: #1A3F71;
                 text-decoration: none;
                 border-radius: 4px;
                 font-weight: normal;
@@ -131,75 +130,95 @@
 
             .pagination .arrow {
                 font-weight: bold;
-                color: #1A3F71; /* Mørkeblå tekstfarge for pilene */
+                color: #1A3F71;
             }
 
             .pagination .active {
                 background-color: green;
-                color: white; /* Grønn tekstfarge på aktiv side */
+                color: white;
             }
 
-
-        .sidebar {
-            width: 200px;
-            background-color: #D8E3F2;
-            height: 100vh;
-            padding: 20px;
-            position: fixed;
+        /* Menybar til venstre, helt venstrestilt */
+        .side-navbar {
+            position: absolute; /* Fikserer menyen helt til venstre */
+            top: 66px;
             left: 0;
-            top: 0px;
+            width: 7%;
+            height: calc(100%); /* Full høyde på skjermen */
+            background-color: #D8E3F2; /* Lys blå bakgrunnsfarge */
+            padding: 0; /* Fjerner padding for at menyen skal starte fra venstre */
+            box-sizing: border-box;
             z-index: -1;
-            padding-top: 80px;
         }
 
-            .sidebar img.profile-pic {
-                display: block;
-                margin: 20px auto;
-                border-radius: 50%;
-                width: 65px;
-                height: 65px;
-                object-fit: cover;
+            .side-navbar ul {
+                list-style-type: none;
+                padding-top: 80px;
+                margin: 0;
+                width: 100%;
+                padding: 0;
+                z-index: -1;
             }
 
-        .menu-item {
-            text-align: center;
-            margin-top: 50px; /* Økt fra 40px til 60px for mer mellomrom */
-            font-size: 14px; /* Fortsatt 16px */
-            font-weight: normal; /* Normal vekt */
-        }
-
-            .menu-item img {
-                width: 30px;
-                height: 30px;
-                margin-bottom: 5px;
-            }
-
-            .menu-item a {
-                text-align: center;
+            .side-navbar a {
                 color: #1A3F71;
-                font-weight: normal; /* Normal vekt */
+                display: block;
+                padding: 0px;
+                text-decoration: none;
+                border-bottom: 1px solid #1A3F71;
+                width: 100%;
+                box-sizing: border-box;
+                margin-top: 2px;
+                margin-bottom: 60px;
+                text-align: center;
+                z-index: -1;
             }
 
-                .menu-item a:hover {
-                    color: #e6edf5;
+                .side-navbar a:hover {
+                    background-color: #96B7D6; /* Mørkere blå ved hover */
                 }
 
-        .logout {
+        .profile-image {
+            width: 50px; /* Juster størrelsen på bildet */
+            height: 55px; /* Juster størrelsen på bildet */
+            border-radius: 50%; /* Gjør bildet rundt */
+            margin-bottom: 2px; /* Legger til avstand under bildet */
+            border: 1px solid rgb(33, 40, 121);
             text-align: center;
-            margin-top: 30px;
-            font-size: 14px;
+            display: block;
+            margin: 60px auto 2px auto;
         }
 
-            .logout a {
-                text-decoration: none;
-                color: green;
-                font-weight: bold;
-            }
-
-            .logout a:hover {
-            background-color: #e6edf5;
+        .profile-divider {
+            border: 0;
+            border-top: 1px solid rgb(33, 40,121); /* Blå farge og tykkelsen på streken */
+            margin-bottom: 60px; /* Juster avstanden over og under streken */
+            margin-top: 20px;
+            color: rgb(33, 40, 121);
         }
 
+        .nav-icon {
+            width: 25px; /* Juster størrelsen på ikonene */
+            height: 25px; /* Juster størrelsen på ikonene */
+            margin-bottom: 5px; /* Legger til avstand under ikonene */
+            display: block;
+            margin: 0 auto; /* Sentrerer ikonene */
+        }
+
+        .logout-button {
+            background-color: transparent; /* Gjør bakgrunnen gjennomsiktig */
+            border: none; /* Fjerner kantlinjen */
+            color: green; /* Setter tekstfargen til grønn */
+            font-size: 16px; /* Juster skriftstørrelsen */
+            cursor: pointer; /* Endrer musepekeren til en hånd for å indikere at det er klikkbart */
+            margin: 20px auto; /* Legger til avstand fra bunnen */
+            text-align: center;
+            cursor: pointer;
+            display: block;
+        }
+
+
+        
         body {
             background-color: #EAE7E7;
             margin: 0;
@@ -210,46 +229,44 @@
     </style>
 </head>
 <body>
-    <div class="sidebar">
-        <img src="~/Images/Profilbilde.png" alt="Profilbilde" class="profile-pic">
-        <div class="menu-item">
-            <img src="~/Images/ClipboardIcon.png" alt="Mine henvendelser">
-        </div>
-        <div
-            <a href="#">MINE HENVENDELSER</a>
-        </div>
-        <div class="menu-item">
-            <img src="~/Images/FolderIcon.png" alt="Alle henvendelser">
-        </div>
-        <div
-            <a href="#">ALLE HENVENDELSER</a>
-        </div>
-        <div class="menu-item">
-            <img src="~/Images/Arkiv.png" alt="Arkiv">
-        </div>
-            <div
-            <a href="#">ARKIV</a>
-        </div>
-        <div class="menu-item">
-            <img src="~/Images/Arbeidsbord.png" alt="Arbeidsbord">
-        </div>
-        <div
-            <a href="#">ARBEIDSBORD</a>
-        </div>
-        <div class="logout">
-            <a href="#">Logg ut</a>
-        </div>
-    </div>
+    <!-- Container for meny og innhold -->
+    <div>
+        <!-- Menybar til venstre -->
+        <nav class="side-navbar">
+            <ul>
 
-    <h1>Arkiv</h1>
+                <li><img src="~/Images/Profilbilde.png" alt="" class="profile-image"></li> <!-- Legger til bildet her -->
+                <a href="#">
+                    <br>
+                </a>
+                <!-- <hr class="profile-divider"> Legger til streken her
+                 </li>-->
+                <li>
+                    <img src="~/Images/ClipboardIcon.png" alt="Mine henvendelser" class="nav-icon">
+                    <a href="/MineHenvendelser">
+                        Mine<br>
+                        henvendelser<br>
+                    </a>
+                </li>
+                <li>
+                    <img src="~/Images/FolderIcon.png" alt="Alle henvendelser" class="nav-icon">
+                    <a href="#">
+                        Alle<br>
+                        henvendelser<br>
+                    </a>
+                </li>
+                <li>
+                    <img src="~/Images/Arkiv.png" alt="Arkiv" class="nav-icon">
+                    <a href="/Saksbehandler/Arkiv">Arkiv</a>
+                </li>
+                <li>
+                    <img src="~/Images/Arbeidsbord.png" alt="Arbeidsbord" class="nav-icon">
+                    <a href="/Saksbehandler/Arbeidsbord">Arbeidsbord</a>
+                </li>
+            </ul>
+            <button class="logout-button">Logg ut</button> <!-- Legger til Logg ut-knappen her -->
+        </nav>
 
-    <div class="search-container">
-        <input type="text" placeholder="Søk etter henvendelse">
-        <button>STATUS &#9662;</button>
-        <button>DATO &#9662;</button>
-        <button>OMRÅDE &#9662;</button>
-        <button>SAKSBEHANDLER &#9662;</button>
-    </div>
 
     <!-- Den store blå boksen -->
     <div class="blue-box">

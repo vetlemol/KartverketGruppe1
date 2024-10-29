@@ -38,3 +38,45 @@ button.accept-policy {
   font-size: 1rem;
   line-height: inherit;
 }
+
+.custom-dropdown-menu {
+  background-color: #E4F2E6;
+  width: 20vw; /* 20% av bredden på viewport */
+  height: 60vh; /* 60% av høyden på viewport */
+  overflow-y: auto; /* Legger til rullefelt hvis innholdet overstiger høyden */
+  text-align: center; /* Midtstiller teksten */
+  color: #00973D;
+}
+
+.circle-image {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+
+.custom-dropdown-menu a {
+  display: block;
+  padding: 10px;
+  color: #00973D; /* Tekstfarge */
+  text-decoration: underline;
+}
+.custom-dropdown-menu a:hover {
+  text-decoration: underline; /* Understreker teksten ved hover */
+  color: #00973D;
+}
+.custom-dropdown-menu .spacer {
+  margin-bottom: 20px; /* Legger til rom mellom elementene */
+}
+.custom-dropdown-menu .logout {
+  position: absolute;
+  bottom: 10px;
+  width: 100%;
+  color: #00973D;
+}
+.custom-dropdown-menu .divider {
+  position: absolute;
+  bottom: 50px; /* Plasserer linjen rett over "Logg ut" */
+  width: 100%;
+}
