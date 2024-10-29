@@ -5,6 +5,22 @@
 }
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
+<style>
+    .logout-button, .edit-profile-button {
+        color: #3b6e3b;
+        text-decoration: underline;
+        cursor: pointer;
+        background-color: transparent;
+        border: none;
+        font-weight: bold;
+    }
+
+    .logout-button:hover, .edit-profile-button:hover {
+        color: #2a4e2a;
+        text-decoration: none;
+    }
+</style>
+
 <div style="display: flex; align-items: center; margin-top: 30px; margin-bottom: 20px;">
     <button onclick="window.location.href='@Url.Action("KartInnmelding", "Home")'" style="margin-left: -30px; margin-right: 20px; padding: 5px; background-color: transparent; color: #3b6e3b; border: none; cursor: pointer; display: flex; align-items: center;">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3b6e3b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left">
@@ -27,9 +43,9 @@
             <p><strong>Fødselsdato</strong></p>
         </div>
 
-        <div style="position: absolute; bottom: 40px; left: 85px;">
-            <button onclick="window.location.href='@Url.Action("Index", "Home")'" style="color: #3b6e3b; text-decoration: underline; cursor: pointer; background-color: transparent; border: none;">
-                <strong>Logg ut</strong>
+        <div style="position: absolute; bottom: 50px; left: 85px;">
+            <button onclick="window.location.href='@Url.Action("Index", "Home")'" class="logout-button">
+                Logg ut
             </button>
         </div>
             
@@ -44,11 +60,11 @@
                 }
                 else
                 {
-                    <p>Brukerprofilen er ikke tilgjengelig.</p>
+                    <p>Ingen data tilgjengelig</p>
                 }
             </div>
 
-            <a asp-action="RedigerBrukerProfil" style="position: absolute; top: 10px; right: 10px; padding: 5px 10px; background-color: transparent; color: #3b6e3b; border: none; cursor: pointer;">
+            <a asp-action="RedigerBrukerProfil" class="edit-profile-button" style="position: absolute; top: 10px; right: 10px; padding: 5px 10px;">
                 <i class="fas fa-pencil-alt" style="margin-right: 5px;"></i>
                 Rediger profil
             </a>
