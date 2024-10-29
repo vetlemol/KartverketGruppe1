@@ -21,17 +21,96 @@ namespace KartverketGruppe1.Controllers
             _context = context;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
         }
 
+        [HttpPost]
+        public IActionResult Index(string Epost, string Passord)
+        {
+            var user = _context.Bruker.SingleOrDefault(u => u.Epost == Epost && u.Passord == Passord);
+            if (user != null)
+            {
+                HttpContext.Session.SetInt32("BrukerID", user.BrukerID);
+                return RedirectToAction("FjernOversikt", new { id = user.BrukerID });
+            }
+            else
+            {
+                ViewBag.Error = "Invalid email or password.";
+                return View();
+            }
+
+        }
+
+
+        public IActionResult FjernOversikt(int id)
+        {
+            var bruker = _context.Bruker.Find(id);
+            var innmeldinger = _context.Innmelding.Where(i => i.BrukerID == id).ToList();
+            ViewBag.Bruker = bruker;
+            ViewBag.Innmeldinger = innmeldinger;
+            return View();
+        }
+
+
+        [HttpGet]
         public IActionResult LagBruker()
         {
             return View();
         }
 
-   private static BrukerProfilViewModel _brukerProfil = new BrukerProfilViewModel
+        [HttpPost]
+        public IActionResult LagBruker(Bruker bruker)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    if (bruker.Telefonnummer != null)
+                    {
+                        bruker = new Bruker
+                        {
+                            Fornavn = bruker.Fornavn,
+                            Etternavn = bruker.Etternavn,
+                            Epost = bruker.Epost,
+                            Passord = bruker.Passord,
+                            Telefonnummer = bruker.Telefonnummer,
+                        };
+
+                    }
+                    else
+                    {
+                        bruker = new Bruker
+                        {
+                            Fornavn = bruker.Fornavn,
+                            Etternavn = bruker.Etternavn,
+                            Epost = bruker.Epost,
+                            Passord = bruker.Passord
+                        };
+                    }
+
+                    _context.Bruker.Add(bruker);
+                    _context.SaveChanges();
+                    return RedirectToAction("BrukerProfil");
+
+                }
+                else
+                {
+                    return View(Feilmelding);
+                }
+            }
+            catch (Exception e)
+            {
+                ViewData["Error"] = e.Message;
+                return View();
+            }
+        }
+           
+
+
+        private static BrukerProfilViewModel _brukerProfil = new BrukerProfilViewModel
         {
             Name = "Ola Nordmann",
             Email = "eksempel@epost.com",
@@ -72,6 +151,8 @@ namespace KartverketGruppe1.Controllers
             
             return RedirectToAction("BrukerProfil");
         }
+
+
         public IActionResult Feilmelding()
         {
             return View();
@@ -93,15 +174,13 @@ namespace KartverketGruppe1.Controllers
             return View();
         }
 
-        // Tom Liste for Stedsnavn for å kunne søke etter Stedsnavn i kartavvik uten error ved første visning
+        // Tom Liste for Stedsnavn for a kunne soke etter Stedsnavn i kartavvik uten error ved forste visning
         public IActionResult KartInnmelding()
         {
             return View(new List<StedsnavnViewModel>());
         }
 
-
-        // Håndterer søk etter Stedsnavn i kartinnmelding
-        // Funker, ikke rør :)
+        // Handterer sok etter Stedsnavn i kartinnmelding
         [HttpPost]
         public async Task<IActionResult> SokStedsnavn(string? SokeTekst)
         {
@@ -109,8 +188,6 @@ namespace KartverketGruppe1.Controllers
             {
                 return View("KartInnmelding");
             }
-
-            // Får fortsatt ArgumentNullException hvis den ikke finner noe på søketekst
 
             var stedsnavnResponse = await _stedsnavnService.GetStedsnavnAsync(SokeTekst);
             if (stedsnavnResponse?.Navn != null && stedsnavnResponse.Navn.Any())
@@ -130,17 +207,10 @@ namespace KartverketGruppe1.Controllers
             }
         }
 
-        
         public IActionResult Privacy()
         {
             return View();
         }
-        
-        
-       public IActionResult Hjelp()
-    {
-        return View();
-    }
 
             
         
@@ -174,7 +244,7 @@ namespace KartverketGruppe1.Controllers
             }
         }
 
-        // View for sÃ¸k etter Stedsnavn og kommuneinformasjon
+        // View for sok etter Stedsnavn og kommuneinformasjon
         public IActionResult Sok()
         {
             return View();
@@ -272,7 +342,6 @@ namespace KartverketGruppe1.Controllers
 
             return Json(new { imagePath = $"/Bakgrunnsbilder/{randomImage}" });
         }
-
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

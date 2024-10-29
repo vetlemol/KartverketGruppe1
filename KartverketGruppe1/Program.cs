@@ -67,6 +67,9 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+// Legger til Session
+app.UseSession();
+
 app.UseAuthorization();
 
 app.MapControllerRoute(
