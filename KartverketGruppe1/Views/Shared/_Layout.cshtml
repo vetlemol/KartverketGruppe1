@@ -7,10 +7,11 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/KartverketGruppe1.styles.css" asp-append-version="true" />
+   
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light  box-shadow mb-0 custom-navbar">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light box-shadow mb-0 custom-navbar">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
                     <img src="~/Images/logoKartverketstrl.png" alt="Kartverket logo" class="logo"/>
@@ -30,16 +31,34 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Sok">Søk</a>
                         </li>
-
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Saksbehandler" asp-action="Behandling">Sak behandling</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Saksbehandler" asp-action="Arkiv">Arkiv</a>
                         </li>
-
+                       
+                        
                          <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Brukerinnmelding">Brukerinnmelding</a>
+                        </li>
+                         <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Registrert">Registrert</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Meny
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end custom-dropdown-menu" aria-labelledby="navbarDropdown">
+                               <li><img src="~/Images/KartikusGlad.png" alt="Profilbilde" width="60" height="70"></li>
+                                <li class="spacer"><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="BrukerProfil">Min Profil</a></li>
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="MineInnmeldinger">Mine innmeldinger</a></li>
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Hjelp">Hjelp / Kontakt Oss</a></li>
+                                <li class="divider"><hr class="dropdown-divider"></li>
+                                <li class="logout"><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Index">Logg ut</a></li>
+                            </ul>
                         </li>
                     </ul>
                 </div>
@@ -51,12 +70,8 @@
             @RenderBody()
         </main>
     </div>
+    
 
-    @* <footer class="footer text-muted">
-        <div class="container">
-            &copy; 2024 - KartverketGruppe1 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer> *@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
