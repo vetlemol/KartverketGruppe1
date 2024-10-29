@@ -174,15 +174,13 @@ namespace KartverketGruppe1.Controllers
             return View();
         }
 
-        // Tom Liste for Stedsnavn for å kunne søke etter Stedsnavn i kartavvik uten error ved første visning
+        // Tom Liste for Stedsnavn for a kunne soke etter Stedsnavn i kartavvik uten error ved forste visning
         public IActionResult KartInnmelding()
         {
             return View(new List<StedsnavnViewModel>());
         }
 
-
-        // Håndterer søk etter Stedsnavn i kartinnmelding
-        // Funker, ikke rør :)
+        // Handterer sok etter Stedsnavn i kartinnmelding
         [HttpPost]
         public async Task<IActionResult> SokStedsnavn(string? SokeTekst)
         {
@@ -190,8 +188,6 @@ namespace KartverketGruppe1.Controllers
             {
                 return View("KartInnmelding");
             }
-
-            // Får fortsatt ArgumentNullException hvis den ikke finner noe på søketekst
 
             var stedsnavnResponse = await _stedsnavnService.GetStedsnavnAsync(SokeTekst);
             if (stedsnavnResponse?.Navn != null && stedsnavnResponse.Navn.Any())
@@ -211,17 +207,10 @@ namespace KartverketGruppe1.Controllers
             }
         }
 
-        
         public IActionResult Privacy()
         {
             return View();
         }
-        
-        
-       public IActionResult Hjelp()
-    {
-        return View();
-    }
 
             
         
@@ -255,7 +244,7 @@ namespace KartverketGruppe1.Controllers
             }
         }
 
-        // View for sÃ¸k etter Stedsnavn og kommuneinformasjon
+        // View for sok etter Stedsnavn og kommuneinformasjon
         public IActionResult Sok()
         {
             return View();
@@ -353,7 +342,6 @@ namespace KartverketGruppe1.Controllers
 
             return Json(new { imagePath = $"/Bakgrunnsbilder/{randomImage}" });
         }
-
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
