@@ -12,13 +12,13 @@ builder.Services.AddControllersWithViews();
 // builder.Services.AddControllersWithViews();
 
 
-// Legger til DatabaseContext for å kunne bruke database
+// Legger til DatabaseContext for Ã¥ kunne bruke database
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"),
 new MySqlServerVersion(new Version(11, 5, 2))));
 
 
-// Lager session for å kunne lagre data som feks hvem som er logget inn
+// Lager session for Ã¥ kunne lagre data som feks hvem som er logget inn
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(30);
@@ -66,6 +66,9 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+// Legger til Session
+app.UseSession();
 
 app.UseAuthorization();
 
