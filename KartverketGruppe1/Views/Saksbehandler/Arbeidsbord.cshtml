@@ -33,42 +33,61 @@
             }
 
            .sidebar {
-            width: 100px;
+            width: 7%;
             background-color: #D8E3F2;
             padding: 0px;
             overflow-y: auto;
             text-decoration: none;
-            font-size:10px;
+            font-size:8px;
             position: fixed;
             top: 66px;
-            height: calc(100% - 66px);
+            height: calc(100%);
             left: 0px;
             align-items: center;
             display: flex;
             flex-direction: column;
             }
 
-            .sidebar button {
+
+        /*     .sidebar button {
                 background-color: transparent;
                 color: #1A3F71;
                 padding: 20px;
                 font-size: 10px;
-            }
+            } */
 
             .sidebar button {
-                    background-color: #D8E3F2;
+                background-color: transparent;
                     color: #1A3F71;
-                    padding: 15px;
+                    padding: 10px;
                     border: none;
                     border-radius: 5px;
                     cursor: pointer;
                     width: 100%;
+                    box-sizing: border-box;
                     font-size: 10px;
-                    margin-bottom: 20px;
+                    margin-bottom: 15px;
                     border-bottom: 1px solid #ccc;
-                    display: flex;
+                    display: block;
+                    flex-direction: column;
                     justify-content: center;
                     align-items: center;
+                    text-align: center; 
+            }
+
+                .sidebar button::after {
+                    content: '';
+                    display: block;
+                    width: 100%;
+                    height: 1px; /* Høyden på understreken */
+                    background-color: #ccc; /* Fargen på understreken */
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                }
+
+            .sidebar button:hover {
+                    background-color: #96B7D6;
             }
 
             .sidebar button:hover{
@@ -91,8 +110,8 @@
         .profile-pic img {
             border-radius: 50%;
             width: 50px;
-            height: 55px;
-            border: 1px solid #ccc;
+            height: 50px;
+                border: 1px solid #1A3F71;
         }
 
 
@@ -101,17 +120,29 @@
             text-decoration: none;
             color: #1A833B;
             font-weight: bold;
+            font-size: 10px;
+            text-align: center;
+            display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 10px;
+            width: 100%;
+            padding: 10px 0;
+            white-space: nowrap;
         }
 
+        .logout:hover {
+                background-color: #96B7D6;
+        }
+
+
         .icon-container {
+            background-color: transparent;        
             border-radius: 50%;
             width: 25px;
             height: 25px;
             margin-bottom: 3px; /* Mellomrom mellom ikon og tekst */
         }
+
 
         .icon-container img {
             width: 25px;
@@ -123,6 +154,26 @@
         h2 {
             font-size: 1.5em;
             margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+
+            h2 .underline-text {
+                display: flex;
+                align-items: center;
+                padding-bottom: 5px; /* Avstand mellom tekst og strek */
+                border-bottom: 1px solid #7C7C7C; /* Strek under teksten */
+                width: 100%;
+            }
+
+        h2 img {
+            margin-left: 50px; /* Juster denne verdien for å flytte bildet lenger mot høyre */
+                    }
+
+        p2 {
+            font-size: 8px;
+            color: #7B807D8C;
         }
 
         p2 {
@@ -183,12 +234,34 @@
             line-height: 1.8;
         }
 
+        /* Legg til denne klassen for å øke avstanden */
+        .increased-margin {
+            margin-top: 15px; /* Juster denne verdien for å øke avstanden */
+        }
+
+
+        .edit-button {
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            width: 15px;
+            height: 15px;
+            margin-left: 5px;
+        }
+
+        .edit-button:hover {
+            background-color: transparent;
+        }   
+
         /*Bilde av Kartikus på Mine opplysninger*/
             .profile-info img {
                 border-radius: 50%;
-                width: 50px;
+                width: 55px;
                 height: 55px;
-                border: 1px solid #ccc;
+            border: 1px solid #1A3F71;
                 margin-right: 10px;
             }
 
@@ -197,14 +270,13 @@
             background-color: #ffffff; /* Bakgrunnsfarge for boksen */
             border: 1px solid #ccc; /* Farge og tykkelse på rammen */
             border-radius: 5px; /* Runde hjørner */
-            padding: 10px; /* Innvendig padding */
+            padding: 10px 10px 5px 10px; /* Justerer padding for å redusere avtand til bunnen */
             margin-bottom: 10px; /* Avstand mellom boksene */
             z-index: 1;
         }
 
         /*Strek under titlene*/
         .underline-text {
-            display: inline-block;
             padding-bottom: 5px; /* Avstand mellom tekst og strek */
             border-bottom: 1px solid #7C7C7C; /* Strek under teksten */
             width: 100%;
@@ -258,8 +330,8 @@
 
         /* Størrelse på pilen i knappen "Se alle henvendelser" */
         button img {
-            width: 15px; /* Sett ønsket bredde */
-            height: 15px; /* Sett ønsket høyde */
+            width: 20px; /* Sett ønsket bredde */
+            height: 20px; /* Sett ønsket høyde */
         }
 
                 .row{
@@ -283,6 +355,7 @@
                     width: 40%;
                     background-color:#D8E3F2;
                     font-size: 12px;
+                border-radius: 5px;
                 }
 
                 /* Middle column */
@@ -327,20 +400,19 @@
                 <div class="icon">
                     <img src="~/Images/Arkiv.png" alt="Arkiv">
                 </div>
-            <button onclick="redirectToArkiv()">ARKIV</button>
 
-                <div class="icon-container">
-                    <div class="icon">
-                        <img src="~/Images/Arbeidsbord.png" alt="Arbeidsbord">
-                    </div>
+            </div>
+            <button onclick="redirectToArkiv()">Arikv</button>
+
+            <div class="icon-container">
+                <div class="icon">
+                    <img src="~/Images/Arbeidsbord.png" alt="Arbeidsbord">
                 </div>
-            <button onclick="redirectToArbeidsbord()">ARBEIDSBORD</button>
+            </div>
+            <button onclick="redirectToArbeidsbord()">Arbeidsbord</button>
 
-            <a href="#" class="logout">Logg ut</a>
+                <button onclick="redirectToIndex()">Logg ut</button>
         </div>
-        </div>
-
-
         <div class="column left">
             <section class="new-requests">
                 <h2> <span class="underline-text">Nye henvendelser</span></h2> 
@@ -373,25 +445,32 @@
         </div>
         <div class="column middle">
             <section class="my-info">
-                <h2> <span class="underline-text">Mine opplysninger</span></h2>
-                <p class="profile-info"><img src="~/Images/Profilbilde.png" alt="Phone"><span class="underline-text">Sak Saksbehandler</span></p>
-                <div class="info">
-                    <p><strong>Ansatt ID:</strong> 12379</p>
-                    <p><strong>Ansatt:</strong> 1 år, 6 måneder</p>
-                    <p><strong>Kontaktinfo:</strong></p> 
-                        <div>
-                            <p1><img src="~/Images/Phone.png" alt="Phone"> +47 123 45 678</p1>
+                <h2>
+                    <span class="underline-text">
+                        Mine opplysninger        
+                        <button class="edit-button" onclick="redirectToSaksbehandlerRediger()">
+                            <img src="~/Images/Rediger.png" alt="Rediger">
+                        </button>
+                    </span>
+                </h2>
+                <p class="profile-info"><img src="~/Images/Profilbilde.png" alt="Phone"><span class="underline-text"> Sak Saksbehandler</span></p>
+                        <div class="info">
+                            <p class="increased-margin"><strong>Ansatt ID:</strong> 12379</p>
+                            <p class="increased-margin"><strong>Ansatt:</strong> 1 år, 6 måneder</p>
+                            <p class="increased-margin"><strong>Kontaktinfo:</strong></p>
+                            <div>
+                                <p1 class="increased-margin"><img src="~/Images/Phone.png" alt="Phone"> +47 123 45 678</p1>
+                            </div>
+                            <div>
+                                <p1 class="increased-margin"><img src="~/Images/Epost.png" alt="Epost">sak.saksbehandler@statkart.no</p1>
+                            </div>
+                            <p class="increased-margin"><strong>Adresse:</strong></p>
+                            <p1 class="increased-margin"><img src="~/Images/Home.png" alt="Home"> Hakkebakkeskogen 12, 1234 Kristiansand</p1>
+                            <p class="increased-margin"><strong>Fødselsdato:</strong></p>
+                            <p1 class="increased-margin"><img src="~/Images/Fødselsdato.png" alt="Fødselsdato"> 01.01.1999</p1>
+                            <p class="increased-margin"><strong>Lønnskonto:</strong></p>
+                            <p1 class="increased-margin"><img src="~/Images/Konto.png" alt="Konto"> 11223344556</p1>
                         </div>
-                        <div>
-                        <p1><img src="~/Images/Epost.png" alt="Epost"> sak.saksbehandler@statkart.no</p1>
-                        </div>
-                    <p><strong>Adresse:</strong></p> 
-                    <p1><img src="~/Images/Home.png" alt="Home"> Hakkebakkeskogen 12, 1234 Kristiansand</p1>
-                    <p><strong>Fødselsdato:</strong></p>
-                    <p1><img src="~/Images/Fødselsdato.png" alt="Fødselsdato"> 01.01.1999</p1>
-                    <p><strong>Lønnskonto:</strong></p>
-                    <p1><img src="~/Images/Konto.png" alt="Konto"> 11223344556</p1>
-                </div>
             </section>
         </div>
         <div class="column side">
@@ -422,6 +501,12 @@
             }
             function redirectToMineHenvendelser() {
                 window.location.href = "/Saksbehandler/MineHenvendelser";
+            }
+            function redirectToSaksbehandlerRediger() {
+            window.location.href = '@Url.Action("SaksbehandlerRediger", "Saksbehandler")';
+            }
+            function redirectToIndex() {
+                window.location.href = '@Url.Action("Index", "Home")';
             }
         </script>
     </div>
