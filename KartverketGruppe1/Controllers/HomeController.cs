@@ -217,6 +217,11 @@ namespace KartverketGruppe1.Controllers
             return View();
         }
 
+        public IActionResult Brukerinnmelding()
+        {
+            return View();
+        }
+
             
         
         // H�ndterer s�k etter Kommuneinformasjon
