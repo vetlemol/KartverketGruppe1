@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -18,82 +18,7 @@
        
 
 
-        /* Menybar til venstre, helt venstrestilt */
-        .side-navbar {
-            position: absolute; /* Fikserer menyen helt til venstre */
-            top: 66px;
-            left: 0;
-            width: 7%;
-            height: calc(100%); /* Full høyde på skjermen */
-            background-color: #D8E3F2; /* Lys blå bakgrunnsfarge */
-            padding: 0; /* Fjerner padding for at menyen skal starte fra venstre */
-            box-sizing: border-box;
-        }
-
-        .side-navbar ul {
-            list-style-type: none;
-            padding-top: 80px;
-            margin: 0;
-            width: 100%;
-            padding: 0;
-        }
-
-        .side-navbar a {
-            color: #1A3F71;
-            display: block;
-            padding: 0px;
-            text-decoration: none;
-            border-bottom: 1px solid #1A3F71;
-            width: 100%;
-            box-sizing: border-box;
-            margin-top: 2px;
-            margin-bottom: 60px;
-            text-align: center;
-            
-        }
-
-        .side-navbar a:hover {
-            background-color: #96B7D6; /* Mørkere blå ved hover */
-        }
-
-        .profile-image {
-    width: 50px; /* Juster størrelsen på bildet */
-    height: 55px; /* Juster størrelsen på bildet */
-    border-radius: 50%; /* Gjør bildet rundt */
-    margin-bottom: 2px; /* Legger til avstand under bildet */
-    border: 1px solid rgb(33, 40, 121);
-    text-align: center;
-    display:block;
-    margin: 60px  auto 2px auto;
-}
-   .profile-divider {
-    border: 0;
-    border-top: 1px solid rgb(33, 40 ,121); /* Blå farge og tykkelsen på streken */
-    margin-bottom: 60px; /* Juster avstanden over og under streken */
-    margin-top: 20px;
-    color: rgb(33, 40, 121);
-}
-
- .nav-icon {
-    width: 25px; /* Juster størrelsen på ikonene */
-    height: 25px; /* Juster størrelsen på ikonene */
-    margin-bottom: 5px; /* Legger til avstand under ikonene */
-    display: block;
-    margin: 0 auto; /* Sentrerer ikonene */
-}
-   .logout-button {
-        background-color: transparent; /* Gjør bakgrunnen gjennomsiktig */
-        border: none; /* Fjerner kantlinjen */
-        color: green; /* Setter tekstfargen til grønn */
-        font-size: 16px; /* Juster skriftstørrelsen */
-        cursor: pointer; /* Endrer musepekeren til en hånd for å indikere at det er klikkbart */
-        margin: 20px auto; /* Legger til avstand fra bunnen */
-        text-align: center;
-        cursor: pointer;
-        display: block;
-    }
-
-
+        
 
 
        .box-container {
@@ -432,15 +357,14 @@
 
         /* Blå container ved siden av menyen */
          .blue-container {
-            margin-left: 12%; /* Flytter containeren til høyre for menyen */
-            padding: 0px;
+           padding: 0px;
             padding-top: 15px;
             height: 100%; /* Full høyde på skjermen */
             background-color:#D8E3F2; /* Blå bakgrunn */
             color: white;
             // box-sizing: border-box;
             overflow-y: auto; /* Gjør at containeren kan scrolle om nødvendig */
-            width: 88%;
+            width: 100%;
             border: 1px solid #888888;
             border-radius: 10px;
             margin-top:40px;
@@ -476,36 +400,7 @@
 
 <!-- Container for meny og innhold -->
 <div>
-    <!-- Menybar til venstre -->
-    <nav class="side-navbar">
-        <ul>
-            
-            <li><img src="~/Images/Profilbilde.png" alt="" class="profile-image"></li> <!-- Legger til bildet her -->
-            <a href="#"> <br>
-            </a>
-            <!-- <hr class="profile-divider"> Legger til streken her 
-             </li>-->
-            <li>
-                <img src="~/Images/ClipboardIcon.png" alt="Mine hendelser" class="nav-icon">
-                <a href="/MineHendvelser">Mine<br>
-                 henvndelser<br></a>
-                 </li>
-            <li>
-                <img src="~/Images/FolderIcon.png" alt="Alle hendelser" class="nav-icon">
-                <a href="#">Alle<br>
-                 henvedelser<br> </a>
-                 </li>
-            <li>
-                 <img src="~/Images/Arkiv.png" alt="Arkiv" class="nav-icon">
-                <a href="/Saksbehandler/Arkiv">Arkiv</a>
-                </li>
-            <li>
-                <img src="~/Images/Arbeidsbord.png" alt="Arbeidsbord" class="nav-icon">
-                <a href="/Saksbehandler/Arbeidsbord">Arbeidsbord</a></li>
-        </ul>
-         <button class="logout-button">Logg ut</button> <!-- Legger til Logg ut-knappen her -->
-    </nav>
-
+   
     <!-- Blå container med bokser -->
     <div class="blue-container">
         <div class="content"></div>
@@ -529,26 +424,7 @@
                 <div class="extra-box4">
                     <p> Bilder.jpg</p>
                 </div>
-                <div class="extra-box5">
-                    <p> Kopier innmeldigen til:</p>
-                    <label for="dropdown"></label>
-                    <select id="dropdown" name="dropdown">
-                        <option value="option1">Bygg</option>
-                        <option value="option2">Eiendom</option>
-                        <option value="option3">Skog</option>
-                         <option value="option4">Bygg</option>
-                        <option value="option5">Den norske los</option>
-                        <option value="option6">DNT</option>
-                        <option value="option7">FKB</option>
-                        <option value="option8">Geolett</option>
-                        <option value="option9">Grunnvann</option>
-                        <option value="option10">Ruter</option>
-                         <option value="option11">Sjokart</option>
-                          <option value="option12">Stedsnavn</option>
-                           <option value="option13">Ut</option>
-                    </select>
-                    <button class="execute-button">Utfør</button>
-                </div>
+                
             </div>
 
             <div class="box">
@@ -605,21 +481,8 @@
                     <p> 
                     </p>
                 </div>
-                 <div class="extra-box10">
-                    <p> Tilbakemelding til innmelder:<br>           
-(Sendes når feilmelding avsluttes med statusendring) <br>   
-
-                    </p>
-                </div>
-                 <div class="extra-box12">
-        <label class="nynorsk-label">
-            <input type="checkbox" id="nynorsk-checkbox" onclick="toggleNynorsk()"> Bruk Nynorsk i tilbakemeldinger
-        </label>
-         </div>       
-     <div class="extra-box11">
-                    <p> 
-                    </p>
-                </div>
+                
+                
                 <div class="bottom-line"> 
                     <p class="contact-info">
                         Saksbehandler: Navn Etternavn (ID:1234), navnetternavn@statkart.no, 123 45 678(tlf)<br>
