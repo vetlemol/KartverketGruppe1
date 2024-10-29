@@ -4,6 +4,7 @@ using KartverketGruppe1.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KartverketGruppe1.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241029142408_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,7 +52,7 @@ namespace KartverketGruppe1.Migrations
 
                     b.Property<string>("Epost")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Etternavn")
                         .IsRequired()
@@ -73,9 +76,6 @@ namespace KartverketGruppe1.Migrations
                         .HasColumnType("longtext");
 
                     b.HasKey("BrukerID");
-
-                    b.HasIndex("Epost")
-                        .IsUnique();
 
                     b.ToTable("Bruker");
                 });
@@ -238,7 +238,7 @@ namespace KartverketGruppe1.Migrations
 
                     b.Property<string>("Epost")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Etternavn")
                         .IsRequired()
@@ -256,9 +256,6 @@ namespace KartverketGruppe1.Migrations
                         .HasColumnType("longblob");
 
                     b.HasKey("SaksbehandlerID");
-
-                    b.HasIndex("Epost")
-                        .IsUnique();
 
                     b.ToTable("Saksbehandler");
                 });

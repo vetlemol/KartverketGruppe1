@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KartverketGruppe1.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241024163912_AlleTables")]
-    partial class AlleTables
+    [Migration("20241029145238_updateTo")]
+    partial class updateTo
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -98,7 +98,6 @@ namespace KartverketGruppe1.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<byte[]>("Dokumentasjon")
-                        .IsRequired()
                         .HasColumnType("longblob");
 
                     b.Property<string>("Gjest_epost")
@@ -108,7 +107,8 @@ namespace KartverketGruppe1.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("KommuneID")
+                    b.Property<int?>("KommuneID")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<int?>("KoordinatID")
@@ -177,7 +177,7 @@ namespace KartverketGruppe1.Migrations
 
                     b.HasKey("KoordinatID");
 
-                    b.ToTable("koordinat");
+                    b.ToTable("Koordinat");
                 });
 
             modelBuilder.Entity("KartverketGruppe1.Data.Meldinger", b =>
@@ -231,11 +231,9 @@ namespace KartverketGruppe1.Migrations
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("SaksbehandlerID"));
 
                     b.Property<string>("Ansvarsområde")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Avdeling")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Epost")
@@ -253,6 +251,9 @@ namespace KartverketGruppe1.Migrations
                     b.Property<string>("Passord")
                         .IsRequired()
                         .HasColumnType("longtext");
+
+                    b.Property<byte[]>("Profilbilde")
+                        .HasColumnType("longblob");
 
                     b.HasKey("SaksbehandlerID");
 

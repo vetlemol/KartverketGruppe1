@@ -11,9 +11,9 @@ namespace KartverketGruppe1.Data
         public string Innmeldingsbeskrivelse { get; set; }
         [Required]
         public DateTime Dato { get; set; }
-        public byte[] Dokumentasjon { get; set; }
+        public byte[]? Dokumentasjon { get; set; }
         [Required]
-        public int KommuneID { get; set; }
+        public int? KommuneID { get; set; }
         [Required]
         public int AvvikstypeID { get; set; }
         public int? BrukerID { get; set; }

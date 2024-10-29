@@ -7,25 +7,13 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace KartverketGruppe1.Migrations
 {
     /// <inheritdoc />
-    public partial class AlleTables : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.RenameColumn(
-                name: "Saksbehandler_ID",
-                table: "Saksbehandler",
-                newName: "SaksbehandlerID");
-
-            migrationBuilder.RenameColumn(
-                name: "Koordinat_ID",
-                table: "koordinat",
-                newName: "KoordinatID");
-
-            migrationBuilder.RenameColumn(
-                name: "Kommune_ID",
-                table: "Kommune",
-                newName: "KommuneID");
+            migrationBuilder.AlterDatabase()
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "Avvikstype",
@@ -68,6 +56,37 @@ namespace KartverketGruppe1.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "Kommune",
+                columns: table => new
+                {
+                    KommuneID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Kommunenavn = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Kommunenummer = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Kommune", x => x.KommuneID);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Koordinat",
+                columns: table => new
+                {
+                    KoordinatID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Koordinater = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Koordinat", x => x.KoordinatID);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "Prioritet",
                 columns: table => new
                 {
@@ -79,6 +98,32 @@ namespace KartverketGruppe1.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Prioritet", x => x.PrioritetID);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Saksbehandler",
+                columns: table => new
+                {
+                    SaksbehandlerID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Fornavn = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Etternavn = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Epost = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Ansvarsområde = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Avdeling = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Passord = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Profilbilde = table.Column<byte[]>(type: "longblob", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Saksbehandler", x => x.SaksbehandlerID);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -106,7 +151,7 @@ namespace KartverketGruppe1.Migrations
                     Innmeldingsbeskrivelse = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Dato = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    Dokumentasjon = table.Column<byte[]>(type: "longblob", nullable: false),
+                    Dokumentasjon = table.Column<byte[]>(type: "longblob", nullable: true),
                     KommuneID = table.Column<int>(type: "int", nullable: false),
                     AvvikstypeID = table.Column<int>(type: "int", nullable: false),
                     BrukerID = table.Column<int>(type: "int", nullable: true),
@@ -138,6 +183,12 @@ namespace KartverketGruppe1.Migrations
                         principalColumn: "KommuneID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
+                        name: "FK_Innmelding_Koordinat_KoordinatID",
+                        column: x => x.KoordinatID,
+                        principalTable: "Koordinat",
+                        principalColumn: "KoordinatID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_Innmelding_Prioritet_PrioritetID",
                         column: x => x.PrioritetID,
                         principalTable: "Prioritet",
@@ -152,12 +203,6 @@ namespace KartverketGruppe1.Migrations
                         column: x => x.StatusID,
                         principalTable: "Status",
                         principalColumn: "StatusID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Innmelding_koordinat_KoordinatID",
-                        column: x => x.KoordinatID,
-                        principalTable: "koordinat",
-                        principalColumn: "KoordinatID",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -242,25 +287,19 @@ namespace KartverketGruppe1.Migrations
                 name: "Bruker");
 
             migrationBuilder.DropTable(
+                name: "Kommune");
+
+            migrationBuilder.DropTable(
+                name: "Koordinat");
+
+            migrationBuilder.DropTable(
                 name: "Prioritet");
 
             migrationBuilder.DropTable(
+                name: "Saksbehandler");
+
+            migrationBuilder.DropTable(
                 name: "Status");
-
-            migrationBuilder.RenameColumn(
-                name: "SaksbehandlerID",
-                table: "Saksbehandler",
-                newName: "Saksbehandler_ID");
-
-            migrationBuilder.RenameColumn(
-                name: "KoordinatID",
-                table: "koordinat",
-                newName: "Koordinat_ID");
-
-            migrationBuilder.RenameColumn(
-                name: "KommuneID",
-                table: "Kommune",
-                newName: "Kommune_ID");
         }
     }
 }

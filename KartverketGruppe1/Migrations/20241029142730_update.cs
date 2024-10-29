@@ -5,7 +5,7 @@
 namespace KartverketGruppe1.Migrations
 {
     /// <inheritdoc />
-    public partial class Kommune : Migration
+    public partial class update : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
