@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>@ViewData["Title"]</title>
+
+    <!-- CSS-stiler -->
+    <style>
+        /* Fjerner marginer og padding fra både body og html for å sikre at menyen er helt venstrestilt */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+           
+        }
+
+
+       
+
+
+        
+
+
+       .box-container {
+            display: flex; /* Bruker flexbox for å legge boksene ved siden av hverandre */
+            gap: 5px; /* Avstand mellom boksene */
+            height: 80%;
+            left: 0;
+            position: relative; /* Gjør det mulig å plassere linjen absolutt i forhold til .box-container */
+            
+        }
+
+         .box {
+            flex: 1 1 calc(33%); /* Boksene vil ta lik plass ved siden av hverandre */
+            min-width: 30%; /* Minste bredde for hver boks */
+            background-color: #D8E3F2;
+            padding: 60px;
+            box-sizing: border-box;
+            color: rgb(16, 15, 15);
+            border-radius: 5px;
+        }
+
+       
+
+
+ 
+
+.bottom-line {
+    position: absolute;
+    bottom: 0px;
+    left: 0;
+    width: 100%;
+    border-top: 1px solid #888888; /* Fargen og tykkelsen på streken */
+}
+
+    .contact-info {
+        font-size: 12px; /* Gjør teksten liten */
+        color: #000; /* Farge på teksten */
+        margin-top: 2px; /* Juster avstanden til linjen over */
+        margin-left: 60px;
+    }
+
+    .send-email {
+    color: #0068CB; /* Blå farge */
+    font-weight: bold;
+    position: absolute;
+    top: 20px;
+    right: 0;
+    cursor: pointer; /* Endrer musepekeren til en hånd for å indikere at det er klikkbart */
+    margin-right: 60px;
+}
+
+
+        .extra-box {
+            background-color: white; /* Ny bakgrunnsfarge for ekstraboksen */
+            padding: 20px;
+            border-radius: 10px;
+            color: #808080;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+        }
+
+        .extra-box2 {
+            background-color: #D8E3F2; /* Ny bakgrunnsfarge for ekstraboksen */
+            padding: 5px 20px 20px 6px;
+            border-radius: 10px;
+            color: #030303;
+            margin-bottom: 20px;
+            height: 150px;
+        }
+
+        .extra-box2 p {
+            display: block; /* Sørger for at hvert element vises på en ny linje */
+        }
+
+        .extra-box3 {
+            background-color: #D8E3F2; /* Ny bakgrunnsfarge for ekstraboksen */
+            padding: 5px 20px 20px 6px;
+            border-radius: 10px;
+            color: #0b0b0b;
+            margin-bottom: 5px;
+            height: 40px;
+            line-height: 1.5;
+            white-space: ellipsis;
+            margin-top: 50px;
+        }
+
+        .extra-box4 {
+            background-color: white; /* Ny bakgrunnsfarge for ekstraboksen */
+            padding: 2px 10px;
+            border-radius: 5px;
+            color: #5979b5;
+            margin-bottom: 20px;
+            height: 30px;
+            line-height: 1.1;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .extra-box5 {
+            background-color: white; /* Ny bakgrunnsfarge for ekstraboksen */
+            padding: 2px 10px;
+            border-radius: 5px;
+            color: #070707;
+            margin-bottom: 20px;
+            height: 120px;
+            line-height: 1.1;
+            margin-top: 20px;
+            border: 1px solid #ccc;
+        }
+
+       
+
+
+        .extra-box5 select {
+            margin-top: 10px; /* Legger til litt plass over rullegardinmenyen */
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .execute-button {
+        padding: 5px 10px;
+        border-radius: 5px;
+        border: none;
+        background-color:white;
+        color: #0068CB;
+        cursor: pointer;
+    }
+
+    .execute-button:hover {
+        background-color: #4a7ba0; /* Mørkere blå ved hover */
+
+    }
+
+ .extra-box6 {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        border-bottom: 1px solid #7C7C7C;
+        padding-bottom: 20px;
+        justify-content: flex-start;
+        line-height: 1;
+        position: relative;
+        padding-top: 0;
+    }
+
+    .dropdown-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: -95px;
+    }
+
+    .extra-box6 select {
+        padding: 5px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        width: 200px;
+    }
+
+    .extra-box7 {
+            background-color: #D8E3F2; /* Ny bakgrunnsfarge for ekstraboksen */
+            padding: 2px 10px;
+            border-radius: 5px;
+            color: #070707;
+            margin-bottom: 20px;
+            height: 80px;
+            line-height: 1.1;
+            margin-top: 60px;
+    }
+
+          .extra-box8 {
+            background-color: #D8E3F2; /* Ny bakgrunnsfarge for ekstraboksen */
+            padding: 2px 10px;
+            border-radius: 5px;
+            color: #070707;
+            margin-bottom: 20px;
+            height: 80px;
+            line-height: 1.1;
+            margin-top: 20px;
+        }
+
+        .extra-box9 {
+            background-color: white; /* Ny bakgrunnsfarge for ekstraboksen */
+            padding: 2px 10px;
+            border-radius: 5px;
+            color: #070707;
+            margin-bottom: 20px;
+            height: 150px;
+            line-height: 1.1;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+        }
+        .extra-box10 {
+            background-color: #D8E3F2; /* Ny bakgrunnsfarge for ekstraboksen */
+            padding: 2px 10px;
+            border-radius: 5px;
+            color: #070707;
+            margin-bottom: 20px;
+            height: 80px;
+            line-height: 1.1;
+            margin-top: 20px;
+        }
+        .extra-box11 {
+            background-color: white; /* Ny bakgrunnsfarge for ekstraboksen */
+            padding: 2px 10px;
+            border-radius: 5px;
+            color: #070707;
+            margin-bottom: 20px;
+            height: 150px;
+            line-height: 1.1;
+            margin-top: 20px;
+            border: 1px solid #ccc;
+        }
+          /* Knapp-container */
+        .button-container {
+            display: flex;
+            justify-content: flex-end;
+            gap: 2%;
+            margin-top: 2%;
+            margin-right: 6%;
+        }
+
+        .button-container button {
+            padding: 1% 2%;
+            border-radius: 5px;
+            border: none;
+            background-color: #5a8cba;
+            color: black;
+            cursor: pointer;
+            width: 5%;
+        }
+
+         .button1 {
+        background-color: #c96767;
+        color: rgb(15, 15, 15);
+        width: 15%;
+        height: 10%;
+        border-radius: 10px;
+        border: 1px solid #888888;
+         align-items: center;
+        justify-content: center;
+        display: flex;
+        margin-bottom: 60px;
+        
+        
+    }
+
+    .button1:hover {
+        background-color: #c64747; /* Mørkere blå ved hover */
+    }
+
+    .button2 {
+        background-color: #eae6e5;
+        color: black;
+        width: 15%;
+        height: 10%;
+        border-radius: 10px;
+        border:1px solid #888888;
+        align-items: center;
+        justify-content: center;
+         display: flex;
+         margin-bottom: 60px;
+
+
+    }
+
+    .button2:hover {
+        background-color: #c3c2bf; /* Mørkere oransje ved hover */
+    }
+
+    .button3 {
+        background-color: #8fc59b;
+        color: black;
+        width: 15%;
+        height: 10%;
+        border-radius: 10px;
+        border:1px solid #888888;
+         align-items: center;
+        justify-content: center;
+         display: flex;
+         margin-bottom: 60px;
+    }
+
+    .button3:hover {
+        background-color: #25906b; /* Mørkere grønn ved hover */
+    } 
+
+    .nynorsk-label {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Juster avstanden mellom avkrysningsboksen og teksten */
+    margin-top: 10px; /* Juster denne verdien for å flytte avkrysningsboksen høyere opp */
+}
+
+.nynorsk-label input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+}
+
+
+
+    .underline-text {
+    display: inline-block;
+    padding-bottom: 5px; /* Avstand mellom tekst og strek */
+    border-bottom: 1px solid #7C7C7C; /* Strek under teksten */
+    width: 100%;
+
+}
+
+.kart-link {
+    color: #0068CB; /* Blå farge */
+    font-weight: bold;
+    margin-bottom: 0px; /* Juster avstanden til elementet under */
+    margin-top: 10px;
+}
+
+.endre-link {
+    color: #0068CB; /* Blå farge */
+    font-weight: bold;
+    cursor: pointer; /* Endrer musepekeren til en hånd for å indikere at det er klikkbart */
+    margin-top: 10px; /* Juster avstanden til elementet over */
+    text-align: right;
+}
+
+.endre-link, .ny-kommentar-link {
+    color: #0068CB; /* Blå farge */
+    font-weight: bold;
+    cursor: pointer; /* Endrer musepekeren til en hånd for å indikere at det er klikkbart */
+    text-align: right; /* Høyrestiller teksten */
+    margin-top: 10px; /* Juster avstanden til elementet over */
+}
+
+ 
+   
+
+        /* Blå container ved siden av menyen */
+         .blue-container {
+           padding: 0px;
+            padding-top: 15px;
+            height: 100%; /* Full høyde på skjermen */
+            background-color:#D8E3F2; /* Blå bakgrunn */
+            color: white;
+            // box-sizing: border-box;
+            overflow-y: auto; /* Gjør at containeren kan scrolle om nødvendig */
+            width: 100%;
+            border: 1px solid #888888;
+            border-radius: 10px;
+            margin-top:40px;
+        }
+
+        /*.content {
+            transform: scale(0.6); /* Zoomer ut innholdet til 90% */
+            transform-origin: top left; /* Setter opprinnelse for skalering til øverste venstre hjørne */
+            width: 100%; /* Sørger for at bredden på innholdet er 100% */
+            overflow: hidden; /* Hindrer rulling av innholdet */
+        }
+       .content {
+            margin-left: 160px; /* Gir plass til side-navbar */
+            margin-top: 66px; /* Gir plass til top-bar */
+            height: calc(100% - 66px); /* Full høyde minus top-bar */
+            overflow-y: auto; /* Rulling hvis innholdet er for langt */
+            background-color: #F0F0F0; /* Lys grå bakgrunn */
+            padding: 15px; /* Juster padding om nødvendig */
+            transform: scale(0.75); /* Zoomer innholdet ut (75%) */
+            transform-origin: top left; /* Setter transformasjonsopprinnelse */
+            width: 133.33%; /* Øker bredden for å kompensere for skalering */
+            height: calc(100% / 0.75); /* Øker høyden for å kompensere for skalering */
+        }
+
+    
+}
+
+
+
+    </style>
+</head>
+<body>
+
+<!-- Container for meny og innhold -->
+<div>
+   
+    <!-- Blå container med bokser -->
+    <div class="blue-container">
+        <div class="content"></div>
+        <div class="box-container"> 
+            <div class="box">
+                <h3> <span class="underline-text">Innmelding info</span></h3>
+            <div class="extra-box">
+                    <p> Tekst: Her skal det være masse info om hva aviket er.</p>
+                </div>
+                <div class="extra-box2">
+                    <p> ID:<br>
+                        Kilde:<br>
+                        Dato:<br>
+                        Sist endret:<br>
+                        Kommune:<br>
+                    </p>
+                </div>
+                <div class="extra-box3">
+                    <p> Vedlegg:</p>
+                </div>
+                <div class="extra-box4">
+                    <p> Bilder.jpg</p>
+                </div>
+                
+            </div>
+
+            <div class="box">
+                <h3> <span class="underline-text">Innmelding behandlig</span></h3>
+                <div class="extra-box6">
+                     <label for="dropdown1">Produktnavn:</label>
+                    <select id="dropdown1" name="dropdown1">
+                        <option value="option1">Bygg</option>
+                        <option value="option2">Den norske los</option>
+                        <option value="option3">DNT</option>
+                        <option value="option4">FKB</option>
+                        <option value="option5">Geolett</option>
+                        <option value="option6">Grunnvann</option>
+                        <option value="option7">Ruter</option>
+                         <option value="option8">Sjokart</option>
+                          <option value="option9">Stedsnavn</option>
+                           <option value="option10">Ut</option>
+
+                    </select>
+                    <label for="dropdown2">Prioritering:</label>
+                    <select id="dropdown2" name="dropdown2">
+                        <option value="option1">Vanlig prioritet</option>
+                        <option value="option2">Prioritet</option>
+                        <option value="option3">lav prioritet</option>
+                    </select>
+                    <label for="dropdown3">Status:</label>
+                    <select id="dropdown3" name="dropdown3">
+                        <option value="option1">Ikke påbegynt</option>
+                        <option value="option2">Under behandlig</option>
+                        <option value="option3">Behandlet</option>
+                         <option value="option4">Behandlet uten tilbakemelding</option>
+                          <option value="option5">Under behandlig</option>
+                    </select>
+                </div>
+                <div class="extra-box7">
+                    <p> 
+                        Saksbehandler:    Navn Etternavn
+                    </p>
+                     <p class="endre-link">Endre...</p> <!-- Legger til teksten her -->
+                </div>
+                <div class="extra-box8">
+                    <p> Kommentar:<br>
+                        Ingen kommentarer..<br>
+                    </p>
+                    <p class="ny-kommentar-link">Ny kommentar...</p> <!-- Legger til teksten her -->
+                </div>
+               
+            </div>
+
+            <div class="box">
+                <h3> <span class="underline-text">Kartutsnitt</span></h3>
+                 <p class="kart-link">Se kart i eget vindu</p> <!-- Legger til teksten her -->
+                 <div class="extra-box9">
+                    <p> 
+                    </p>
+                </div>
+                
+                
+                <div class="bottom-line"> 
+                    <p class="contact-info">
+                        Saksbehandler: Navn Etternavn (ID:1234), navnetternavn@statkart.no, 123 45 678(tlf)<br>
+                        Innmelder: Navn Etternavn (ID:1234), navnetternavn@mail.no, 123 45 678(tlf)<br>
+                        <span class="send-email">Send henvendelse som e-post</span> <!-- Legger til teksten her -->
+                    </p>
+                </div> <!-- Legger til linjen her -->
+                
+               
+</div>
+
+
+<script>
+    function toggleNynorsk() {
+        var checkbox = document.getElementById('nynorsk-checkbox');
+        if (checkbox.checked) {
+            alert('Nynorsk valgt for tilbakemeldinger');
+        } else {
+            alert('Nynorsk ikke valgt for tilbakemeldinger');
+        }
+    }
+</script>
+               
+               
+                </div>
+               
+            </div>
+        </div> 
+    </div>
+</div>
+ <!-- Knapp-container -->
+<div class="button-container">
+    <div class="button1">
+        <p>Slett</p>
+    </div>
+     <div class="button2">
+        <p>Lukk</p>
+    </div>
+     <div class="button3">
+        <p>Lagre</p>
+    </div> 
+</div>
+
+</div>
+
+
+</body>
+</html>
