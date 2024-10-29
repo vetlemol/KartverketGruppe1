@@ -101,6 +101,14 @@
 
 <div class="map-container">
     <div class="sidebar">
+
+        @* <form id="avvikForm" asp-action="KartInnmelding" asp-controller="Home" method="post">
+        <input type="hidden" asp-for="InnmeldingID" />
+        <input type="hidden" asp-for="BrukerID" />
+        <input type="hidden" asp-for="Dato" value="@DateTime.Now" />
+        <input type="hidden" asp-for="Koordinater" id="Koordinater" />
+        </form> *@
+
         <div class="search-panel">
             <h3>Søk</h3>
             
@@ -117,6 +125,14 @@
             <select class="form-control">
                 <option>Velg type avvik</option>
             </select>
+
+            @* <div class="form-group">
+                <label asp-for="AvviksTypeID">Type avvik</label>
+                <select asp-for="AvviksTypeID" asp-items="ViewBag.AvviksType" class="form-control">
+                    <option value="5">Velg type avvik</option>
+                </select>
+            </div> *@
+
 
             <h3>Beskriv avvik</h3>
             <textarea class="form-control" rows="4"></textarea>

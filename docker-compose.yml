@@ -4,7 +4,7 @@ services:
     container_name: mariadbKartverket
     environment:
       MYSQL_ROOT_PASSWORD: test123
-      MYSQL_DATABASE: kartverket
+      MYSQL_DATABASE: kartverketgruppe1
       MYSQL_USER: root
       MYSQL_PASSWORD: test123
     ports:
@@ -24,7 +24,7 @@ services:
     depends_on:
       - mariadb
     environment:
-     ConnectionStrings__DefaultConnection: "Server=mariadb;Database=kartverket;User=root;Password=test123;"
+     ConnectionStrings__DefaultConnection: "Server=mariadb;Database=kartverketgruppe1;User=root;Password=test123;"
     networks:
       - backend
 
