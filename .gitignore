@@ -360,6 +360,8 @@ MigrationBackup/
 .ionide/
 
 # Fody - auto-generated XML schema
-FodyWeavers.xsd.DS_Store
-.DS_Store
-.DS_Store
+FodyWeavers.xsd
+
+
+# Ignorere .DS_Store filer
+*.DS_Store

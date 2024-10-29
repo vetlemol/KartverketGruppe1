@@ -9,7 +9,6 @@ namespace KartverketGruppe1.Data
 
         [Required]
         public string Innmeldingsbeskrivelse { get; set; }
-        public int? KommentarID { get; set; }
         [Required]
         public DateTime Dato { get; set; }
         public byte[] Dokumentasjon { get; set; }
@@ -25,8 +24,7 @@ namespace KartverketGruppe1.Data
         public int? KoordinatID { get; set; }
         public int? PrioritetID { get; set; }
         public int? SaksbehandlerID { get; set; }
-
-        public Kommentar Kommentar { get; set; } 
+ 
         public Koordinat Koordinat { get; set; } 
         public Prioritet Prioritet { get; set; } 
         public Status Status { get; set; } 

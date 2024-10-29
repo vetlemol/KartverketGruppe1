@@ -7,8 +7,7 @@
     <link rel="stylesheet" href="styles.css">
     <style>
 
-                body, html
-                        {
+        body, html {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -24,7 +23,7 @@
             height: 100vh;
         }
 
-            .map-container {
+          .map-container {
                 display: flex;
                 height: calc(100vh - 60px); /* Justert for navbar */
                 width: 100%;
@@ -33,85 +32,185 @@
                 left: 0;
             }
 
-            .sidebar {
-                width: 100px;
-                background-color: #f0f4f8;
-                padding: 0px;
-                overflow-y: auto;
-                text-decoration: none;
-                font-size: 10px;
-                position: fixed;
-                top: 66px;
-                height: calc(100% - 66px);
+           .sidebar {
+            width: 100px;
+            background-color: #D8E3F2;
+            padding: 0px;
+            overflow-y: auto;
+            text-decoration: none;
+            font-size:10px;
+            position: fixed;
+            top: 66px;
+            height: calc(100% - 66px);
+            left: 0px;
+            align-items: center;
+            display: flex;
+            flex-direction: column;
             }
 
             .sidebar button {
-                    background-color: #65C28B;
-                    color: white;
-                    padding: 0px;
+                background-color: transparent;
+                color: #1A3F71;
+                padding: 20px;
+                font-size: 10px;
+            }
+
+            .sidebar button {
+                    background-color: #D8E3F2;
+                    color: #1A3F71;
+                    padding: 15px;
                     border: none;
                     border-radius: 5px;
                     cursor: pointer;
                     width: 100%;
                     font-size: 10px;
+                    margin-bottom: 20px;
+                    border-bottom: 1px solid #ccc;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+            }
+
+            .sidebar button:hover{
+                    background-color: #D8E3F2;
             }
 
             .map-content {
                 flex: 1;
                 position: relative;
-                background-color: #e5e5e5;
+            background-color: #D8E3F2;
             }
+
+            .profile-pic {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px; /* Juster denne verdien for å flytte bildet lenger ned */
+        margin-bottom: 20px;
+    }
 
         .profile-pic img {
             border-radius: 50%;
             width: 50px;
-            height: 50px;
+            height: 55px;
+            border: 1px solid #ccc;
         }
 
 
         .logout {
             margin-top: auto;
             text-decoration: none;
-                color: #1A833B;
+            color: #1A833B;
             font-weight: bold;
+            justify-content: center;
+            align-items: center;
+            font-size: 10px;
         }
 
+        .icon-container {
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            margin-bottom: 3px; /* Mellomrom mellom ikon og tekst */
+        }
+
+        .icon-container img {
+            width: 25px;
+            height: 25px;
+            justify-content: center;
+            border: 1px solid #D8E3F2;
+        }
 
         h2 {
             font-size: 1.5em;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+        }
+
+        p2 {
+            font-size: 8px;
+            color: #7B807D8C;
         }
 
             .new-requests {
-                background-color: white;
-                padding: 20px;
+            background-color: #D8E3F2;
+                padding: 5px;
                 margin-bottom: 20px;
-                border-radius: 8px;
-                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                border-radius: 5px;
+                /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
             }
 
             .my-info, .notifications {
-                background-color: transparent; /* Fjern bakgrunnsfarge */
-                padding: 0; /* Fjern padding */
-                margin-bottom: 0; /* Fjern margin */
-                border-radius: 0; /* Fjern border-radius */
-                box-shadow: none; /* Fjern box-shadow */
+                background-color: transparent; 
+                padding: 10px; 
+                margin-bottom: 10px; 
+                border-radius: 5px; 
+                box-shadow: none; 
             }
 
             .request-list .request {
+            background-color: #FFFFFF;
                 display: flex;
                 justify-content: space-between;
-                padding: 10px 0;
+                padding: 10px;
                 border-bottom: 1px solid #ddd;
             }
 
-        .request-list .request {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid #ddd;
+        /* Størrelse på ikoner i nye henvendelser */
+        .new-requests .request img {
+            width: 20px;
+            height: 20px;
         }
 
+        /* Størrelse på ikoner i Mine opplysninger */
+        .my-info img {
+            width: 15px;
+            height: 15px;
+        }
+
+        /* Størrelse på ikoner i varslinger */
+        .notifications .notification-list img {
+            width: 15px;
+            height: 15px;
+            margin-right: 10px;
+        }
+
+        /*Mine opplysninger*/
+        .profile-info {
+            font-size: 16px; /* Juster denne verdien for å endre tekststørrelsen */
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+            margin-bottom: 10px; /* Juster avstanden under teksten */
+            line-height: 1.8;
+        }
+
+        /*Bilde av Kartikus på Mine opplysninger*/
+            .profile-info img {
+                border-radius: 50%;
+                width: 50px;
+                height: 55px;
+                border: 1px solid #ccc;
+                margin-right: 10px;
+            }
+
+        /* Boks rundt hver henvendelse i "Nye henvendelser" */
+        .request {
+            background-color: #ffffff; /* Bakgrunnsfarge for boksen */
+            border: 1px solid #ccc; /* Farge og tykkelse på rammen */
+            border-radius: 5px; /* Runde hjørner */
+            padding: 10px; /* Innvendig padding */
+            margin-bottom: 10px; /* Avstand mellom boksene */
+            z-index: 1;
+        }
+
+        /*Strek under titlene*/
+        .underline-text {
+            display: inline-block;
+            padding-bottom: 5px; /* Avstand mellom tekst og strek */
+            border-bottom: 1px solid #7C7C7C; /* Strek under teksten */
+            width: 100%;
+        }
+
+        /*"Se alle henvendelser" knapp*/
         button {
             background-color: #00b33c;
             color: white;
@@ -119,14 +218,17 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 1em;
+            font-size: 12px;
+            width: 100%;
+            display: flex-start;
         }
 
             button:hover {
-                    background-color: #58a77b;
+                background-color: #58a77b;
             }
 
         .info p, .notification-list p {
+            display: flex;
             margin-bottom: 10px;
         }
 
@@ -139,41 +241,54 @@
                 text-decoration: underline;
             }
 
-            .form-container button {
-                background-color: #65C28B;
-                color: white;
-                padding: 12px;
-                border: none;
-                border-radius: 5px;
-                cursor: pointer;
-                width: 100%;
-                font-size: 16px;
-            }
+       /*  .form-container button {
+            background-color: #65C28B;
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 14px;
+        } */
 
-                .form-container button:hover {
+           /*  .form-container button:hover {
                     background-color: #58a77b;
-                }
+                } */
+
+        /* Størrelse på pilen i knappen "Se alle henvendelser" */
+        button img {
+            width: 15px; /* Sett ønsket bredde */
+            height: 15px; /* Sett ønsket høyde */
+        }
 
                 .row{
                     display: flex;
-                    width: 100%;
+                    width: 80%;
                 }
 
             /* Create three unequal columns that floats next to each other */
             .column {
                 float: left;
-                padding: 10px;
-                height: 300px; /* Should be removed. Only for demonstration */
+                padding: 5px;
+                margin-left: 50px;
             }
-
-                /* Left and right column */
+                
                 .column.side {
-                    width: 30%;
+                    width: 45%;
+                    font-size: 12px;
+                }
+
+                .column.left {
+                    width: 40%;
+                    background-color:#D8E3F2;
+                    font-size: 12px;
                 }
 
                 /* Middle column */
                 .column.middle {
-                    width: 40%;
+                    width: 35%;
+                    font-size: 12px;    
                 }
 
     </style>
@@ -194,29 +309,57 @@
             <li><a href="#">Arbeidsbord</a></li>
             </ul>
             </nav> *@
-            <button id="go-back">Mine henvendelser</button>
-            <button id="go-back">Alle henvendelser</button>
-            <button id="go-back">Arkiv</button>
-            <button id="go-back">Arbeidsbord</button>
+            <div class="icon-container">
+                <div class="icon">
+            <img src="~/Images/ClipboardIcon.png" alt="Mine henvendelser">
+        </div>
+        </div>
+            <button onclick="redirectToMineHenvendelser()">MINE HENVENDELSER</button>
+
+            <div class="icon-container">
+                <div class="icon">
+                    <img src="~/Images/FolderIcon.png" alt="Alle henvendelser">
+                </div>
+            </div>
+            <button onclick="redirectToAlleHenvendelser()">ALLE HENVENDELSER</button>
+
+            <div class="icon-container">
+                <div class="icon">
+                    <img src="~/Images/Arkiv.png" alt="Arkiv">
+                </div>
+            <button onclick="redirectToArkiv()">ARKIV</button>
+
+                <div class="icon-container">
+                    <div class="icon">
+                        <img src="~/Images/Arbeidsbord.png" alt="Arbeidsbord">
+                    </div>
+                </div>
+            <button onclick="redirectToArbeidsbord()">ARBEIDSBORD</button>
+
             <a href="#" class="logout">Logg ut</a>
         </div>
-        <div class="column side">
+        </div>
+
+
+        <div class="column left">
             <section class="new-requests">
-                <h2>Nye henvendelser</h2>
+                <h2> <span class="underline-text">Nye henvendelser</span></h2> 
                 <div class="request-list">
                     <div class="request">
+                        <img src="~/Images/Utropstegn.png" alt="Utropstegn">
                         <p>Kristiansand, Agder</p>
-                        <p>Type</p>
+                        <p>Type</p> 
                         <p>01.10.2024</p>
                     </div>
                     <div class="request">
-                        <p>Kristiansand, Agder</p>
-                        <p>Type</p>
+                        <img src="~/Images/Utropstegn.png" alt="Utropstegn">
+                        <p>Kristiansand, Agder</p> 
+                        <p>Type</p> 
                         <p>01.10.2024</p>
                     </div>
                     <div class="request">
-                        <p>Kristiansand, Agder</p>
-                        <p>Type</p>
+                        <p>Kristiansand, Agder</p> 
+                        <p>Type</p> 
                         <p>01.10.2024</p>
                     </div>
                     <div class="request">
@@ -225,34 +368,62 @@
                         <p>01.10.2024</p>
                     </div>
                 </div>
-                <button>Se alle henvendelser</button>
+                <button onclick="redirectToAlleHenvendelser()">Se alle henvendesler <img src="~/Images/PilHvit.png" alt="Pil"></button>
             </section>
         </div>
         <div class="column middle">
             <section class="my-info">
-                <h2>Mine opplysninger</h2>
+                <h2> <span class="underline-text">Mine opplysninger</span></h2>
+                <p class="profile-info"><img src="~/Images/Profilbilde.png" alt="Phone"><span class="underline-text">Sak Saksbehandler</span></p>
                 <div class="info">
-                    <p><strong>Ansett ID:</strong> 12379</p>
-                    <p><strong>Ansett:</strong> 1 år, 6 måneder</p>
-                    <p><strong>Telefon:</strong> +47 123 45 678</p>
-                    <p><strong>E-post:</strong> sak.saksbehandler@statkart.no</p>
-                    <p><strong>Adresse:</strong> Hakkebakkeskogen 12, 1234 Kristiansand</p>
-                    <p><strong>Fødselsdato:</strong> 01.01.1999</p>
-                    <p><strong>Lønnskonto:</strong> 11223344556</p>
+                    <p><strong>Ansatt ID:</strong> 12379</p>
+                    <p><strong>Ansatt:</strong> 1 år, 6 måneder</p>
+                    <p><strong>Kontaktinfo:</strong></p> 
+                        <div>
+                            <p1><img src="~/Images/Phone.png" alt="Phone"> +47 123 45 678</p1>
+                        </div>
+                        <div>
+                        <p1><img src="~/Images/Epost.png" alt="Epost"> sak.saksbehandler@statkart.no</p1>
+                        </div>
+                    <p><strong>Adresse:</strong></p> 
+                    <p1><img src="~/Images/Home.png" alt="Home"> Hakkebakkeskogen 12, 1234 Kristiansand</p1>
+                    <p><strong>Fødselsdato:</strong></p>
+                    <p1><img src="~/Images/Fødselsdato.png" alt="Fødselsdato"> 01.01.1999</p1>
+                    <p><strong>Lønnskonto:</strong></p>
+                    <p1><img src="~/Images/Konto.png" alt="Konto"> 11223344556</p1>
                 </div>
             </section>
         </div>
         <div class="column side">
             <section class="notifications">
-                <h2>Varslinger</h2>
+                <h2> <span class="underline-text">Varslinger</span></h2>
                 <div class="notification-list">
-                    <p>Nye endringer i ID: <a href="#">123-25</a> er registrert</p>
-                    <p>Ola Nordmann la deg til i feilmeldingskopi i ID: <a href="#">121-12</a></p>
-                    <p>Kari Andersen endret prioritert til ID: <a href="#">223-14</a></p>
-                    <p>ID: <a href="#">111-34</a>: Ny kommentar fra Statens Vegvesen</p>
+                    <p><img src="~/Images/Notification.png" alt="Notification"><span class="underline-text">Nye endringer i ID: <a href="#">123-25</a> er registrert <br />  <p2>10. oktober 2024, 16:43</p2> </span></p>
+                    <p><img src="~/Images/Notification.png" alt="Notification"><span class="underline-text">Ola Nordmann la deg til i feilmeldingskopi i ID: <a href="#">121-12</a> <br />  <p2>9. oktober 2024, 12:01</p2> </span></p>
+                    <p><img src="~/Images/Notification.png" alt="Notification"><span class="underline-text">Kari Andersen endret prioritet til ID: <a href="#">223-14</a><br />  <p2>9. oktober 2024, 10:13</p2> </span></p>
+                    <p><img src="~/Images/Notification.png" alt="Notification"><span class="underline-text">ID: <a href="#">111-34</a>: Ny kommentar fra Statens Vegvesen<br />  <p2>9. oktober 2024, 08:24</p2> </span></p>
+                    <a href="#" class="notfication-list">Se flere</a>
                 </div>
             </section>
         </div>
+
+        <script>
+            function redirectToMineHenvendelser() {
+                window.location.href = "/Saksbehandler/MineHenvendelser";
+            }
+            function redirectToAlleHenvendelser() {
+                window.location.href = "/Saksbehandler/AlleHenvendelser";
+            }
+            function redirectToArkiv() {
+                window.location.href = "/Saksbehandler/Arkiv";
+            }
+            function redirectToAarbeidsbord() {
+                window.location.href = "/Saksbehandler/Arbeidsbord";
+            }
+            function redirectToMineHenvendelser() {
+                window.location.href = "/Saksbehandler/MineHenvendelser";
+            }
+        </script>
     </div>
 </body>
 </html>

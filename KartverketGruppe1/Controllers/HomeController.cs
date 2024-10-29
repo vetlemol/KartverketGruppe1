@@ -2,6 +2,7 @@ using KartverketGruppe1.Services;
 using KartverketGruppe1.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using KartverketGruppe1.Data;
 
 namespace KartverketGruppe1.Controllers
 {
@@ -10,23 +11,158 @@ namespace KartverketGruppe1.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IKommuneInfoService _kommuneInfoService;
         private readonly IStedsnavnService _stedsnavnService;
+        private readonly ApplicationDbContext _context;
 
-        public HomeController(ILogger<HomeController> logger, IKommuneInfoService kommuneInfoService, IStedsnavnService stedsnavnService)
+        public HomeController(ILogger<HomeController> logger, IKommuneInfoService kommuneInfoService, IStedsnavnService stedsnavnService, ApplicationDbContext context)
         {
             _logger = logger;
             _kommuneInfoService = kommuneInfoService;
             _stedsnavnService = stedsnavnService;
+            _context = context;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
         }
 
+        [HttpPost]
+        public IActionResult Index(string Epost, string Passord)
+        {
+            var user = _context.Bruker.SingleOrDefault(u => u.Epost == Epost && u.Passord == Passord);
+            if (user != null)
+            {
+                HttpContext.Session.SetInt32("BrukerID", user.BrukerID);
+                return RedirectToAction("FjernOversikt", new { id = user.BrukerID });
+            }
+            else
+            {
+                ViewBag.Error = "Invalid email or password.";
+                return View();
+            }
+
+        }
+
+
+        public IActionResult FjernOversikt(int id)
+        {
+            var bruker = _context.Bruker.Find(id);
+            var innmeldinger = _context.Innmelding.Where(i => i.BrukerID == id).ToList();
+            ViewBag.Bruker = bruker;
+            ViewBag.Innmeldinger = innmeldinger;
+            return View();
+        }
+
+
+        [HttpGet]
         public IActionResult LagBruker()
         {
             return View();
         }
+
+        [HttpPost]
+        public IActionResult LagBruker(Bruker bruker)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    if (bruker.Telefonnummer != null)
+                    {
+                        bruker = new Bruker
+                        {
+                            Fornavn = bruker.Fornavn,
+                            Etternavn = bruker.Etternavn,
+                            Epost = bruker.Epost,
+                            Passord = bruker.Passord,
+                            Telefonnummer = bruker.Telefonnummer,
+                        };
+
+                    }
+                    else
+                    {
+                        bruker = new Bruker
+                        {
+                            Fornavn = bruker.Fornavn,
+                            Etternavn = bruker.Etternavn,
+                            Epost = bruker.Epost,
+                            Passord = bruker.Passord
+                        };
+                    }
+
+                    _context.Bruker.Add(bruker);
+                    _context.SaveChanges();
+                    return RedirectToAction("BrukerProfil");
+
+                }
+                else
+                {
+                    return View(Feilmelding);
+                }
+            }
+            catch (Exception e)
+            {
+                ViewData["Error"] = e.Message;
+                return View();
+            }
+        }
+           
+
+
+        private static BrukerProfilViewModel _brukerProfil = new BrukerProfilViewModel
+        {
+            Name = "Ola Nordmann",
+            Email = "eksempel@epost.com",
+            Phone = "+47 12345678",
+            BirthDate = new DateTime(1990, 1, 1),
+            Password = "********",
+            SubmissionsPerMonth = new List<int> { 3, 2, 0, 3, 1, 0, 2, 1, 0, 4, 0, 0 },
+            Years = new List<int> { 2022, 2023, 2024 }
+        };
+
+        [HttpGet]
+        public IActionResult BrukerProfil()
+        {
+            return View(_brukerProfil);
+        }
+
+        [HttpGet]
+        public IActionResult RedigerBrukerProfil()
+        {
+            return View(_brukerProfil);
+        }
+
+        [HttpPost]
+        public IActionResult RedigerBrukerProfil(BrukerProfilViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                // Oppdaterer brukerinformasjon
+                _brukerProfil.Name = model.Name;
+                _brukerProfil.Email = model.Email;
+                _brukerProfil.Phone = model.Phone;
+                _brukerProfil.BirthDate = model.BirthDate;
+                _brukerProfil.Password = model.Password;
+
+
+                return View(model); 
+            }
+            
+            return RedirectToAction("BrukerProfil");
+        }
+
+
+        public IActionResult Feilmelding()
+        {
+            return View();
+        }
+
+        public IActionResult Loading()
+        {
+            return View();
+        }
+
 
         public IActionResult Start()
         {
@@ -76,12 +212,10 @@ namespace KartverketGruppe1.Controllers
             return View();
         }
 
-        public IActionResult Hjelp()
-        {
-            return View();
-        }
+            
+        
+        // H�ndterer s�k etter Kommuneinformasjon
 
-        // Handterer sok etter Kommuneinformasjon
         [HttpPost]
         public async Task<IActionResult> KommuneInfo(string kommuneNr)
         {
@@ -148,9 +282,53 @@ namespace KartverketGruppe1.Controllers
             }
         }
 
-        // Laster inn tilfeldig bakgrunnsbilde fra wwwroot/Bakgrunnsbilder
-        public IActionResult GetRandomBackgroundImage()
+
+
+
+
+        [HttpGet]
+        public IActionResult TestVetle()
         {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult TestVetle(string Fornavn, string Etternavn, string Epost, string Ansvarsområde, string Avdeling, string Passord)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(Fornavn) || string.IsNullOrEmpty(Etternavn) || string.IsNullOrEmpty(Epost) || string.IsNullOrEmpty(Ansvarsområde) || string.IsNullOrEmpty(Passord))
+                {
+                    ViewData["Error"] = "Please fill out all fields.";
+                    return View();
+                }
+
+                var nysaksbehandler = new Saksbehandler
+                {
+                    Fornavn = Fornavn,
+                    Etternavn = Etternavn,
+                    Epost = Epost,
+                    Ansvarsområde = Ansvarsområde,
+                    Avdeling = Avdeling,
+                    Passord = Passord
+                };
+
+                _context.Saksbehandler.Add(nysaksbehandler);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch (Exception e)
+            {
+                ViewData["Error"] = e.Message;
+                return View();
+            }
+        }
+
+
+
+            // Laster inn tilfeldig bakgrunnsbilde fra wwwroot/Bakgrunnsbilder
+            public IActionResult GetRandomBackgroundImage()
+            {
             string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Bakgrunnsbilder");
             var files = Directory.GetFiles(path, "*.png").Select(Path.GetFileName).ToList();
 
