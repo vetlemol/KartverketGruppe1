@@ -34,3 +34,43 @@ a {
   box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }
 
+button.accept-policy {
+  font-size: 1rem;
+  line-height: inherit;
+}
+
+.custom-dropdown-menu {
+  background-color: #E4F2E6;
+  width: 20vw; /* 20% av bredden på viewport */
+  height: 60vh; /* 60% av høyden på viewport */
+  overflow-y: auto; /* Legger til rullefelt hvis innholdet overstiger høyden */
+  color: #00973D; /* Setter standard farge for tekst */
+  text-align: center; /* Midtstiller teksten */
+}
+
+.custom-dropdown-menu a {
+  color: #00973D; /* Setter standard farge for lenker */
+  text-decoration: none; /* Fjerner understreking for standard lenker */
+}
+
+.custom-dropdown-menu a:hover {
+  text-decoration: underline; /* Understreker teksten ved hover */
+  color: #00973D; /* Sørger for at fargen forblir grønn ved hover */
+}
+
+.custom-dropdown-menu .spacer {
+  margin-bottom: 20px; /* Legger til rom mellom elementene */
+}
+
+.custom-dropdown-menu .logout {
+  position: absolute;
+  bottom: 10px;
+  width: 100%;
+  color: #00973D; /* Setter fargen til grønn */
+}
+
+.custom-dropdown-menu .divider {
+  position: absolute;
+  bottom: 50px; /* Plasserer linjen rett over "Logg ut" */
+  width: 100%
+}
