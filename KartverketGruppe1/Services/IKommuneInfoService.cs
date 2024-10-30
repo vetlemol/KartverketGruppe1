@@ -7,6 +7,6 @@ namespace KartverketGruppe1.Services
         Task<KommuneInfo> GetKommuneInfoAsync(string kommuneNr);
 
         // Ny metode
-        Task<KommuneInfo> GetKommuneByCoordinatesAsync(double lat, double lon);
+        //Task<KommuneInfo> GetKommuneByCoordinatesAsync(double lat, double lon);
     }
 }
