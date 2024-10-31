@@ -52,13 +52,16 @@
                                 Meny
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end custom-dropdown-menu" aria-labelledby="navbarDropdown">
-                               <li><img src="~/Images/KartikusGlad.png" alt="Profilbilde" width="60" height="70"></li>
-                                <li class="spacer"><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="BrukerProfil">Min Profil</a></li>
-                                <li><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="MineInnmeldinger">Mine innmeldinger</a></li>
-                                <li><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Hjelp">Hjelp / Kontakt Oss</a></li>
-                                <li class="divider"><hr class="dropdown-divider"></li>
-                                <li class="logout"><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Index">Logg ut</a></li>
-                            </ul>
+                             <li class="divider"><hr class="dropdown-divider"></li>
+                        <li><img src="~/Images/KartikusGlad.png" alt="Profilbilde" width="60" height="70"></li>
+                        <li class="spacer"><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="BrukerProfil">Min Profil</a></li>
+                        <li class="divider"><hr class="dropdown-divider"></li> <!-- Divider added here -->
+                        <li class="spacer"><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="MineInnmeldinger">Mine innmeldinger</a></li>
+                        <li class="divider"><hr class="dropdown-divider"></li> <!-- Divider added here -->
+                        <li><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Hjelp">Hjelp / Kontakt Oss</a></li>
+                        <li class="divider"><hr class="dropdown-divider"></li> <!-- Divider added here -->
+                      <li class="logout"><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Index">Logg ut</a></li>
+                     </ul>
                         </li>
                     </ul>
                 </div>
@@ -70,7 +73,6 @@
             @RenderBody()
         </main>
     </div>
-    
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
