@@ -35,6 +35,8 @@ builder.Services.AddHttpClient<IKommuneInfoService, KommuneInfoService>();
 builder.Services.AddHttpClient<IStedsnavnService, StedsnavnService>();
 
 
+builder.Services.AddHttpClient();
+
 var app = builder.Build();
 
 

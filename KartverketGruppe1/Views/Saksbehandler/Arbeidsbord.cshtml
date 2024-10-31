@@ -75,6 +75,10 @@
                     text-align: center; 
             }
 
+                .sidebar button:hover {
+                    background-color: #D8E3F2;
+                }
+
                 .sidebar button::after {
                     content: '';
                     display: block;
@@ -86,13 +90,8 @@
                     left: 0;
                 }
 
-            .sidebar button:hover {
-                    background-color: #96B7D6;
-            }
 
-            .sidebar button:hover{
-                    background-color: #D8E3F2;
-            }
+          
 
             .map-content {
                 flex: 1;
@@ -186,7 +185,9 @@
                 padding: 5px;
                 margin-bottom: 20px;
                 border-radius: 5px;
-                /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+            display: inline-block; /* Endre display til inline-block */
+            vertical-align: top;
+            /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
             }
 
             .my-info, .notifications {
@@ -356,6 +357,8 @@
                     background-color:#D8E3F2;
                     font-size: 12px;
                 border-radius: 5px;
+                display: inline-block; /* Endre display til inline-block */
+                vertical-align: top;
                 }
 
                 /* Middle column */

@@ -1,7 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace KartverketGruppe1.Data
 {
+
+    [Index(nameof(Epost), IsUnique = true)]
     public class Bruker
     {
         public int BrukerID { get; set; }
