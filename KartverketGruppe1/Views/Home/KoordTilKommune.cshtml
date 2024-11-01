@@ -1,0 +1,152 @@
+﻿@{
+    ViewData["Title"] = "Kart";
+}
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet.pm@latest/dist/leaflet.pm.css" />
+
+<style>
+
+    .map-container {
+        display: flex;
+        height: calc(100vh - 60px); /* Justert for navbar */
+        width: 100%;
+        position: absolute;
+        top: 60px;
+        left: 0;
+    }
+
+    .sidebar {
+        width: 350px;
+        background-color: #f0f4f8;
+        padding: 20px;
+        overflow-y: auto;
+    }
+
+    .search-panel h3 {
+        font-size: 16px;
+        margin-top: 20px;
+        margin-bottom: 10px;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    
+
+    .map-content {
+        flex: 1;
+        position: relative;
+        background-color: #e5e5e5;
+    }
+
+    
+
+    #map {
+        width: 100%;
+        height: 100%;
+    }
+</style>
+
+<div class="map-container">
+    <div class="sidebar">
+        <div class="search-panel">
+            <h3>Kommune Informasjon</h3>
+            <div class="form-control" id="kommuneInfo" readonly>
+                <p>Kommunenavn: <span id="kommunenavn">-</span></p>
+                <p>Fylkesnummer: <span id="fylkesnummer">-</span></p>
+                <p>Kommunenummer: <span id="kommunenummer">-</span></p>
+            </div>
+
+            <h3>Type avvik</h3>
+            <select class="form-control">
+                <option>Velg type avvik</option>
+                <option>Vei</option>
+                <option>Sti</option>
+                <option>Annet</option>
+            </select>
+
+            <h3>Koordinater</h3>
+            <div class="form-control" readonly>
+                <p>Latitude: <span id="latitude">-</span></p>
+                <p>Longitude: <span id="longitude">-</span></p>
+            </div>
+
+            <button class="btn btn-success w-100 mt-3">Send inn</button>
+        </div>
+    </div>
+    <div class="map-content">
+        <div id="map"></div>
+    </div>
+</div>
+
+
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="https://unpkg.com/leaflet.pm@latest/dist/leaflet.pm.min.js"></script>
+
+<script>
+
+    var map = L.map('map').setView([58.164048, 8.004007], 13);
+    var currentLayer = null;
+
+    L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/topo/default/webmercator/{z}/{y}/{x}.png', {
+        maxZoom: 18,
+        attribution: '&copy; <a href="http://www.kartverket.no/">Kartverket</a>'
+    }).addTo(map);
+
+    map.pm.addControls({
+        position: 'bottomleft',
+        drawMarker: true,
+        removalMode: true,
+        drawPolyline: true,
+        drawCircleMarker: false,
+        drawRectangle: false,
+        drawCircle: false,
+        drawPolygon: true,
+        editMode: false,
+        cutPolygon: false,
+    });
+
+    map.on('pm:create', function (e) {
+        if (currentLayer) {
+            map.removeLayer(currentLayer);
+        }
+        currentLayer = e.layer;
+
+        let coordinates;
+        if (e.shape === 'Marker') {
+            coordinates = e.layer.getLatLng();
+        } else if (e.shape === 'Polygon') {
+            coordinates = e.layer.getLatLngs()[0][0];
+        } else if (e.shape === 'Line' || e.shape === 'Polyline') {
+            coordinates = e.layer.getLatLngs()[0];
+        }
+
+        // For å kunne vise koordinater i view
+        document.getElementById('latitude').textContent = coordinates.lat.toFixed(5);
+        document.getElementById('longitude').textContent = coordinates.lng.toFixed(5);
+
+
+        // Henter kommuneinformasjon ved hjelp av koordinatene
+        fetch(`/api/Kommune/GetByCoordinate?lat=${coordinates.lat}&lng=${coordinates.lng}&koordsys=4258`)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('kommunenavn').textContent = data.kommunenavn || '-';
+                document.getElementById('fylkesnummer').textContent = data.fylkesnummer || '-';
+                document.getElementById('kommunenummer').textContent = data.kommunenummer || '-';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('kommunenavn').textContent = 'Feil ved henting';
+                document.getElementById('fylkesnummer').textContent = '-';
+                document.getElementById('kommunenummer').textContent = '-';
+            });
+    });
+
+</script>

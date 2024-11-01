@@ -43,40 +43,36 @@ button.accept-policy {
   background-color: #E4F2E6;
   width: 20vw; /* 20% av bredden på viewport */
   height: 60vh; /* 60% av høyden på viewport */
-  overflow-y: auto; /* Legger til rullefelt hvis innholdet overstiger høyden */
+  color: #00973D; /* Setter standard farge for tekst */
   text-align: center; /* Midtstiller teksten */
-  color: #00973D;
 }
-
-.circle-image {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
 
 .custom-dropdown-menu a {
-  display: block;
-  padding: 10px;
-  color: #00973D; /* Tekstfarge */
-  text-decoration: underline;
+  color: #00973D; /* Setter standard farge for lenker */
+  text-decoration: none; /* Fjerner understreking for standard lenker */
 }
+
 .custom-dropdown-menu a:hover {
   text-decoration: underline; /* Understreker teksten ved hover */
-  color: #00973D;
+  color: #00973D; /* Sørger for at fargen forblir grønn ved hover */
 }
+.custom-dropdown-menu .dropdown-item:hover {
+  color: #006400; /* Setter fargen til mørkere grønn ved hover */
+  text-decoration: underline; /* Understreker teksten ved hover */
+}
+
 .custom-dropdown-menu .spacer {
-  margin-bottom: 20px; /* Legger til rom mellom elementene */
+  margin-bottom: 2vh; /* Legger til rom mellom elementene */
 }
+
+.custom-dropdown-menu .divider {
+  margin: 2vh; /* Fjerner margin for divider */
+  padding: 0; /* Fjerner padding for divider */
+}
+
 .custom-dropdown-menu .logout {
   position: absolute;
   bottom: 10px;
   width: 100%;
-  color: #00973D;
-}
-.custom-dropdown-menu .divider {
-  position: absolute;
-  bottom: 50px; /* Plasserer linjen rett over "Logg ut" */
-  width: 100%;
+  color: #00973D; /* Setter fargen til grønn */
 }

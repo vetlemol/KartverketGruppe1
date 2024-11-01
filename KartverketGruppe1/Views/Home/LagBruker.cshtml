@@ -1,4 +1,4 @@
-﻿@model KartverketGruppe1.Models.LagBrukerViewModel
+﻿@* @model KartverketGruppe1.Models.LagBrukerViewModel
 @{
     ViewData["Title"] = "NyBruker";
 }
@@ -125,6 +125,155 @@
 
 <script>
     function setRandomBackground() { // Funksjon for å hente random bilde fra 'Bakgrunnsbilder'
+        fetch('/Home/GetRandomBackgroundImage')
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    console.error(data.error);
+                } else {
+                    document.body.style.backgroundImage = `url('${data.imagePath}')`;
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+
+    window.onload = setRandomBackground;
+</script> *@
+
+
+@{
+    ViewData["Title"] = "Registrer bruker";
+}
+<style>
+    body {
+        background-size: cover;
+        background-position: center;
+        font-family: Arial, sans-serif;
+    }
+
+    .login-container {
+        background-color: rgba(255, 255, 255, 0.8);
+        border-radius: 8px;
+        padding: 20px;
+        width: 320px;
+        position: absolute;
+        top: 375px; /*Endret fra 55% til 375px*/
+        left: 50%;
+        transform: translate(-50%, -50%);
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+        .login-container h2 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+
+    .date-group {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 15px;
+    }
+
+    .date-input {
+        width: 70px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box;
+        text-align: center;
+    }
+
+        .date-input.year {
+            width: 100px;
+        }
+
+    .date-label {
+        display: block;
+        margin-bottom: 5px;
+        color: #666;
+        font-size: 14px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    .btn-block {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    .btn-primary {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    .separator {
+        text-align: center;
+        margin: 15px 0;
+        color: #777;
+    }
+
+    .guest-link {
+        display: block;
+        margin-bottom: 15px;
+        color: #777;
+    }
+
+</style>
+
+<div class="login-container">
+    <h2>Registrer ny bruker</h2>
+    @* <p>Har du ikke konto? <a href="Home/LagBruker" class="register-link">Registrer deg</a></p> *@
+    <a href="/Home/KartInnmelding" class="guest-link">Fortsett som gjest</a>
+
+    <form asp-action="Index" asp-controller="Home" method="post">
+        <div class="form-group">
+            <input type="text" class="form-control" name="Fornavn" placeholder="Fornavn *" required>
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" name="Etternavn" placeholder="Etternavn *" required>
+        </div>
+        <div class="form-group">
+            <input type="email" class="form-control" name="Epost" placeholder="Epost *" required>
+        </div>
+        <div class="form-group">
+            <label class="date-label">Fødselsdato:</label>
+            <div class="date-group">
+                <input type="text" class="date-input" name="DD" placeholder="DD" maxlength="2" pattern="[0-9]*">
+                <input type="text" class="date-input" name="MM" placeholder="MM" maxlength="2" pattern="[0-9]*">
+                <input type="text" class="date-input year" name="YYYY" placeholder="ÅÅÅÅ" maxlength="4" pattern="[0-9]*">
+            </div>
+        </div>
+        <div class="form-group">
+            <input type="password" class="form-control" name="Passord" placeholder="Passord *" required>
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" name="Telefonnummer" placeholder="Telefon">
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Lag bruker</button>
+    </form>
+
+</div>
+
+
+<script>
+    function setRandomBackground() { 
         fetch('/Home/GetRandomBackgroundImage')
             .then(response => response.json())
             .then(data => {

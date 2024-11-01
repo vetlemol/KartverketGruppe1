@@ -49,7 +49,7 @@ namespace KartverketGruppe1.Migrations
 
                     b.Property<string>("Epost")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Etternavn")
                         .IsRequired()
@@ -74,6 +74,9 @@ namespace KartverketGruppe1.Migrations
 
                     b.HasKey("BrukerID");
 
+                    b.HasIndex("Epost")
+                        .IsUnique();
+
                     b.ToTable("Bruker");
                 });
 
@@ -95,7 +98,6 @@ namespace KartverketGruppe1.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<byte[]>("Dokumentasjon")
-                        .IsRequired()
                         .HasColumnType("longblob");
 
                     b.Property<string>("Gjest_epost")
@@ -105,7 +107,8 @@ namespace KartverketGruppe1.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("KommuneID")
+                    b.Property<int?>("KommuneID")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<int?>("KoordinatID")
@@ -174,7 +177,7 @@ namespace KartverketGruppe1.Migrations
 
                     b.HasKey("KoordinatID");
 
-                    b.ToTable("koordinat");
+                    b.ToTable("Koordinat");
                 });
 
             modelBuilder.Entity("KartverketGruppe1.Data.Meldinger", b =>
@@ -228,16 +231,14 @@ namespace KartverketGruppe1.Migrations
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("SaksbehandlerID"));
 
                     b.Property<string>("Ansvarsområde")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Avdeling")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Epost")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Etternavn")
                         .IsRequired()
@@ -251,7 +252,13 @@ namespace KartverketGruppe1.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<byte[]>("Profilbilde")
+                        .HasColumnType("longblob");
+
                     b.HasKey("SaksbehandlerID");
+
+                    b.HasIndex("Epost")
+                        .IsUnique();
 
                     b.ToTable("Saksbehandler");
                 });

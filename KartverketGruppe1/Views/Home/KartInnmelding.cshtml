@@ -48,6 +48,21 @@
         cursor: pointer;
     }
 
+
+    /* .vedlegg label {
+        margin-top: 0px;
+        padding: 10px;
+        border: none;
+        border-radius: 0px;
+        background-color: #FFFFFF;
+        color: white;
+        cursor: pointer;
+    }
+
+    .vedlegg input[type="file"] {
+        display: none;
+    } */
+
     .upload-icon {
         font-size: 24px;
         color: #666;
@@ -101,17 +116,21 @@
 
 <div class="map-container">
     <div class="sidebar">
+
+        @* <form id="avvikForm" asp-action="KartInnmelding" asp-controller="Home" method="post">
+        <input type="hidden" asp-for="InnmeldingID" />
+        <input type="hidden" asp-for="BrukerID" />
+        <input type="hidden" asp-for="Dato" value="@DateTime.Now" />
+        <input type="hidden" asp-for="Koordinater" id="Koordinater" />
+        </form> *@
+
         <div class="search-panel">
             <h3>Søk</h3>
             
             <form asp-action="SokStedsnavn" method="post">
                 @* @Html.AntiForgeryToken() *@
                 <input type="text" class="form-control" id="SokeTekst" name="SokeTekst" placeholder="Søk etter sted" />
-                
             </form>
-
-
-
 
             <h3>Type avvik</h3>
             <select class="form-control">
@@ -121,11 +140,32 @@
             <h3>Beskriv avvik</h3>
             <textarea class="form-control" rows="4"></textarea>
 
-            <h3>Legg til dokumentasjon</h3>
-            <div class="upload-box">
-                <i class="upload-icon">↑</i>
-                <span>Last opp</span>
+
+            <h3>Legg ved bilde om ønskelig</h3>
+            <div class="upload-box" id="uploadBox" onclick="document.getElementById('fileUpload').click()">
+                <img src="~/Images/UploadIcon.png" alt="Upload" />
+                <input type="file" id="fileUpload" name="file-upload" accept="image/*" style="display: none;" />
             </div>
+
+            @* <h3>Legg ved bilde om ønskelig</h3>
+            <div class="upload-box">
+                <img src="~/Images/Upload.png" />
+                <input type="file" id="file-upload" name="file-upload" accept="*.png" />
+            </div> *@
+
+            @* <h3>Legg ved bilde om ønskelig</h3>
+            <div class="upload-box" id="uploadBox">
+                <img src="~/Images/UploadIcon.png" />
+                <input type="file" id="fileUpload" name="file-upload" accept="*.png" style="display: none;" />
+            </div> *@
+
+            @* <div class="vedlegg">
+                <h3>Last opp bilde om ønskelig</h3>
+                <label for="file-upload">
+                    <img src="~/Images/Upload.png" alt="Last opp bilde" />
+                </label>
+                <input type="file" id="file-upload" name="file-upload" accept="image/*" />
+            </div> *@
 
             <button class="btn btn-success w-100 mt-3">Send inn</button>
         </div>

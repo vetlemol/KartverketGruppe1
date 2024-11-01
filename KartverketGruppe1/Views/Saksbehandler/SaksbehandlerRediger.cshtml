@@ -18,17 +18,15 @@
                     top: 0;
                     left: 0;
                     width: 100%;
-
                 }
 
                 .container {
-                    height: calc(100% - 60px); /* For å ta høyde for top bar */
+                    height: calc(100% - 70px); /* For å ta høyde for top bar */
                     display: flex;
                     justify-content: center;
                     align-items: center;
-                    margin-top: 90px; /* Legg til margin for å skape avstand fra navigasjonsbaren*/
-
-                }
+                    margin-top: 110px; /* Legg til margin for å skape avstand fra navigasjonsbaren */
+        }
 
                 /* Styling for skjemaet */
 
@@ -41,9 +39,9 @@
                     max-width: 400px;
                     width: 100%;
                     z-index: 1;
-                    font-size: 12px;
-
-                }
+                    font-size: 16px;
+                    margin-top: 70px;
+        }
 
                     .form-container .header {
                         display: flex;
@@ -52,15 +50,17 @@
                     }
 
                         .form-container .header img {
-                            max-width: 50px;
+                            width: 55px;
+                            height: 55px;
                             margin-right: 10px;
                             border-radius: 50%;
+                            border: 1px solid #1A3F71;
                         }
 
                     .form-container label {
                         display: block; /* Gjør etikettene til blokkelementer */
                         margin-bottom: 5px; /* Legg til margin under etikettene */
-                        font-size: 10px;
+                        font-size: 12px;
                     }
 
                     .form-container input {
@@ -83,7 +83,7 @@
                 }
 
                     .form-container button {
-                        background-color: #65C28B;
+                background-color: #00b33c;
                         color: white;
                         padding: 6px; /* Juster padding for å endre størrelsen på kanppene*/
                         border: none;
@@ -113,7 +113,7 @@
             <h3>Sak Saksbehandler</h3>
         </div>
         <form id="saksbehandler-form">
-            <label for="telefonnummer">Telefonnummer:</label>
+            <label for="e-post">Telefonnummer:</label>
             <input type="text" id="telefonnummer" name="telefonnummer" required>
         </form>
         <form id="saksbehandler-form">

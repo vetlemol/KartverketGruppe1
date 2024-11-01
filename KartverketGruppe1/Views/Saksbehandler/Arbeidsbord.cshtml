@@ -75,6 +75,10 @@
                     text-align: center; 
             }
 
+                .sidebar button:hover {
+                    background-color: #96B7D6;
+                }
+
                 .sidebar button::after {
                     content: '';
                     display: block;
@@ -85,14 +89,7 @@
                     bottom: 0;
                     left: 0;
                 }
-
-            .sidebar button:hover {
-                    background-color: #96B7D6;
-            }
-
-            .sidebar button:hover{
-                    background-color: #D8E3F2;
-            }
+  
 
             .map-content {
                 flex: 1;
@@ -109,8 +106,8 @@
 
         .profile-pic img {
             border-radius: 50%;
-            width: 50px;
-            height: 50px;
+            width: 60px;
+            height: 60px;
                 border: 1px solid #1A3F71;
         }
 
@@ -184,9 +181,9 @@
             .new-requests {
             background-color: #D8E3F2;
                 padding: 5px;
-                margin-bottom: 20px;
+                margin-bottom: px;
                 border-radius: 5px;
-                /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+            /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
             }
 
             .my-info, .notifications {
@@ -356,6 +353,7 @@
                     background-color:#D8E3F2;
                     font-size: 12px;
                 border-radius: 5px;
+                height: 70%; 
                 }
 
                 /* Middle column */
@@ -387,14 +385,14 @@
             <img src="~/Images/ClipboardIcon.png" alt="Mine henvendelser">
         </div>
         </div>
-            <button onclick="redirectToMineHenvendelser()">MINE HENVENDELSER</button>
+            <button onclick="redirectToMineHenvendelser()">Mine henvendelser</button>
 
             <div class="icon-container">
                 <div class="icon">
                     <img src="~/Images/FolderIcon.png" alt="Alle henvendelser">
                 </div>
             </div>
-            <button onclick="redirectToAlleHenvendelser()">ALLE HENVENDELSER</button>
+            <button onclick="redirectToAlleHenvendelser()">Alle henvendelser</button>
 
             <div class="icon-container">
                 <div class="icon">
@@ -402,7 +400,7 @@
                 </div>
 
             </div>
-            <button onclick="redirectToArkiv()">Arikv</button>
+            <button onclick="redirectToArkiv()">Arkiv</button>
 
             <div class="icon-container">
                 <div class="icon">

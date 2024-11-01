@@ -7,7 +7,7 @@
     ViewData["Title"] = "Lag Bruker Ny";
 }
 
-<h2>Lag Bruker</h2>
+@* <h2>Lag Bruker</h2>
 
 <form asp-action="TestVetle" method="post">
 
@@ -31,4 +31,509 @@
     <br>
     <br />
     <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+</form> *@
+
+@* <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet.pm@latest/dist/leaflet.pm.css" />
+<style>
+    .map-container {
+        display: flex;
+        height: calc(100vh - 60px);
+        width: 100%;
+        position: absolute;
+        top: 60px;
+        left: 0;
+    }
+
+    .section-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 20px;
+        padding: 20px;
+        width: 100%;
+        background-color: #e6eef7;
+    }
+
+    .section {
+        background-color: #fff;
+        border-radius: 6px;
+        padding: 15px;
+        height: fit-content;
+    }
+
+    .section-title {
+        font-size: 16px;
+        font-weight: 500;
+        margin-bottom: 15px;
+        color: #333;
+    }
+
+    .info-field {
+        margin-bottom: 10px;
+    }
+
+    .info-label {
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 5px;
+    }
+
+    .info-value {
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 8px;
+        width: 100%;
+    }
+
+    textarea {
+        width: 100%;
+        min-height: 100px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 8px;
+        resize: vertical;
+    }
+
+    #map {
+        width: 100%;
+        height: 300px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+</style>
+
+<div class="map-container">
+    <div class="section-grid">
+        <!-- Left Section -->
+        <div class="section">
+            <h3 class="section-title">Innmelding info</h3>
+            <textarea placeholder="Her skal det være masse info om hva avviket er."></textarea>
+
+            <div class="info-field">
+                <div class="info-label">ID:</div>
+                <div class="info-value"></div>
+            </div>
+
+            <div class="info-field">
+                <div class="info-label">Kilde:</div>
+                <div class="info-value"></div>
+            </div>
+
+            <div class="info-field">
+                <div class="info-label">Reg. dato:</div>
+                <div class="info-value"></div>
+            </div>
+
+            <div class="info-field">
+                <div class="info-label">Kommune:</div>
+                <div class="info-value"></div>
+            </div>
+
+            <div class="info-field">
+                <div class="info-label">Vedlegg:</div>
+                <div class="info-value">bilder.png</div>
+            </div>
+        </div>
+
+        <!-- Middle Section -->
+        <div class="section">
+            <h3 class="section-title">Innmelding behandling</h3>
+            <div class="info-field">
+                <div class="info-label">Produktnavn:</div>
+                <div class="info-value">Kartdata</div>
+            </div>
+
+            <div class="info-field">
+                <div class="info-label">Prioritering:</div>
+                <div class="info-value">Vanlig prioritering</div>
+            </div>
+
+            <div class="info-field">
+                <div class="info-label">Status:</div>
+                <div class="info-value">Ikke påbegynt</div>
+            </div>
+
+            <div class="info-field">
+                <div class="info-label">Saksbehandler:</div>
+                <div class="info-value">Navn Etternavn</div>
+            </div>
+
+            <div class="info-field">
+                <div class="info-label">Kommentar:</div>
+                <div class="info-value">Ingen kommentar...</div>
+            </div>
+        </div>
+
+        <!-- Right Section -->
+        <div class="section">
+            <h3 class="section-title">Kartusnitt</h3>
+            <div id="map">
+                <!-- Your map will be inserted here -->
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="https://unpkg.com/leaflet.pm@latest/dist/leaflet.pm.min.js"></script>
+
+<script>
+
+    var map = L.map('map').setView([58.164048, 8.004007], 13);
+    // var map = L.map('map');
+
+
+    // Henter Kartverket sitt kart
+    L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/topo/default/webmercator/{z}/{y}/{x}.png', {
+        maxZoom: 18,
+        attribution: '&copy; <a href="http://www.kartverket.no/">Kartverket</a>'
+
+    }).addTo(map);
+
+
+    var currentLayer; 
+</script>
+ *@
+
+
+
+
+
+ @model List<KartverketGruppe1.Models.StedsnavnViewModel>
+
+
+@{
+    ViewData["Title"] = "Kart";
+}
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet.pm@latest/dist/leaflet.pm.css" />
+
+<style>
+
+    .map-container {
+        display: flex;
+        height: calc(100vh - 60px); /* Justert for navbar */
+        width: 100%;
+        position: absolute;
+        top: 60px;
+        left: 0;
+    }
+
+    .sidebar {
+        width: 350px;
+        background-color: #f0f4f8;
+        padding: 20px;
+        overflow-y: auto;
+    }
+
+    .search-panel h3 {
+        font-size: 16px;
+        margin-top: 20px;
+        margin-bottom: 10px;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    .upload-box {
+        border: 2px dashed #ccc;
+        padding: 20px;
+        text-align: center;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+
+    /* .vedlegg label {
+            margin-top: 0px;
+            padding: 10px;
+            border: none;
+            border-radius: 0px;
+            background-color: #FFFFFF;
+            color: white;
+            cursor: pointer;
+        }
+
+        .vedlegg input[type="file"] {
+            display: none;
+        } */
+
+    .upload-icon {
+        font-size: 24px;
+        color: #666;
+    }
+
+    .map-content {
+        flex: 1;
+        position: relative;
+        background-color: #e5e5e5;
+    }
+
+    .map-tools {
+        position: absolute;
+        left: 20px;
+        top: 20px;
+        background: white;
+        padding: 10px;
+        border-radius: 4px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        z-index: 1000;
+    }
+
+    .tool-btn {
+        display: block;
+        width: 100%;
+        padding: 8px;
+        margin: 4px 0;
+        border: none;
+        background: none;
+        text-align: left;
+        cursor: pointer;
+    }
+
+        .tool-btn:hover {
+            background-color: #f0f0f0;
+        }
+
+    .tool-icon {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        margin-right: 8px;
+        vertical-align: middle;
+    }
+
+    #map {
+        width: 100%;
+        height: 100%;
+    }
+</style>
+
+<div class="map-container">
+    <div class="sidebar">
+
+        @* <form id="avvikForm" asp-action="KartInnmelding" asp-controller="Home" method="post">
+        <input type="hidden" asp-for="InnmeldingID" />
+        <input type="hidden" asp-for="BrukerID" />
+        <input type="hidden" asp-for="Dato" value="@DateTime.Now" />
+        <input type="hidden" asp-for="Koordinater" id="Koordinater" />
+        </form> *@
+
+        <div class="search-panel">
+            <h3>Søk</h3>
+
+            <form asp-action="SokStedsnavn" method="post">
+                @* @Html.AntiForgeryToken() *@
+                <input type="text" class="form-control" id="SokeTekst" name="SokeTekst" placeholder="Søk etter sted" />
+            </form>
+
+
+            @* Hidden form for å legge koordinater og type *@
+            <input type="hidden" id="Koordinater" name="Koordinater" />
+            <input type="hidden" id="GeometryType" name="GeometryType" />
+
+
+            @* Denne skal vise kommunenavn og hente kommunenummer  *@
+            <div class="form-group">
+                <h3>Kommune</h3>
+                <input type="text" id="KommuneNavn" name="KommuneNavn" class="form-control" readonly />
+                <input type="hidden" id="KommuneNummer" name="KommuneNummer" />
+            </div>
+
+
+            <h3>Type avvik</h3>
+            <select class="form-control">
+                <option>Velg type avvik</option>
+                <option>Vei</option>
+                <option>Sti</option>
+                <option>Annet</option>
+            </select>
+
+            <h3>Beskriv avvik</h3>
+            <textarea class="form-control" rows="4"></textarea>
+
+
+            <h3>Legg ved bilde om ønskelig</h3>
+            <div class="upload-box" id="uploadBox" onclick="document.getElementById('fileUpload').click()">
+                <img src="~/Images/UploadIcon.png" alt="Upload" />
+                <input type="file" id="fileUpload" name="file-upload" accept="image/*" style="display: none;" />
+            </div>
+
+            <button class="btn btn-success w-100 mt-3">Send inn</button>
+        </div>
+    </div>
+
+    <div class="map-content">
+
+        <div id="map"></div>
+    </div>
+</div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="https://unpkg.com/leaflet.pm@latest/dist/leaflet.pm.min.js"></script>
+
+<script>
+
+    // var map = L.map('map').setView([58.164048, 8.004007], 13);
+    var map = L.map('map');
+    var currentLayer; 
+
+    // Henter Kartverket sitt kart
+    L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/topo/default/webmercator/{z}/{y}/{x}.png', {
+        maxZoom: 18,
+        attribution: '&copy; <a href="http://www.kartverket.no/">Kartverket</a>'
+
+    }).addTo(map);
+
+    // Finner første stedsnavn i listen og setter kartet til denne posisjonen
+    // HomeController SokStedsnavn
+    @if (Model.Any() && Model.First().Nord.HasValue && Model.First().Ost.HasValue)
+    {
+        @:map.setView([@Model.First().Nord, @Model.First().Ost], 13);
+    }
+    else
+    {
+        @:map.setView([58.164048, 8.004007], 13);
+    }
+
+
+
+        // Legger til Leaflet.pm kontroller
+        map.pm.addControls({
+            position: 'bottomleft',
+            drawMarker: true,
+            removalMode: true,
+            drawPolyline: true,
+            drawCircleMarker: false,
+            drawRectangle: false,
+            drawCircle: false,
+            drawPolygon: true,
+            editMode: false,
+            cutPolygon: false,
+        });
+
+    // Handle map drawing events
+    map.on('pm:create', function (e) {
+        try {
+            if (currentLayer) {
+                map.removeLayer(currentLayer);
+            }
+            currentLayer = e.layer;
+
+            let coordinates;
+            let geometryType = e.shape;
+
+            // Store the geometry type
+            if (document.getElementById("GeometryType")) {
+                document.getElementById("GeometryType").value = geometryType;
+            }
+
+            if (geometryType === 'Marker') {
+                const lat = e.layer.getLatLng().lat;
+                const lng = e.layer.getLatLng().lng;
+                coordinates = [[lat, lng]];
+            }
+            else if (geometryType === 'Polygon') {
+                coordinates = e.layer.getLatLngs()[0].map(coord => [coord.lat, coord.lng]);
+            }
+            else if (geometryType === 'Line' || geometryType === 'Polyline') {
+                coordinates = e.layer.getLatLngs().map(coord => [coord.lat, coord.lng]);
+            }
+
+            // Store coordinates in form
+            if (coordinates && document.getElementById("Koordinater")) {
+                const geometryInfo = coordinates.map(coord => coord.join(',')).join(';');
+                document.getElementById("Koordinater").value = geometryInfo;
+            }
+
+            // Get municipality info for the first coordinate or center point
+            const lookupCoord = coordinates[0];
+            fetch(`/api/Kommune/GetByCoordinates?lat=${lookupCoord[0]}&lng=${lookupCoord[1]}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data && document.getElementById("KommuneNavn") && document.getElementById("KommuneNummer")) {
+                        document.getElementById("KommuneNavn").value = data.kommunenavn;
+                        document.getElementById("KommuneNummer").value = data.kommunenummer;
+
+                        // Optional: Add popup to the map showing kommune info
+                        e.layer.bindPopup(`Kommune: ${data.kommunenavn}`).openPopup();
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        } catch (error) {
+            console.error('Error in pm:create event handler:', error);
+        }
+    });
+
+    // Form submission validation
+    document.getElementById('avvikForm').addEventListener('submit', function (e) {
+        const koordinater = document.getElementById("Koordinater");
+        if (!koordinater || !koordinater.value) {
+            e.preventDefault();
+            alert("Vennligst velg en posisjon på kartet.");
+        }
+    });
+
+
+
+
+
+
+    
+    // map.on('pm:create', function (e) {
+    //     if (currentLayer) { //
+    //         map.removeLayer(currentLayer);
+    //     }
+    //     var geometryInfo = "";
+    //     geometryInfo = e.shape + ":" + geometryInfo; // Legger til formen til input
+
+    //     if (e.shape === 'Marker') {
+    //         var marker = e.layer;
+    //         var lat = marker.getLatLng().lat;
+    //         var lng = marker.getLatLng().lng;
+    //         geometryInfo = lat.toFixed(6) + "," + lng.toFixed(6);
+    //         document.getElementById("Koordinater").value = geometryInfo;
+    //     }
+
+    //     ////////////////
+    //     else if (e.shape === 'Polygon') {
+    //         var polygon = e.layer;
+    //         var coordinates = polygon.getLatLngs()[0];
+    //         geometryInfo = coordinates.map(function (coord) {
+    //             return coord.lat.toFixed(6) + "," + coord.lng.toFixed(6);
+    //         }).join(';');
+    //     }
+    //     else if (e.shape === 'Line' || e.shape === 'Polyline') {
+    //         var line = e.layer;
+    //         var coordinates = line.getLatLngs();
+    //         geometryInfo = coordinates.map(function (coord) {
+    //             return coord.lat.toFixed(6) + "," + coord.lng.toFixed(6);
+    //         }).join(';');
+    //     }
+    //     ////////////////
+
+    //     console.log("Geometri-informasjon: " + geometryInfo);
+    // });
+
+    // // if (geometryInfo) {
+    // //     document.getElementById("Koordinater").value = geometryInfo;
+    // //     console.log("Geometri-informasjon: " + geometryInfo);
+    // // }
+
+    // document.getElementById('avvikForm').addEventListener('submit', function (e) {
+    //     if (!document.getElementById("Koordinater").value) {
+    //         e.preventDefault();
+    //         alert("Vennligst velg en posisjon på kartet.");
+    //     }
+    // });
+</script>
