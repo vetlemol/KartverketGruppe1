@@ -33,8 +33,3 @@ volumes:
 
 networks:
   backend:
-  # kartverketgruppe1:
-  #   image: ${DOCKER_REGISTRY-}kartverketgruppe1
-  #   build:
-  #     context: .
-  #     dockerfile: KartverketGruppe1/Dockerfile
