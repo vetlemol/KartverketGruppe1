@@ -113,6 +113,11 @@
         cutPolygon: false,
     });
 
+    // Add this to disable tooltips
+    // map.pm.setGlobalOptions({
+    //     tooltips: false
+    // });
+
     map.on('pm:create', function (e) {
         if (currentLayer) {
             map.removeLayer(currentLayer);
@@ -134,6 +139,7 @@
 
 
         // Henter kommuneinformasjon ved hjelp av koordinatene
+        // Sender koordinatene til API fra kartverket som returnerer kommuneinformasjon
         fetch(`/api/Kommune/GetByCoordinate?lat=${coordinates.lat}&lng=${coordinates.lng}&koordsys=4258`)
             .then(response => response.json())
             .then(data => {
