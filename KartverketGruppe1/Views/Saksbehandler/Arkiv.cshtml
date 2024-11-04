@@ -36,14 +36,15 @@
                 margin-right: 10px;
             }
 
-            .search-container button {
+            /* Dropdown stil */
+            .search-container select {
                 padding: 10px;
                 font-size: 13px;
                 border: 1px solid #ccc;
                 border-radius: 37px;
+                margin-right: 10px;
                 background-color: white;
                 cursor: pointer;
-                margin-right: 5px;
             }
 
         .blue-box {
@@ -275,11 +276,41 @@
 
         <div class="search-container">
             <input type="text" placeholder="Søk etter henvendelse">
-            <button>STATUS &#9662;</button>
-            <button>DATO &#9662;</button>
-            <button>OMRÅDE &#9662;</button>
-            <button>SAKSBEHANDLER &#9662;</button>
+
+            <!-- Dropdown-meny for Status -->
+            <select>
+                <option value="" disabled selected>Status</option>
+                <option value="Behandlet">Behandlet</option>
+                <option value="Ikke tatt til følge">Ikke tatt til følge</option>
+            </select>
+
+            <!-- Dropdown-meny for Dato -->
+            <select>
+                <option value="" disabled selected>Dato</option>
+                <option value="Siste uke">Siste uke</option>
+                <option value="Siste måned">Siste måned</option>
+                <option value="Siste år">Siste år</option>
+            </select>
+
+            <!-- Dropdown-meny for Område -->
+            <select>
+                <option value="" disabled selected>Område</option>
+                <option value="Agder">Agder</option>
+                <option value="Kristiansand">Kristiansand</option>
+                <option value="Grimstad">Grimstad</option>
+                <option value="Flekkefjord">Flekkefjord</option>
+            </select>
+
+            <!-- Dropdown-meny for Saksbehandler -->
+            <select>
+                <option value="" disabled selected>Saksbehandler</option>
+                <option value="Navn Etternavn">Navn Etternavn</option>
+                <option value="Per Hansen">Per Hansen</option>
+                <option value="Anne Olsen">Anne Olsen</option>
+                <option value="Eva Nordmann">Eva Nordmann</option>
+            </select>
         </div>
+
 
 
 
