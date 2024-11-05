@@ -311,36 +311,34 @@ namespace KartverketGruppe1.Controllers
         }
 
 
+
         [HttpGet]
-        public IActionResult TestVetle()
+        public IActionResult TestHedda()
         {
-            return View(new List<StedsnavnViewModel>());
+            return View();
         }
 
         [HttpPost]
-        public IActionResult TestVetle(string Fornavn, string Etternavn, string Epost, string Ansvarsområde, string Avdeling, string Passord)
+        public IActionResult AddAvvik(string Avvik)
         {
             try
             {
-                if (string.IsNullOrEmpty(Fornavn) || string.IsNullOrEmpty(Etternavn) || string.IsNullOrEmpty(Epost) || string.IsNullOrEmpty(Ansvarsområde) || string.IsNullOrEmpty(Passord))
+                if (string.IsNullOrEmpty(Avvik))
                 {
-                    ViewData["Error"] = "Please fill out all fields.";
+                    ViewData["Error"] = "Vennligst fyll ut feltene.";
                     return View();
                 }
-
-                var nysaksbehandler = new Saksbehandler
+                else
                 {
-                    Fornavn = Fornavn,
-                    Etternavn = Etternavn,
-                    Epost = Epost,
-                    Ansvarsområde = Ansvarsområde,
-                    Avdeling = Avdeling,
-                    Passord = Passord
-                };
+                    var nyAvvik = new Avvikstype
+                    {
+                        Type = Avvik
+                    };
 
-                _context.Saksbehandler.Add(nysaksbehandler);
-                _context.SaveChanges();
-                return RedirectToAction("Index");
+                    _context.Avvikstype.Add(nyAvvik);
+                    _context.SaveChanges();
+                    return RedirectToAction("KartInnmelding");
+                }
             }
             catch (Exception e)
             {
@@ -351,8 +349,75 @@ namespace KartverketGruppe1.Controllers
 
 
 
-            // Laster inn tilfeldig bakgrunnsbilde fra wwwroot/Bakgrunnsbilder
-            public IActionResult GetRandomBackgroundImage()
+        [HttpGet]
+        public IActionResult TestVetle()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult lagStatus(Status status)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    status = new Status
+                    {
+                        Statustype = status.Statustype,
+                    };
+
+                    _context.Status.Add(status);
+                    _context.SaveChanges();
+                    return RedirectToAction("TestVetle");
+
+                }
+                else
+                {
+                    return View(Feilmelding);
+                }
+            }
+            catch (Exception e)
+            {
+                ViewData["Error"] = e.Message;
+                return View();
+            }
+        }
+
+        [HttpPost]
+        public IActionResult lagAvvikstype(Avvikstype avvikstype)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    avvikstype = new Avvikstype
+                    {
+                        Type = avvikstype.Type,
+                    };
+
+                    _context.Avvikstype.Add(avvikstype);
+                    _context.SaveChanges();
+                    return RedirectToAction("TestVetle");
+
+                }
+                else
+                {
+                    return View(Feilmelding);
+                }
+            }
+            catch (Exception e)
+            {
+                ViewData["Error"] = e.Message;
+                return View();
+            }
+        }
+
+
+
+
+        // Laster inn tilfeldig bakgrunnsbilde fra wwwroot/Bakgrunnsbilder
+        public IActionResult GetRandomBackgroundImage()
             {
             string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Bakgrunnsbilder");
             var files = Directory.GetFiles(path, "*.png").Select(Path.GetFileName).ToList();
