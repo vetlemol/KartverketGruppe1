@@ -1,5 +1,562 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AlleHenvendelser</title>
+    <style>
+        /* Stil for Alle henvendelser-overskriften */
+        h1 {
+            font-size: 24px;
+            font-weight: normal;
+            margin-top: 50px;
+            margin-bottom: 20px;
+            margin-left: 83px;
+            color: #333;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #ccc;
+            width: 96%;
+        }
+
+        /* Stiler for søkefelt og knapper */
+        .search-container {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            margin-left: 83px;
+            margin-top: 10px;
+        }
+
+            .search-container input[type="text"] {
+                padding: 10px;
+                font-size: 13px;
+                border: 1px solid #ccc;
+                border-radius: 37px;
+                width: 250px;
+                margin-right: 10px;
+            }
+
+            /* Dropdown stil */
+            .search-container select {
+                padding: 10px;
+                font-size: 13px;
+                border: 1px solid #ccc;
+                border-radius: 37px;
+                margin-right: 10px;
+                background-color: white;
+                cursor: pointer;
+            }
+
+        .blue-box {
+            background-color: #D8E3F2;
+            color: black;
+            padding: 20px;
+            width: 1250px;
+            height: auto;
+            border-radius: 15px;
+            text-align: center;
+            margin-left: 80px;
+            margin-top: 23px;
+        }
+
+        /* Boksene inne i den store blå boksen */
+        .item-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+        }
+
+            .item-box .info {
+                display: flex;
+                align-items: center;
+                width: 80%;
+            }
+
+                .item-box .info img {
+                    width: 24px;
+                    height: 24px;
+                    margin-right: 15px;
+                }
+
+                .item-box .info span {
+                    font-size: 14px;
+                    margin-right: 40px;
+                    color: #333;
+                }
+
+            .item-box .status {
+                padding: 8px 15px;
+                border-radius: 15px;
+                font-size: 12px;
+                font-weight: bold;
+            }
+
+        .status-UnderBehandling {
+            background-color: #FDF5A4;
+            color: #A2A0A0;
+        }
+        
+        .status-IkkeTildelt  {
+            background-color: #96B7D6;
+            color: #fff;
+        }
+
+        .status-IkkeStartet {
+            background-color: #D04A14;
+            color: #fff;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            padding: 10px;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+        }
+
+            .pagination a {
+                padding: 8px 12px;
+                color: #1A3F71;
+                text-decoration: none;
+                border-radius: 4px;
+                font-weight: normal;
+            }
+
+                .pagination a:hover {
+                    background-color: #e6edf5;
+                }
+
+            .pagination .arrow {
+                font-weight: bold;
+                color: #1A3F71;
+            }
+
+            .pagination .active {
+                background-color: green;
+                color: white;
+            }
+
+        /* Menybar til venstre, helt venstrestilt */
+        .side-navbar {
+            position: absolute; /* Fikserer menyen helt til venstre */
+            top: 66px;
+            left: 0;
+            width: 7%;
+            height: calc(100%); /* Full høyde på skjermen */
+            background-color: #D8E3F2; /* Lys blå bakgrunnsfarge */
+            padding: 0; /* Fjerner padding for at menyen skal starte fra venstre */
+            box-sizing: border-box;
+        }
+
+            .side-navbar ul {
+                list-style-type: none;
+                padding-top: 80px;
+                margin: 0;
+                width: 100%;
+                padding: 0;
+            }
+
+            .side-navbar a {
+                color: #1A3F71;
+                display: block;
+                padding: 0px;
+                text-decoration: none;
+                border-bottom: 1px solid #1A3F71;
+                width: 100%;
+                box-sizing: border-box;
+                margin-top: 2px;
+                margin-bottom: 60px;
+                text-align: center;
+            }
+
+                .side-navbar a:hover {
+                    background-color: #96B7D6; /* Mørkere blå ved hover */
+                }
+
+        .profile-image {
+            width: 60px; /* Juster størrelsen på bildet */
+            height: 60px; /* Juster størrelsen på bildet */
+            border-radius: 50%; /* Gjør bildet rundt */
+            margin-bottom: 2px; /* Legger til avstand under bildet */
+            border: 1px solid rgb(33, 40, 121);
+            text-align: center;
+            display: block;
+            margin: 60px auto 2px auto;
+        }
+
+        .profile-divider {
+            border: 0;
+            border-top: 1px solid rgb(33, 40,121); /* Blå farge og tykkelsen på streken */
+            margin-bottom: 60px; /* Juster avstanden over og under streken */
+            margin-top: 20px;
+            color: rgb(33, 40, 121);
+        }
+
+
+        .nav-icon {
+            width: 25px; /* Juster størrelsen på ikonene */
+            height: 25px; /* Juster størrelsen på ikonene */
+            margin-bottom: 5px; /* Legger til avstand under ikonene */
+            display: block;
+            margin: 0 auto; /* Sentrerer ikonene */
+        }
+
+        .logout-button {
+            background-color: transparent; /* Gjør bakgrunnen gjennomsiktig */
+            border: none; /* Fjerner kantlinjen */
+            color: green; /* Setter tekstfargen til grønn */
+            font-size: 16px; /* Juster skriftstørrelsen */
+            cursor: pointer; /* Endrer musepekeren til en hånd for å indikere at det er klikkbart */
+            margin: 20px auto; /* Legger til avstand fra bunnen */
+            text-align: center;
+            cursor: pointer;
+            display: block;
+        }
+
+
+
+
+        body {
+            background-color: #EAE7E7;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Container for meny og innhold -->
+    <div>
+        <!-- Menybar til venstre -->
+        <nav class="side-navbar">
+            <ul>
+
+                <li><img src="~/Images/Profilbilde.png" alt="" class="profile-image"></li> <!-- Legger til bildet her -->
+                <a href="#">
+                    <br>
+                </a>
+                <!-- <hr class="profile-divider"> Legger til streken her
+                 </li>-->
+                <li>
+                    <img src="~/Images/ClipboardIcon.png" alt="Mine henvendelser" class="nav-icon">
+                    <a href="/MineHenvendelser">
+                        Mine<br>
+                        henvendelser<br>
+                    </a>
+                </li>
+                <li>
+                    <img src="~/Images/FolderIcon.png" alt="Alle henvendelser" class="nav-icon">
+                    <a href="#">
+                        Alle<br>
+                        henvendelser<br>
+                    </a>
+                </li>
+                <li>
+                    <img src="~/Images/Arkiv.png" alt="Arkiv" class="nav-icon">
+                    <a href="/Saksbehandler/Arkiv">Arkiv</a>
+                </li>
+                <li>
+                    <img src="~/Images/Arbeidsbord.png" alt="Arbeidsbord" class="nav-icon">
+                    <a href="/Saksbehandler/Arbeidsbord">Arbeidsbord</a>
+                </li>
+            </ul>
+            <button class="logout-button">Logg ut</button> <!-- Legger til Logg ut-knappen her -->
+        </nav>
+
+
+
+        <h1>Alle Henvendelser</h1>
+
+        <div class="search-container">
+            <input type="text" placeholder="Søk etter henvendelse">
+
+            <!-- Dropdown-meny for Status -->
+            <select>
+                <option value="" disabled selected>Status</option>
+                <option value="Under behandling">Under behandling</option>
+                <option value="Ikke tildelt">Ikke tildelt</option>
+                <option value="Ikke starter">Ikke startet</option>
+            </select>
+
+            <!-- Dropdown-meny for Dato -->
+            <select>
+                <option value="" disabled selected>Dato</option>
+                <option value="Siste uke">Siste uke</option>
+                <option value="Siste måned">Siste måned</option>
+                <option value="Siste år">Siste år</option>
+            </select>
+
+            <!-- Dropdown-meny for Område -->
+            <select>
+                <option value="" disabled selected>Område</option>
+                <option value="Agder">Agder</option>
+                <option value="Kristiansand">Kristiansand</option>
+                <option value="Grimstad">Grimstad</option>
+                <option value="Flekkefjord">Flekkefjord</option>
+            </select>
+
+            <!-- Dropdown-meny for Saksbehandler -->
+            <select>
+                <option value="" disabled selected>Saksbehandler</option>
+                <option value="Navn Etternavn">Navn Etternavn</option>
+                <option value="Per Hansen">Per Hansen</option>
+                <option value="Anne Olsen">Anne Olsen</option>
+                <option value="Eva Nordmann">Eva Nordmann</option>
+            </select>
+        </div>
+
+
+
+
+        <!-- Den store blå boksen -->
+        <div class="blue-box">
+            <!-- Hver enkelt boks med informasjon -->
+            <div class="item-box">
+                <div class="info">
+                    <img src="~/Images/Utropstegn.png" alt="Info ikon">
+                    <span>Kristiansand, Agder</span>
+                    <span>Type</span>
+                    <span>Saks-ID: 123-25</span>
+                    <span>Kilde</span>
+                    <span>Saksbehandler: Navn Etternavn</span>
+                    <span>05.11.2024</span>
+                </div>
+                <div class="status status-UnderBehandling">
+                    Under behandling
+                </div>
+            </div>
+
+            <div class="item-box">
+                <div class="info">
+                    <img src="~/Images/Location.png" alt="Info ikon">
+                    <span>Kristiansand, Agder</span>
+                    <span>Type</span>
+                    <span>Saks-ID: 123-25</span>
+                    <span>Kilde</span>
+                    <span>Saksbehandler: Navn Etternavn</span>
+                    <span>01.01.2025</span>
+                </div>
+                <div class="status status-IkkeTildelt">
+                    Ikke tildelt
+                </div>
+            </div>
+
+            <div class="item-box">
+                <div class="info">
+                    <img src="~/Images/Location.png" alt="Info ikon">
+                    <span>Kristiansand, Agder</span>
+                    <span>Type</span>
+                    <span>Saks-ID: 123-25</span>
+                    <span>Kilde</span>
+                    <span>Saksbehandler: Navn Etternavn</span>
+                    <span>01.01.2025</span>
+                </div>
+                <div class="status status-IkkeTildelt">
+                    Ikke tildelt
+                </div>
+            </div>
+
+            <!-- Seks nye bokser med endret informasjon -->
+            <div class="item-box">
+                <div class="info">
+                    <img src="~/Images/Anker.png" alt="Info ikon">
+                    <span>Kristiansand, Agder</span>
+                    <span>Type</span>
+                    <span>Saks-ID: 456-78</span>
+                    <span>Kilde</span>
+                    <span>Saksbehandler: Navn Etternavn</span>
+                    <span>15.03.2024</span>
+                </div>
+                <div class="status status-IkkeStartet">
+                    Ikke startet
+                </div>
+            </div>
+
+            <div class="item-box">
+                <div class="info">
+                    <img src="~/Images/Location.png" alt="Info ikon">
+                    <span>Kristiansand, Agder</span>
+                    <span>Type</span>
+                    <span>Saks-ID: 234-56</span>
+                    <span>Kilde</span>
+                    <span>Saksbehandler: Navn Etternavn</span>
+                    <span>15.03.2024</span>
+                </div>
+                <div class="status status-UnderBehandling">
+                    Under behandling
+                </div>
+            </div>
+
+            <div class="item-box">
+                <div class="info">
+                    <img src="~/Images/Utropstegn.png" alt="Info ikon">
+                    <span>Kristiansand, Agder</span>
+                    <span>Type</span>
+                    <span>Saks-ID: 678-90</span>
+                    <span>Kilde</span>
+                    <span>Saksbehandler: Navn Etternavn</span>
+                    <span>22.04.2024</span>
+                </div>
+                <div class="status status-IkkeStartet">
+                    Ikke startet
+                </div>
+            </div>
+
+            <div class="item-box">
+                <div class="info">
+                    <img src="~/Images/Eiendom.png" alt="Info ikon">
+                    <span>Kristiansand, Agder</span>
+                    <span>Type</span>
+                    <span>Saks-ID: 135-79</span>
+                    <span>Kilde</span>
+                    <span>Saksbehandler: Navn Etternavn</span>
+                    <span>05.01.2024</span>
+                </div>
+                <div class="status status-IkkeTildelt">
+                    Ikke tildelt
+                </div>
+            </div>
+
+            <div class="item-box">
+                <div class="info">
+                    <img src="~/Images/Anker.png" alt="Info ikon">
+                    <span>Kristiansand, Agder</span>
+                    <span>Type</span>
+                    <span>Saks-ID: 246-80</span>
+                    <span>Kilde</span>
+                    <span>Saksbehandler: Navn Etternavn</span>
+                    <span>10.12.2024</span>
+                </div>
+                <div class="status status-UnderBehandling">
+                    Under behandling
+                </div>
+            </div>
+
+            <div class="item-box">
+                <div class="info">
+                    <img src="~/Images/Location.png" alt="Info ikon">
+                    <span>Kristiansand, Agder</span>
+                    <span>Type</span>
+                    <span>Saks-ID: 357-91</span>
+                    <span>Kilde</span>
+                    <span>Saksbehandler: Navn Etternavn</span>
+                    <span>20.02.2024</span>
+                </div>
+                <div class="status status-IkkeTildelt">
+                    Ikke tildelt
+                </div>
+            </div>
+
+            <div class="item-box">
+                <div class="info">
+                    <img src="~/Images/Location.png" alt="Info ikon">
+                    <span>Kristiansand, Agder</span>
+                    <span>Type</span>
+                    <span>Saks-ID: 468-02</span>
+                    <span>Kilde</span>
+                    <span>Saksbehandler: Navn Etternavn</span>
+                    <span>30.06.2024</span>
+                </div>
+                <div class="status status-IkkeTildelt">
+                    Ikke tildelt
+                </div>
+            </div>
+
+            <div class="item-box">
+                <div class="info">
+                    <img src="~/Images/Eiendom.png" alt="Info ikon">
+                    <span>Kristiansand, Agder</span>
+                    <span>Type</span>
+                    <span>Saks-ID: 579-13</span>
+                    <span>Kilde</span>
+                    <span>Saksbehandler: Navn Etternavn</span>
+                    <span>17.11.2024</span>
+                </div>
+                <div class="status status-UnderBehandling">
+                    Under behandling
+                </div>
+            </div>
+
+            <div class="item-box">
+                <div class="info">
+                    <img src="~/Images/Anker.png" alt="Info ikon">
+                    <span>Kristiansand, Agder</span>
+                    <span>Type</span>
+                    <span>Saks-ID: 680-24</span>
+                    <span>Kilde</span>
+                    <span>Saksbehandler: Navn Etternavn</span>
+                    <span>01.08.2024</span>
+                </div>
+                <div class="status status-UnderBehandling">
+                    Under behandling
+                </div>
+            </div>
+
+            <div class="item-box">
+                <div class="info">
+                    <img src="~/Images/Utropstegn.png" alt="Info ikon">
+                    <span>Kristiansand, Agder</span>
+                    <span>Type</span>
+                    <span>Saks-ID: 791-35</span>
+                    <span>Kilde</span>
+                    <span>Saksbehandler: Navn Etternavn</span>
+                    <span>14.10.2024</span>
+                </div>
+                <div class="status status-UnderBehandling">
+                    Under behandling
+                </div>
+            </div>
+
+            <div class="item-box">
+                <div class="info">
+                    <img src="~/Images/Location.png" alt="Info ikon">
+                    <span>Kristiansand, Agder</span>
+                    <span>Type</span>
+                    <span>Saks-ID: 802-46</span>
+                    <span>Kilde</span>
+                    <span>Saksbehandler: Navn Etternavn</span>
+                    <span>25.09.2024</span>
+                </div>
+                <div class="status status-IkkeStartet">
+                    Ikke startet
+                </div>
+            </div>
+
+            <div class="item-box">
+                <div class="info">
+                    <img src="~/Images/Anker.png" alt="Info ikon">
+                    <span>Kristiansand, Agder</span>
+                    <span>Type</span>
+                    <span>Saks-ID: 913-57</span>
+                    <span>Kilde</span>
+                    <span>Saksbehandler: Navn Etternavn</span>
+                    <span>29.07.2024</span>
+                </div>
+                <div class="status status-IkkeTildelt">
+                    Ikke tildelt
+                </div>
+
+
+            </div>
+            <div class="pagination">
+                <a href="#" class="arrow">←</a>
+                <a href="#">Forrige</a>
+                <a href="#" class="page">1</a>
+                <a href="#" class="page active">2</a>
+                <a href="#" class="page">3</a>
+                <a href="#">Neste</a>
+                <a href="#" class="arrow">→</a>
+            </div>
+
+        </div>
+
+</body>
+</html>

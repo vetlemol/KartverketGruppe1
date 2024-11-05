@@ -9,6 +9,11 @@ namespace KartverketGruppe1.Controllers
             return View();
         }
 
+        public IActionResult AlleHenvendelser()
+        {
+            return View();
+        }
+
         public IActionResult Arkiv()
         {
             return View();

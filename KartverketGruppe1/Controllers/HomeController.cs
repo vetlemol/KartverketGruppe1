@@ -311,6 +311,7 @@ namespace KartverketGruppe1.Controllers
         }
 
 
+
         [HttpGet]
         public IActionResult TestHedda()
         {
@@ -351,33 +352,59 @@ namespace KartverketGruppe1.Controllers
         [HttpGet]
         public IActionResult TestVetle()
         {
-            return View(new List<StedsnavnViewModel>());
+            return View();
         }
 
         [HttpPost]
-        public IActionResult TestVetle(string Fornavn, string Etternavn, string Epost, string Ansvarsområde, string Avdeling, string Passord)
+        public IActionResult lagStatus(Status status)
         {
             try
             {
-                if (string.IsNullOrEmpty(Fornavn) || string.IsNullOrEmpty(Etternavn) || string.IsNullOrEmpty(Epost) || string.IsNullOrEmpty(Ansvarsområde) || string.IsNullOrEmpty(Passord))
+                if (ModelState.IsValid)
                 {
-                    ViewData["Error"] = "Please fill out all fields.";
-                    return View();
+                    status = new Status
+                    {
+                        Statustype = status.Statustype,
+                    };
+
+                    _context.Status.Add(status);
+                    _context.SaveChanges();
+                    return RedirectToAction("TestVetle");
+
                 }
-
-                var nysaksbehandler = new Saksbehandler
+                else
                 {
-                    Fornavn = Fornavn,
-                    Etternavn = Etternavn,
-                    Epost = Epost,
-                    Ansvarsområde = Ansvarsområde,
-                    Avdeling = Avdeling,
-                    Passord = Passord
-                };
+                    return View(Feilmelding);
+                }
+            }
+            catch (Exception e)
+            {
+                ViewData["Error"] = e.Message;
+                return View();
+            }
+        }
 
-                _context.Saksbehandler.Add(nysaksbehandler);
-                _context.SaveChanges();
-                return RedirectToAction("Index");
+        [HttpPost]
+        public IActionResult lagAvvikstype(Avvikstype avvikstype)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    avvikstype = new Avvikstype
+                    {
+                        Type = avvikstype.Type,
+                    };
+
+                    _context.Avvikstype.Add(avvikstype);
+                    _context.SaveChanges();
+                    return RedirectToAction("TestVetle");
+
+                }
+                else
+                {
+                    return View(Feilmelding);
+                }
             }
             catch (Exception e)
             {
@@ -388,8 +415,9 @@ namespace KartverketGruppe1.Controllers
 
 
 
-            // Laster inn tilfeldig bakgrunnsbilde fra wwwroot/Bakgrunnsbilder
-            public IActionResult GetRandomBackgroundImage()
+
+        // Laster inn tilfeldig bakgrunnsbilde fra wwwroot/Bakgrunnsbilder
+        public IActionResult GetRandomBackgroundImage()
             {
             string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Bakgrunnsbilder");
             var files = Directory.GetFiles(path, "*.png").Select(Path.GetFileName).ToList();
