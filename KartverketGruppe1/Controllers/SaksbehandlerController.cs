@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace KartverketGruppe1.Controllers
 {
+    [Authorize(Roles = "Saksbehandler")]
     public class SaksbehandlerController : Controller
     {
         public IActionResult Behandling()

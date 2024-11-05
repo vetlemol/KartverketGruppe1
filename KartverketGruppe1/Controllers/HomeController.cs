@@ -3,9 +3,11 @@ using KartverketGruppe1.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using KartverketGruppe1.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace KartverketGruppe1.Controllers
 {
+    [Authorize(Roles = "Bruker")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -21,37 +23,42 @@ namespace KartverketGruppe1.Controllers
             _context = context;
         }
 
-
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult Index()
         {
             return View();
         }
 
-        [HttpPost]
-        public IActionResult Index(string Epost, string Passord) // Håndterer Parameterene fra innloggingsskjemaet i Index
+        //[HttpPost]
+        //public IActionResult Index(string Epost, string Passord) // Håndterer Parameterene fra innloggingsskjemaet i Index
+        //{
+        //    var user = _context.Bruker.SingleOrDefault(u => u.Epost == Epost && u.Passord == Passord);
+        //    if (user != null)
+        //    {
+        //        HttpContext.Session.SetInt32("BrukerID", user.BrukerID);
+        //        return RedirectToAction("FjernOversikt", new { id = user.BrukerID }); // Redirect til oversiktssiden for brukeren
+        //    }
+        //    else
+        //    {
+        //        ViewBag.Error = "Invalid email or password.";
+        //        return View();
+        //    }
+
+        //}
+
+
+        //public IActionResult FjernOversikt(int id)
+        //{
+        //    var bruker = _context.Bruker.Find(id); // Henter brukeren som er logget inn
+        //    var innmeldinger = _context.Innmelding.Where(i => i.BrukerID == id).ToList(); // Henter alle innmeldinger brukeren har laget
+        //    ViewBag.Bruker = bruker;
+        //    ViewBag.Innmeldinger = innmeldinger;
+        //    return View();
+        //}
+
+        public IActionResult FjernOversikt()
         {
-            var user = _context.Bruker.SingleOrDefault(u => u.Epost == Epost && u.Passord == Passord);
-            if (user != null)
-            {
-                HttpContext.Session.SetInt32("BrukerID", user.BrukerID);
-                return RedirectToAction("FjernOversikt", new { id = user.BrukerID }); // Redirect til oversiktssiden for brukeren
-            }
-            else
-            {
-                ViewBag.Error = "Invalid email or password.";
-                return View();
-            }
-
-        }
-
-
-        public IActionResult FjernOversikt(int id)
-        {
-            var bruker = _context.Bruker.Find(id); // Henter brukeren som er logget inn
-            var innmeldinger = _context.Innmelding.Where(i => i.BrukerID == id).ToList(); // Henter alle innmeldinger brukeren har laget
-            ViewBag.Bruker = bruker;
-            ViewBag.Innmeldinger = innmeldinger;
             return View();
         }
 
@@ -62,52 +69,52 @@ namespace KartverketGruppe1.Controllers
             return View();
         }
 
-        [HttpPost]
-        public IActionResult LagBruker(Bruker bruker) 
-        {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    if (bruker.Telefonnummer != null) // Sjekker om telefonnummer er fylt ut
-                    {
-                        bruker = new Bruker
-                        {
-                            Fornavn = bruker.Fornavn,
-                            Etternavn = bruker.Etternavn,
-                            Epost = bruker.Epost,
-                            Passord = bruker.Passord,
-                            Telefonnummer = bruker.Telefonnummer,
-                        };
+        //[HttpPost]
+        //public IActionResult LagBruker(Bruker bruker) 
+        //{
+        //    try
+        //    {
+        //        if (ModelState.IsValid)
+        //        {
+        //            if (bruker.Telefonnummer != null) // Sjekker om telefonnummer er fylt ut
+        //            {
+        //                bruker = new Bruker
+        //                {
+        //                    Fornavn = bruker.Fornavn,
+        //                    Etternavn = bruker.Etternavn,
+        //                    Epost = bruker.Epost,
+        //                    Passord = bruker.Passord,
+        //                    Telefonnummer = bruker.Telefonnummer,
+        //                };
 
-                    }
-                    else
-                    {
-                        bruker = new Bruker // Trenger ikke ha telefonnummer her siden det er nullable
-                        {
-                            Fornavn = bruker.Fornavn,
-                            Etternavn = bruker.Etternavn,
-                            Epost = bruker.Epost,
-                            Passord = bruker.Passord
-                        };
-                    }
+        //            }
+        //            else
+        //            {
+        //                bruker = new Bruker // Trenger ikke ha telefonnummer her siden det er nullable
+        //                {
+        //                    Fornavn = bruker.Fornavn,
+        //                    Etternavn = bruker.Etternavn,
+        //                    Epost = bruker.Epost,
+        //                    Passord = bruker.Passord
+        //                };
+        //            }
 
-                    _context.Bruker.Add(bruker);
-                    _context.SaveChanges();
-                    return RedirectToAction("BrukerProfil");
+        //            _context.Bruker.Add(bruker);
+        //            _context.SaveChanges();
+        //            return RedirectToAction("BrukerProfil");
 
-                }
-                else
-                {
-                    return View(Feilmelding);
-                }
-            }
-            catch (Exception e)
-            {
-                ViewData["Error"] = e.Message;
-                return View();
-            }
-        }
+        //        }
+        //        else
+        //        {
+        //            return View(Feilmelding);
+        //        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        ViewData["Error"] = e.Message;
+        //        return View();
+        //    }
+        //}
 
 
 
@@ -173,15 +180,16 @@ namespace KartverketGruppe1.Controllers
             return View();
         }
 
-        // Tom Liste for Stedsnavn for å kunne søke etter Stedsnavn i kartavvik uten error ved første visning
+        [AllowAnonymous]
         public IActionResult KartInnmelding()
         {
-            return View(new List<StedsnavnViewModel>());
+            return View(new List<StedsnavnViewModel>());  // Tom Liste for Stedsnavn for å kunne søke etter Stedsnavn i kartavvik uten error ved første visning
         }
 
 
         // Håndterer søk etter Stedsnavn i kartinnmelding
         // Funker, ikke rør :)
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> SokStedsnavn(string? SokeTekst)
         {
@@ -233,10 +241,10 @@ namespace KartverketGruppe1.Controllers
             return View();
         }
 
-            
-        
-        // H�ndterer s�k etter Kommuneinformasjon
 
+
+        // H�ndterer s�k etter Kommuneinformasjon
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> KommuneInfo(string kommuneNr)
         {
@@ -266,12 +274,14 @@ namespace KartverketGruppe1.Controllers
         }
 
         // View for sÃ¸k etter Stedsnavn og kommuneinformasjon
+        [AllowAnonymous]
         public IActionResult Sok()
         {
             return View();
         }
 
         // Handterer sok etter Stedsnavn
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> Stedsnavn(string searchTerm)
         {
@@ -303,7 +313,7 @@ namespace KartverketGruppe1.Controllers
             }
         }
 
-
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult KoordTilKommune()
         {
@@ -380,6 +390,7 @@ namespace KartverketGruppe1.Controllers
 
 
         // Laster inn tilfeldig bakgrunnsbilde fra wwwroot/Bakgrunnsbilder
+        [AllowAnonymous]
         public IActionResult GetRandomBackgroundImage()
             {
             string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Bakgrunnsbilder");
@@ -397,6 +408,7 @@ namespace KartverketGruppe1.Controllers
         }
 
 
+        [AllowAnonymous]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
