@@ -25,7 +25,7 @@
                     display: flex;
                     justify-content: center;
                     align-items: center;
-                    margin-top: 110px; /* Legg til margin for å skape avstand fra navigasjonsbaren */
+                    margin-top: 90px; /* Legg til margin for å skape avstand fra navigasjonsbaren */
         }
 
                 /* Styling for skjemaet */
@@ -109,8 +109,9 @@
 <body>
     <div class="form-container">
         <div class="header">
-            <img src="~/Images/Profilbilde.png" alt="Profilbilde" />
+            <img src="~/Images/Profilbilde.png" alt="Profilbilde" onclick="document.getElementById('profilbilde').click()" />
             <h3>Sak Saksbehandler</h3>
+            <input type="file" id="profilbilde" name="profilbilde" accept="image/*" onchange="previewImage(event)" style="display: none;">
         </div>
         <form id="saksbehandler-form">
             <label for="telefonnummer">Telefonnummer:</label>
@@ -133,14 +134,6 @@
             <input type="text" id="poststed" name="poststed" required>
         </form>
         <form id="saksbehandler-form">
-            <label for="fødselsdato">Fødselsdato:</label>
-            <div class="dob-container">
-                <input type="number" id="dag" name="dag" placeholder="Dag" required>
-                <input type="number" id="måned" name="måned" placeholder="Måned" required>
-                <input type="text" id="år" name="år" placeholder="År" required>
-            </div>
-        </form>
-        <form id="saksbehandler-form">
             <label for="lønnskonto">Lønnskonto:</label>
             <input type="text" id="lønnskonto" name="lønnskonto" required>
         </form>
@@ -148,6 +141,15 @@
         <button onclick="redirectToArbeidsbord()">Avbryt</button>
     </div>
     <script>
+        function previewImage(event) {
+            var reader = new FileReader();
+            reader.onload = function () {
+                var output = document.getElementById('profile-pic');
+                output.src = reader.result;
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+        
         function redirectToArbeidsbord() {
               window.location.href = "/Saksbehandler/Arbeidsbord";
           }
