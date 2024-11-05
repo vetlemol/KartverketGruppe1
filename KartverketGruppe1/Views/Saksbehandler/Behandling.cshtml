@@ -46,7 +46,7 @@ border-bottom: 1px solid #1A3F71;
 width: 100%;
  box-sizing: border-box;
 margin-top: 2px;
-margin-bottom: 30px;
+margin-bottom: 20px;
 text-align: center;
 font-size: 8px;
 padding-bottom: 20px;
@@ -63,14 +63,15 @@ border-radius: 50%; /* Gjør bildet rundt */
 margin-bottom: 2px; /* Legger til avstand under bildet */
 border: 1px solid rgb(33, 40, 121);
 text-align: center;
- display:block;
-margin: 60px  auto 2px auto;
+ display:flex;
+margin: 20px  auto 2px auto;
 }
 .profile-divider {
-border: 0;
+border: 0; /* Blå farge og tykkelsen på streken */
 border-top: 1px solid rgb(33, 40 ,121); /* Blå farge og tykkelsen på streken */
-margin-bottom: 60px; /* Juster avstanden over og under streken */
-margin-top: 20px;
+background-color: rgb(33, 40, 121);
+margin-bottom: 20px; /* Juster avstanden over og under streken */
+margin-top: 15px;
  color: rgb(33, 40, 121);
 }
 
@@ -85,12 +86,16 @@ margin: 0 auto; /* Sentrerer ikonene */
 background-color: transparent; /* Gjør bakgrunnen gjennomsiktig */
  border: none; /* Fjerner kantlinjen */
  color: green; /* Setter tekstfargen til grønn */
- font-size: 16px; /* Juster skriftstørrelsen */
+ font-size: 10px; /* Juster skriftstørrelsen */
  cursor: pointer; /* Endrer musepekeren til en hånd for å indikere at det er klikkbart */
- margin: 20px auto; /* Legger til avstand fra bunnen */
+ margin: 5px auto; /* Legger til avstand fra bunnen */
  text-align: center;
 cursor: pointer;
- display: block;
+ display: flex;
+ flex-direction: column;
+ margin-left: 5px;
+ width: 10px;
+ height: 2%;
 }
 
 
@@ -234,12 +239,13 @@ cursor: pointer;
     background-color: #D8E3F2;
     color: #308a5a;
     cursor: pointer;
-    font-size: 14px;
-    width: 80px;
+    font-size: 10px;
+    width: 70px;
 }
 
 .logout-button:hover {
     background-color: #4a7ba0; /* Mørkere blå ved hover */
+    
 }
 
  .extra-box6 {
@@ -469,21 +475,23 @@ display:flex;
     <!-- Menybar til venstre -->
     <nav class="side-navbar">
         <ul>
-            
-            <li><img src="~/Images/Profilbilde.png" alt="" class="profile-image"></li> <!-- Legger til bildet her -->
-            <a href="Arbeidsbord"> <br>
-            </a>
-            <!-- <hr class="profile-divider"> Legger til streken her 
-             </li>-->
             <li>
-                <img src="~/Images/ClipboardIcon.png" alt="Mine hendelser" class="nav-icon">
-                <a href="/MineHendvelser">Mine<br>
+            <li><img src="~/Images/Profilbilde.png" alt="" class="profile-image"></li> <!-- Legger til bildet her -->
+          @* <hr class="profile-divider"> *@
+          </li>
+            <li>
+                <div class="profile-divider"></div> <!-- Legger til linjen her -->
+            </li>
+
+                <img src="~/Images/ClipboardIcon.png" alt="Mine henvendelser" class="nav-icon">
+                <a href="/Saksbehandler/MineHenvendelser">Mine<br>
                  henvendelser<br>
                  </a>
                  </li>
             <li>
-                <img src="~/Images/FolderIcon.png" alt="Alle hendelser" class="nav-icon">
-                <a href="#">Alle<br>
+                <img src="~/Images/FolderIcon.png" alt="Alle henvendelser" class="nav-icon">
+                <a href="/Saksbehandler/AlleHenvendelser">
+                    Alle<br>
                  henvendelser<br>
                   </a>
                  </li>
@@ -511,7 +519,7 @@ display:flex;
             <div class="box">
                 <h3> <span class="underline-text">Innmelding info</span></h3>
             <div class="extra-box">
-                    <p> Tekst: Her skal det være masse info om hva aviket er.</p>
+                    <p> Tekst: Her skal det være masse info om hva avviket er.</p>
                 </div>
                 <div class="extra-box2">
                     <p> ID:<br>
@@ -570,7 +578,7 @@ display:flex;
                     <select id="dropdown2" name="dropdown2">
                         <option value="option1">Vanlig prioritet</option>
                         <option value="option2">Prioritet</option>
-                        <option value="option3">lav prioritet</option>
+                        <option value="option3">Lav prioritet</option>
                     </select>
                     <label for="dropdown3">Status:</label>
                     <select id="dropdown3" name="dropdown3">

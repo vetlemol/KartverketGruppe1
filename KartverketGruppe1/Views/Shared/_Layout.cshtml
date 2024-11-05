@@ -51,17 +51,43 @@
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Meny
                             </a>
-                            <ul class="dropdown-menu dropdown-menu-end custom-dropdown-menu" aria-labelledby="navbarDropdown">
-                             <li class="divider"><hr class="dropdown-divider"></li>
+                          
+                        <ul class="dropdown-menu dropdown-menu-end custom-dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li class="divider"><hr class="dropdown-divider"></li>
                         <li><img src="~/Images/KartikusGlad.png" alt="Profilbilde" width="60" height="70"></li>
                         <li class="spacer"><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="BrukerProfil">Min Profil</a></li>
-                        <li class="divider"><hr class="dropdown-divider"></li> <!-- Divider added here -->
+                        <li class="divider"><hr class="dropdown-divider"></li> 
                         <li class="spacer"><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="MineInnmeldinger">Mine innmeldinger</a></li>
-                        <li class="divider"><hr class="dropdown-divider"></li> <!-- Divider added here -->
-                        <li><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Hjelp">Hjelp / Kontakt Oss</a></li>
-                        <li class="divider"><hr class="dropdown-divider"></li> <!-- Divider added here -->
+                        <li class="divider"><hr class="dropdown-divider"></li> 
+                        <li class="spacer"><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Hjelp">Hjelp / Kontakt Oss</a></li> 
+                        <li class="divider"><hr class="dropdown-divider"></li> 
                       <li class="logout"><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Index">Logg ut</a></li>
-                     </ul>
+                     
+                <style>
+    li.spacer a {
+      color: #00973D;
+      background-color: #E4F2E6;
+    }
+
+    li.spacer a:hover {
+      color: #00973D;
+      background-color: #E4F2E6;
+      text: underline
+    }
+
+    li.logout a {
+      color: #00973D;
+      background-color: #E4F2E6;
+    }
+    li.logout a:hover {
+      color: #00973D;
+      background-color: #E4F2E6;
+      text: underline;
+    }
+
+
+  </style>
+  </ul>
                         </li>
                     </ul>
                 </div>
