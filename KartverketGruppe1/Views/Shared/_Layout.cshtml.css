@@ -7,28 +7,13 @@ a.navbar-brand {
   word-break: break-all;
 }
 
-a {
-  color: #0077cc;
-}
 
 .btn-primary {
-  color: #fff;
+  color: #E4F2E6;
   background-color: #1b6ec2;
   border-color: #1861ac;
 }
 
-.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
-}
-
-.border-top {
-    border-top: 1px solid #96B7D6;
-}
-.border-bottom {
-  border-bottom: 1px solid #e5e5e5;
-}
 
 .box-shadow {
   box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
@@ -47,23 +32,6 @@ button.accept-policy {
   text-align: center; /* Midtstiller teksten */
 }
 
-.custom-dropdown-menu a {
-  color: #00973D; /* Setter standard farge for lenker */
-  text-decoration: none; /* Fjerner understreking for standard lenker */
-}
-
-.custom-dropdown-menu a:hover {
-  text-decoration: underline; /* Understreker teksten ved hover */
-  color: #00973D; /* Sørger for at fargen forblir grønn ved hover */
-}
-.custom-dropdown-menu .dropdown-item:hover {
-  color: #006400; /* Setter fargen til mørkere grønn ved hover */
-  text-decoration: underline; /* Understreker teksten ved hover */
-}
-
-.custom-dropdown-menu .spacer {
-  margin-bottom: 2vh; /* Legger til rom mellom elementene */
-}
 
 .custom-dropdown-menu .divider {
   margin: 2vh; /* Fjerner margin for divider */
@@ -76,3 +44,4 @@ button.accept-policy {
   width: 100%;
   color: #00973D; /* Setter fargen til grønn */
 }
+
