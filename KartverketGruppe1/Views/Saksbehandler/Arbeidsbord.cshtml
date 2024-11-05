@@ -277,6 +277,15 @@
             z-index: 1;
         }
 
+         .request-list a {
+            text-decoration: none; /* Fjerner understrek */
+            color: black; /* Setter fargen til sort */
+        }
+
+        .request-list a:hover {
+            color: black; /* Beholder sort farge ved hover */
+        }
+
         /*Strek under titlene*/
         .underline-text {
             padding-bottom: 5px; /* Avstand mellom tekst og strek */
@@ -404,28 +413,36 @@
             <section class="new-requests">
                 <h2> <span class="underline-text">Nye henvendelser</span></h2> 
                 <div class="request-list">
+                    <a href="@Url.Action("Behandling", "Saksbehandler")">
                     <div class="request">
                         <img src="~/Images/Utropstegn.png" alt="Utropstegn">
                         <p>Kristiansand, Agder</p>
                         <p>Type</p> 
                         <p>01.10.2024</p>
                     </div>
+                    </a>
+                    <a href="@Url.Action("Behandling", "Saksbehandler")">
                     <div class="request">
                         <img src="~/Images/Utropstegn.png" alt="Utropstegn">
                         <p>Kristiansand, Agder</p> 
                         <p>Type</p> 
                         <p>01.10.2024</p>
                     </div>
+                    </a>
+                    <a href="@Url.Action("Behandling", "Saksbehandler")">
                     <div class="request">
                         <p>Kristiansand, Agder</p> 
                         <p>Type</p> 
                         <p>01.10.2024</p>
                     </div>
+                    </a>
+                    <a href="@Url.Action("Behandling", "Saksbehandler")">
                     <div class="request">
                         <p>Kristiansand, Agder</p>
                         <p>Type</p>
                         <p>01.10.2024</p>
                     </div>
+                    </a>
                 </div>
                 <button onclick="redirectToAlleHenvendelser()">Se alle henvendesler <img src="~/Images/PilHvit.png" alt="Pil"></button>
             </section>
@@ -494,6 +511,9 @@
             }
             function redirectToIndex() {
                 window.location.href = '@Url.Action("Index", "Home")';
+            }
+             function redirectToBehandling() {
+                window.location.href = '@Url.Action("Behandling", "Saksbehandler")';
             }
         </script>
     </div>
