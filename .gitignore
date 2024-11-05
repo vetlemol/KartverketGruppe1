@@ -365,3 +365,9 @@ FodyWeavers.xsd
 
 # Ignorere .DS_Store filer
 *.DS_Store
+
+# Ignorere Dockerfile
+* Dockerfile
+
+# Ignorere .yml filer
+*.yml
