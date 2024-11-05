@@ -48,14 +48,6 @@
             flex-direction: column;
             }
 
-
-        /*     .sidebar button {
-                background-color: transparent;
-                color: #1A3F71;
-                padding: 20px;
-                font-size: 10px;
-            } */
-
             .sidebar button {
                 background-color: transparent;
                     color: #1A3F71;
@@ -67,12 +59,13 @@
                     box-sizing: border-box;
                     font-size: 10px;
                     margin-bottom: 15px;
-                    border-bottom: 1px solid #ccc;
-                    display: block;
+               /*  border-bottom: 0.25px solid #1A3F71; */
+                    display: flex;
                     flex-direction: column;
                     justify-content: center;
                     align-items: center;
-                    text-align: center; 
+                    text-align: center;
+                position: relative;
             }
 
                 .sidebar button:hover {
@@ -83,8 +76,8 @@
                     content: '';
                     display: block;
                     width: 100%;
-                    height: 1px; /* Høyden på understreken */
-                    background-color: #ccc; /* Fargen på understreken */
+                    height: 0.25px; /* Høyden på understreken */
+                    background-color: #1A3F71; /* Fargen på understreken */
                     position: absolute;
                     bottom: 0;
                     left: 0;
@@ -111,11 +104,17 @@
                 border: 1px solid #1A3F71;
         }
 
+        .profile-underline {
+            width: 100%; /* Juster bredden etter behov */
+            height: 0.5px; /* Høyden på streken */
+            background-color: #1A3F71; /* Fargen på streken */
+            margin: 5px auto 10px auto; /* Juster margin for å plassere streken */
+        }
 
         .logout {
-            margin-top: auto;
+            margin-top: 20px;
             text-decoration: none;
-            color: #1A833B;
+            color: #65C28B;
             font-weight: bold;
             font-size: 10px;
             text-align: center;
@@ -128,7 +127,7 @@
         }
 
         .logout:hover {
-                background-color: #96B7D6;
+                color: #156630; /* Endre tekstfargen ved hover, hvis ønsket */
         }
 
 
@@ -138,14 +137,16 @@
             width: 25px;
             height: 25px;
             margin-bottom: 3px; /* Mellomrom mellom ikon og tekst */
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
 
         .icon-container img {
-            width: 25px;
-            height: 25px;
+            width: 20px;
+            height: 20px;
             justify-content: center;
-            border: 1px solid #D8E3F2;
         }
 
         h2 {
@@ -310,21 +311,6 @@
                 text-decoration: underline;
             }
 
-       /*  .form-container button {
-            background-color: #65C28B;
-            color: white;
-            padding: 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            width: 100%;
-            font-size: 14px;
-        } */
-
-           /*  .form-container button:hover {
-                    background-color: #58a77b;
-                } */
-
         /* Størrelse på pilen i knappen "Se alle henvendelser" */
         button img {
             width: 20px; /* Sett ønsket bredde */
@@ -361,7 +347,6 @@
                     width: 35%;
                     font-size: 12px;    
                 }
-
     </style>
 </head>
 
@@ -370,47 +355,45 @@
         <!-- Sidebar -->
         <div class="sidebar">
             <div class="profile-pic">
+                <a href="/Saksbehandler/AnsattProfil">
                 <img src="~/Images/Profilbilde.png" alt="Profilbilde">
+                </a>
             </div>
-            @*     <nav>
-            <ul>
-            <li><a href="#">Mine Henvendelser</a></li>
-            <li><a href="#">Alle Henvendelser</a></li>
-            <li><a href="#">Arkiv</a></li>
-            <li><a href="#">Arbeidsbord</a></li>
-            </ul>
-            </nav> *@
-            <div class="icon-container">
-                <div class="icon">
+            <div class="profile-underline"></div>
+
+            <button onclick="redirectToMineHenvendelser()">
+        <div class="icon-container">
             <img src="~/Images/ClipboardIcon.png" alt="Mine henvendelser">
         </div>
-        </div>
-            <button onclick="redirectToMineHenvendelser()">Mine henvendelser</button>
+        <span>Mine henvendelser</span>
+    </button>
 
-            <div class="icon-container">
-                <div class="icon">
+           <button onclick="redirectToAlleHenvendelser()">
+               <div class="icon-container">
                     <img src="~/Images/FolderIcon.png" alt="Alle henvendelser">
                 </div>
-            </div>
-            <button onclick="redirectToAlleHenvendelser()">Alle henvendelser</button>
+                <span>Alle henvendelser</span>
+        </button>
 
-            <div class="icon-container">
-                <div class="icon">
+            <button onclick="redirectToArkiv()">
+                <div class="icon-container">
                     <img src="~/Images/Arkiv.png" alt="Arkiv">
                 </div>
+           <span>Arkiv</span>
+       </button>
 
-            </div>
-            <button onclick="redirectToArkiv()">Arkiv</button>
-
-            <div class="icon-container">
-                <div class="icon">
+            <button onclick="redirectToArbeidsbord()">
+                <div class="icon-container">
                     <img src="~/Images/Arbeidsbord.png" alt="Arbeidsbord">
                 </div>
-            </div>
-            <button onclick="redirectToArbeidsbord()">Arbeidsbord</button>
-
-                <button onclick="redirectToIndex()">Logg ut</button>
+            <span>Arbeidsbord</span>
+        </button>
+        
+        <div class="icon-container">
+        <a href="Home/Innlogging" class="logout">Logg ut</a>
+        </div> 
         </div>
+
         <div class="column left">
             <section class="new-requests">
                 <h2> <span class="underline-text">Nye henvendelser</span></h2> 
