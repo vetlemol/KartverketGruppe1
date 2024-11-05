@@ -224,7 +224,11 @@ namespace KartverketGruppe1.Controllers
         {
             return View();
         }
-        
+
+        public IActionResult MineInnmeldinger()
+        {
+            return View();
+        }
 
 
         public IActionResult Hjelp()
