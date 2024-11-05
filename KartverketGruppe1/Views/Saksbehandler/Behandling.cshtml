@@ -92,6 +92,10 @@ background-color: transparent; /* Gjør bakgrunnen gjennomsiktig */
  text-align: center;
 cursor: pointer;
  display: flex;
+ flex-direction: column;
+ margin-left: 5px;
+ width: 10px;
+ height: 2%;
 }
 
 
@@ -236,11 +240,12 @@ cursor: pointer;
     color: #308a5a;
     cursor: pointer;
     font-size: 10px;
-    width: 80px;
+    width: 70px;
 }
 
 .logout-button:hover {
     background-color: #4a7ba0; /* Mørkere blå ved hover */
+    
 }
 
  .extra-box6 {
@@ -514,7 +519,7 @@ display:flex;
             <div class="box">
                 <h3> <span class="underline-text">Innmelding info</span></h3>
             <div class="extra-box">
-                    <p> Tekst: Her skal det være masse info om hva aviket er.</p>
+                    <p> Tekst: Her skal det være masse info om hva avviket er.</p>
                 </div>
                 <div class="extra-box2">
                     <p> ID:<br>
@@ -573,7 +578,7 @@ display:flex;
                     <select id="dropdown2" name="dropdown2">
                         <option value="option1">Vanlig prioritet</option>
                         <option value="option2">Prioritet</option>
-                        <option value="option3">lav prioritet</option>
+                        <option value="option3">Lav prioritet</option>
                     </select>
                     <label for="dropdown3">Status:</label>
                     <select id="dropdown3" name="dropdown3">
