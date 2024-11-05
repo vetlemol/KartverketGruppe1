@@ -67,10 +67,11 @@ text-align: center;
 margin: 20px  auto 2px auto;
 }
 .profile-divider {
-border: 0;
+border: 0; /* Blå farge og tykkelsen på streken */
 border-top: 1px solid rgb(33, 40 ,121); /* Blå farge og tykkelsen på streken */
+background-color: rgb(33, 40, 121);
 margin-bottom: 20px; /* Juster avstanden over og under streken */
-margin-top: 20px;
+margin-top: 15px;
  color: rgb(33, 40, 121);
 }
 
@@ -471,8 +472,11 @@ display:flex;
         <ul>
             <li>
             <li><img src="~/Images/Profilbilde.png" alt="" class="profile-image"></li> <!-- Legger til bildet her -->
-          <hr class="profile-divider"
+          @* <hr class="profile-divider"> *@
           </li>
+            <li>
+                <div class="profile-divider"></div> <!-- Legger til linjen her -->
+            </li>
 
                 <img src="~/Images/ClipboardIcon.png" alt="Mine henvendelser" class="nav-icon">
                 <a href="/Saksbehandler/MineHenvendelser">Mine<br>
