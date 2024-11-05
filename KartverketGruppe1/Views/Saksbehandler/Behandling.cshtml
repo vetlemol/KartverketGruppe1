@@ -82,6 +82,11 @@ margin-bottom: 5px; /* Legger til avstand under ikonene */
 display: block;
 margin: 0 auto; /* Sentrerer ikonene */
 }
+
+.nav-icon:hover{
+    background-color:#96B7D6;
+}
+
 .logout-button {
 background-color: transparent; /* Gjør bakgrunnen gjennomsiktig */
  border: none; /* Fjerner kantlinjen */
@@ -116,11 +121,14 @@ padding: 60px;
  box-sizing: border-box;
  color: rgb(16, 15, 15);
 border-radius: 5px;
-}
 
+}
+.box h1, .box h2, .box h3, .box h4, .box h5, .box h6 {
+    font-size: 18px; /* Juster denne verdien etter behov */
+    margin-bottom: 10px; /* Juster avstanden under overskriften */
+}
        
 
- 
 
 .bottom-line {
  position: absolute;
@@ -244,7 +252,7 @@ cursor: pointer;
 }
 
 .logout-button:hover {
-    background-color: #4a7ba0; /* Mørkere blå ved hover */
+color: #156630; /* Mørkere blå ved hover */
     
 }
 
@@ -477,7 +485,6 @@ display:flex;
         <ul>
             <li>
             <li><img src="~/Images/Profilbilde.png" alt="" class="profile-image"></li> <!-- Legger til bildet her -->
-          @* <hr class="profile-divider"> *@
           </li>
             <li>
                 <div class="profile-divider"></div> <!-- Legger til linjen her -->
