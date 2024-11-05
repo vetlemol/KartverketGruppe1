@@ -323,6 +323,43 @@ namespace KartverketGruppe1.Controllers
 
 
         [HttpGet]
+        public IActionResult TestHedda()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult AddAvvik(string Avvik)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(Avvik))
+                {
+                    ViewData["Error"] = "Vennligst fyll ut feltene.";
+                    return View();
+                }
+                else
+                {
+                    var nyAvvik = new Avvikstype
+                    {
+                        Type = Avvik
+                    };
+
+                    _context.Avvikstype.Add(nyAvvik);
+                    _context.SaveChanges();
+                    return RedirectToAction("KartInnmelding");
+                }
+            }
+            catch (Exception e)
+            {
+                ViewData["Error"] = e.Message;
+                return View();
+            }
+        }
+
+
+
+        [HttpGet]
         public IActionResult TestVetle()
         {
             return View();

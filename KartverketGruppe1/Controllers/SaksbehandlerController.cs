@@ -16,6 +16,12 @@ namespace KartverketGruppe1.Controllers
             return View();
         }
 
+
+        public IActionResult MineHenvendelser()
+        {
+            return View();
+        }
+
         public IActionResult Arkiv()
         {
             return View();
