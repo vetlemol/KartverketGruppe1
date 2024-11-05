@@ -4,6 +4,7 @@ using KartverketGruppe1.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KartverketGruppe1.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241104155404_AddIdentity")]
+    partial class AddIdentity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -39,6 +42,47 @@ namespace KartverketGruppe1.Migrations
                     b.ToTable("Avvikstype");
                 });
 
+            modelBuilder.Entity("KartverketGruppe1.Data.Bruker", b =>
+                {
+                    b.Property<int>("BrukerID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("BrukerID"));
+
+                    b.Property<string>("Epost")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("Etternavn")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("Fodselsdato")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Fornavn")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Passord")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<byte[]>("Profilbilde")
+                        .HasColumnType("longblob");
+
+                    b.Property<string>("Telefonnummer")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("BrukerID");
+
+                    b.HasIndex("Epost")
+                        .IsUnique();
+
+                    b.ToTable("Bruker");
+                });
+
             modelBuilder.Entity("KartverketGruppe1.Data.Innmelding", b =>
                 {
                     b.Property<int>("InnmeldingID")
@@ -50,8 +94,8 @@ namespace KartverketGruppe1.Migrations
                     b.Property<int>("AvvikstypeID")
                         .HasColumnType("int");
 
-                    b.Property<string>("BrukerID")
-                        .HasColumnType("varchar(255)");
+                    b.Property<int?>("BrukerID")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("Dato")
                         .HasColumnType("datetime(6)");
@@ -77,8 +121,8 @@ namespace KartverketGruppe1.Migrations
                     b.Property<int?>("PrioritetID")
                         .HasColumnType("int");
 
-                    b.Property<string>("SaksbehandlerID")
-                        .HasColumnType("varchar(255)");
+                    b.Property<int?>("SaksbehandlerID")
+                        .HasColumnType("int");
 
                     b.Property<int>("StatusID")
                         .HasColumnType("int");
@@ -181,6 +225,47 @@ namespace KartverketGruppe1.Migrations
                     b.ToTable("Prioritet");
                 });
 
+            modelBuilder.Entity("KartverketGruppe1.Data.Saksbehandler", b =>
+                {
+                    b.Property<int>("SaksbehandlerID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("SaksbehandlerID"));
+
+                    b.Property<string>("Ansvarsområde")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Avdeling")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Epost")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("Etternavn")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Fornavn")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Passord")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<byte[]>("Profilbilde")
+                        .HasColumnType("longblob");
+
+                    b.HasKey("SaksbehandlerID");
+
+                    b.HasIndex("Epost")
+                        .IsUnique();
+
+                    b.ToTable("Saksbehandler");
+                });
+
             modelBuilder.Entity("KartverketGruppe1.Data.Status", b =>
                 {
                     b.Property<int>("StatusID")
@@ -217,6 +302,10 @@ namespace KartverketGruppe1.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("tinyint(1)");
 
+                    b.Property<string>("Epost")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("Etternavn")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -242,7 +331,8 @@ namespace KartverketGruppe1.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)");
 
-                    b.Property<string>("Område")
+                    b.Property<string>("Passord")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("PasswordHash")
@@ -258,6 +348,9 @@ namespace KartverketGruppe1.Migrations
                         .HasColumnType("longblob");
 
                     b.Property<string>("SecurityStamp")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Telefonnummer")
                         .HasColumnType("longtext");
 
                     b.Property<bool>("TwoFactorEnabled")
@@ -419,8 +512,8 @@ namespace KartverketGruppe1.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("KartverketGruppe1.Models.ApplicationUser", "Bruker")
-                        .WithMany("Innmeldinger")
+                    b.HasOne("KartverketGruppe1.Data.Bruker", "Bruker")
+                        .WithMany()
                         .HasForeignKey("BrukerID");
 
                     b.HasOne("KartverketGruppe1.Data.Kommune", "Kommune")
@@ -439,7 +532,7 @@ namespace KartverketGruppe1.Migrations
                         .WithMany()
                         .HasForeignKey("PrioritetID");
 
-                    b.HasOne("KartverketGruppe1.Models.ApplicationUser", "Saksbehandler")
+                    b.HasOne("KartverketGruppe1.Data.Saksbehandler", "Saksbehandler")
                         .WithMany()
                         .HasForeignKey("SaksbehandlerID");
 
@@ -524,11 +617,6 @@ namespace KartverketGruppe1.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("KartverketGruppe1.Models.ApplicationUser", b =>
-                {
-                    b.Navigation("Innmeldinger");
                 });
 #pragma warning restore 612, 618
         }
