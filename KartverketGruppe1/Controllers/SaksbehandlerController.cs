@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace KartverketGruppe1.Controllers
 {
     [Authorize(Roles = "Saksbehandler")]
+    [AllowAnonymous]
     public class SaksbehandlerController : Controller
     {
         public IActionResult Behandling()

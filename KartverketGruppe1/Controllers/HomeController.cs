@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace KartverketGruppe1.Controllers
 {
     [Authorize(Roles = "Bruker")]
+    [AllowAnonymous]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

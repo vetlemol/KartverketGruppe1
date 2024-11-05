@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace KartverketGruppe1.Controllers
 {
@@ -14,6 +15,7 @@ namespace KartverketGruppe1.Controllers
             _httpClient = httpClient;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         [Route("api/Kommune/GetByCoordinate")]
         public async Task<IActionResult> GetByCoordinate(double lat, double lng, int koordsys = 4258)
