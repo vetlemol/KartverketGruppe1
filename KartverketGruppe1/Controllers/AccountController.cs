@@ -42,7 +42,7 @@ namespace KartverketGruppe1.Controllers
                     {
                         return RedirectToAction("Arbeidsbord", "Saksbehandler");
                     }
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("BrukerProfil", "Home");
                 }
 
                 ModelState.AddModelError(string.Empty, "Invalid login attempt.");
@@ -87,10 +87,15 @@ namespace KartverketGruppe1.Controllers
             return View(model);
         }
 
+
+        public IActionResult Loggut()
+        {
+            return View();
+        }
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Account");
         }
     }
 }

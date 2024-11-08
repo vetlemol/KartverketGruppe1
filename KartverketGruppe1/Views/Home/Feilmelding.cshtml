@@ -17,7 +17,7 @@
         }
 
         .background-image {
-            background-image: url('/Images/TestBryggeBilde.png'); /* Legg til ditt bakgrunnsbilde */
+            background-image: url('/Bakgrunnsbilder/TestBryggeBilde.png'); /* Legg til ditt bakgrunnsbilde */
             background-size: cover;
             background-position: center;
             position: absolute;
@@ -92,6 +92,13 @@
     <script>
         function redirectToIndex() {
             window.location.href = "/Home/Index";
+        }
+
+        function redirectHome(){
+            if (Role.IsUserInRole("Saksbehandler" ))
+                window.location.href = "/Saksbehandler/Arbeidsbord";
+            else
+                window.location.href = "/Home/Index";)
         }
     </script>
 </body>
