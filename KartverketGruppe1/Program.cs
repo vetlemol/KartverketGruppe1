@@ -43,9 +43,9 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
-    options.LoginPath = "/Account/Login"; // Hvor brukeren blir sendt til om de ikke er logget inn - må endres til riktig path
+    options.LoginPath = "/Account/Login"; // Hvor brukeren blir sendt til om de ikke er logget inn
     options.LogoutPath = "/Account/Logout";
-    options.AccessDeniedPath = "/Account/AccessDenied";
+    options.AccessDeniedPath = "/Home/Feilmelding";
     options.ExpireTimeSpan = TimeSpan.FromHours(3);
 });
 

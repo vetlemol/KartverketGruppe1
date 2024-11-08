@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace KartverketGruppe1.Controllers
 {
     [Authorize(Roles = "Bruker")]
-    [AllowAnonymous]
+    // [AllowAnonymous]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -24,7 +24,7 @@ namespace KartverketGruppe1.Controllers
             _context = context;
         }
 
-        [AllowAnonymous]
+        // [AllowAnonymous]
         [HttpGet]
         public IActionResult Index()
         {
@@ -160,6 +160,8 @@ namespace KartverketGruppe1.Controllers
             
             return RedirectToAction("BrukerProfil");
         }
+
+        [AllowAnonymous]
         public IActionResult Feilmelding()
         {
             return View();
@@ -412,6 +414,36 @@ namespace KartverketGruppe1.Controllers
                     };
 
                     _context.Avvikstype.Add(avvikstype);
+                    _context.SaveChanges();
+                    return RedirectToAction("TestVetle");
+
+                }
+                else
+                {
+                    return View(Feilmelding);
+                }
+            }
+            catch (Exception e)
+            {
+                ViewData["Error"] = e.Message;
+                return View();
+            }
+        }
+
+
+        [HttpPost]
+        public IActionResult lagPrioritet(Prioritet prioritet)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    prioritet = new Prioritet
+                    {
+                        Prioritetsnivå = prioritet.Prioritetsnivå,
+                    };
+
+                    _context.Prioritet.Add(prioritet);
                     _context.SaveChanges();
                     return RedirectToAction("TestVetle");
 
