@@ -13,7 +13,7 @@
     </style>
     </head>
     <body>
-    <h2>Lag Bruker</h2>
+    <h2>Statustype</h2>
 
     <form asp-action="lagStatus" method="post">
 
@@ -25,9 +25,18 @@
 
     @* Få inn samme greia for Prioritet*@
 
+    <h2>Avvikstype</h2>
     <form asp-action="lagAvvikstype" method="post">
         <label for="Type">Legg til avvikstype:</label>
         <input type="text" id="Type" name="Type" required>
+        <br />
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+    <h2>Prioritet</h2>
+    <form asp-action="LagPrioritet" method="post">
+        <label for="Prioritetsnivå">Legg til prioritet:</label>
+        <input type="text" id="Prioritetsnivå" name="Type" required>
         <br />
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>

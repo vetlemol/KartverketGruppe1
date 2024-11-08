@@ -1,4 +1,5 @@
-﻿ @{
+﻿@model LoginViewModel
+ @{
     ViewData["Title"] = "Index";
 }
 <style>
@@ -116,10 +117,10 @@
 
 <div class="login-container">
     <h2>Logg på</h2>
-    <p>Har du ikke konto? <a href="Home/LagBruker" class="register-link">Registrer deg</a></p>
+    <p>Har du ikke konto? <a href="/Account/Register" class="register-link">Registrer deg</a></p>
     <a href="/Home/KartInnmelding" class="guest-link">Fortsett som gjest</a>
 
-    <form asp-action="Index" asp-controller="Home" method="post">
+    <!-- <form asp-action="Index" asp-controller="Home" method="post">
         <div class="form-group">
             <input type="text" class="form-control" name="Epost" placeholder="Epost" required>
         </div>
@@ -128,7 +129,33 @@
         </div>
         <button type="submit" class="btn btn-primary btn-block">Fortsett</button>
     </form>
+                                                              -->
+    <form method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
+        <div class="form-group">
+            <label asp-for="Email">E-post</label>
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Password">Passord</label>
+            <input asp-for="Password" class="form-control" type="password" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label>
+                <input asp-for="RememberMe" type="checkbox" />
+                Husk meg
+            </label>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Logg inn</button>
+    </form>
+
+    <!--                                                            -->
     <div class="separator">eller</div>
 
     <button class="btn btn-google btn-block" onclick="redirectToHjemSkjermGjest">
@@ -170,3 +197,41 @@
 
     window.onload = setRandomBackground;
 </script>
+
+
+@* @model LoginViewModel
+
+@{
+    ViewData["Title"] = "Log in";
+}
+<h2>Logg inn</h2>
+
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="Email">E-post</label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Password">Passord</label>
+                <input asp-for="Password" class="form-control" type="password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label>
+                    <input asp-for="RememberMe" type="checkbox" />
+                    Husk meg
+                </label>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Logg inn</button>
+        </form>
+        <p>Har du ikke bruker? <a href="/Account/Register">Registrer deg her</a></p>
+    </div>
+</div> *@

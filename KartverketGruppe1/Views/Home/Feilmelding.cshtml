@@ -93,6 +93,13 @@
         function redirectToIndex() {
             window.location.href = "/Home/Index";
         }
+
+        function redirectHome(){
+            if (Role.IsUserInRole("Saksbehandler" ))
+                window.location.href = "/Saksbehandler/Arbeidsbord";
+            else
+                window.location.href = "/Home/Index";)
+        }
     </script>
 </body>
 </html>
