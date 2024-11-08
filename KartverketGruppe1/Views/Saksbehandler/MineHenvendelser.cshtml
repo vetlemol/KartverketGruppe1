@@ -353,7 +353,7 @@
         <!-- Den store blå boksen -->
         <div class="blue-box">
             <!-- Hver enkelt boks med informasjon -->
-            <div class="item-box">
+        <div class="item-box" onclick="redirectToBehandling()">
                 <div class="info">
                     <img src="~/Images/AnkerRod.png" alt="Info ikon">
                     <span>Kristiansand, Agder</span>
@@ -363,12 +363,13 @@
                     <span>Saksbehandler: Navn Etternavn</span>
                     <span>05.11.2024</span>
                 </div>
-                <div class="status status-UnderBehandling">
+            <div class="status status-UnderBehandling">
                     Under behandling
                 </div>
+                
             </div>
 
-            <div class="item-box">
+        <div class="item-box" onclick="redirectToBehandling()">
                 <div class="info">
                     <img src="~/Images/Location.png" alt="Info ikon">
                     <span>Kristiansand, Agder</span>
@@ -383,7 +384,7 @@
                 </div>
             </div>
 
-            <div class="item-box">
+        <div class="item-box" onclick="redirectToBehandling()">
                 <div class="info">
                     <img src="~/Images/Location.png" alt="Info ikon">
                     <span>Kristiansand, Agder</span>
@@ -608,6 +609,9 @@
         window.location.href = "/Saksbehandler/Arbeidsbord";
     }
 
+    function redirectToBehandling() {
+        window.location.href = "/Saksbehandler/Behandling";
+    }
 
 
 </script>
