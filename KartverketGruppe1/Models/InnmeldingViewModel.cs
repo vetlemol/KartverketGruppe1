@@ -10,12 +10,14 @@ namespace KartverketGruppe1.Models
 
         public int KommuneID { get; set; }
 
+        public int KoordinatID { get; set; }
+
         [Required(ErrorMessage = "Velg type avvik")]
-        public int AvvikTypeID { get; set; }
+        public int AvvikstypeID { get; set; }
 
         [Required(ErrorMessage = "Beskrivelse er påkrevd")]
         [MinLength(10, ErrorMessage = "Beskrivelsen må være minst 10 tegn")]
-        public string Beskrivelse { get; set; }
+        public string Innmeldingsbeskrivelse { get; set; }
 
         public DateTime Dato { get; set; }
 
@@ -58,22 +60,4 @@ namespace KartverketGruppe1.Models
         }
     }
 
-    //// Enum for status
-    //public enum InnmeldingStatus
-    //{
-    //    NyInnmelding = 1,
-    //    UnderBehandling = 2,
-    //    Fullfort = 3,
-    //    Avvist = 4
-    //}
-
-    //// Enum for prioritet
-    //public enum InnmeldingPrioritet
-    //{
-    //    Lav = 1,
-    //    Medium = 2,
-    //    Hoy = 3
-    
-
-    //}
 }
