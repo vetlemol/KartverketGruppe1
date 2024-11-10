@@ -5,6 +5,7 @@ a.navbar-brand {
   white-space: normal;
   text-align: center;
   word-break: break-all;
+  position: fixed;
 }
 
 
@@ -44,4 +45,5 @@ button.accept-policy {
   width: 100%;
   color: #00973D; /* Setter fargen til grønn */
 }
+
 
