@@ -428,13 +428,13 @@
 </div>
  <!-- Knapp-container -->
 <div class="button-container">
-    <div class="button1">
+    <div class="button1" onclick="redirectToMineInnmeldinger()">
         <p>Slett</p>
     </div>
-     <div class="button2">
+     <div class="button2"  onclick="redirectToMineInnmeldinger()">
         <p>Lukk</p>
     </div>
-     <div class="button3">
+     <div class="button3"  onclick="redirectToMineInnmeldinger()">
         <p>Lagre</p>
     </div> 
 </div>
@@ -443,4 +443,10 @@
 
 
 </body>
+<script>
+    function redirectToMineInnmeldinger() {
+        window.location.href = "/Home/MineInnmeldinger";
+    }
+
+</script>
 </html>
