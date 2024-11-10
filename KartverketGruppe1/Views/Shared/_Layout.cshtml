@@ -7,11 +7,15 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/KartverketGruppe1.styles.css" asp-append-version="true" />
-   
+    <style>
+        body {
+            padding-top: 50px; /* Juster denne verdien etter høyden på navigasjonslinjen */
+        }
+    </style>
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light box-shadow mb-0 custom-navbar">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light box-shadow mb-0 custom-navbar fixed-top">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
                     <img src="~/Images/logoKartverketstrl.png" alt="Kartverket logo" class="logo"/>
@@ -94,7 +98,7 @@
             </div>
         </nav>
     </header>
-    <div class="container">
+    <div class="container"style="padding-top: 50px;">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>

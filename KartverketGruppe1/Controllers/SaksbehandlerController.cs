@@ -51,12 +51,14 @@ namespace KartverketGruppe1.Controllers
 
         // [Authorize(Roles = "Saksbehandler")] // For at bare eksisterende saksbehandlere kan registrere nye, må se om vi skal ha dette. Må uansett legge til en saksbehandler i databasen først.
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult SaksbehandlerRegistrer()
         {
             return View();
         }
 
-        [Authorize(Roles = "Saksbehandler")]
+        // [Authorize(Roles = "Saksbehandler")]
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> Registrer(RegistrerSaksbehandlerViewModel model)
         {
