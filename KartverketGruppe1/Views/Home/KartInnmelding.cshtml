@@ -147,7 +147,7 @@
                 <input type="file" id="fileUpload" name="file-upload" accept="image/*" style="display: none;" />
             </div>
 
-            <button class="btn btn-success w-100 mt-3">Send inn</button>
+            <button class="btn btn-success w-100 mt-3" onclick="redirectRegistrer()">Send inn</button>
         </div>
     </div>
 
@@ -247,4 +247,8 @@
             alert("Vennligst velg en posisjon på kartet.");
         }
     });
+
+    function redirectRegistrer() {
+        window.location.href = "/Home/Registrert";
+    }
 </script>

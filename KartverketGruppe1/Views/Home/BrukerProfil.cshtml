@@ -1,4 +1,4 @@
-﻿@model KartverketGruppe1.Models.BrukerProfilViewModel
+﻿@*@model KartverketGruppe1.Models.BrukerProfilViewModel *@
 
 @{
     ViewData["Title"] = "Min Profil";
@@ -30,7 +30,7 @@
     </button>
 
     <img src="~/images/KartikusMinProfil.png" alt="Profilbilde" style="border-radius: 50%; margin-right: 20px; margin-left: 75px; width: 70px; height: 70px; object-fit: cover; border: 1px solid #3b6e3b;" />
-    <h3 style="color: #3b6e3b;">Min Profil</h3>
+    <h3 style="color: #3b6e3b;">@User.Identity.Name</h3>
 </div>
 
 <div class="profile-container" style="max-width: 1000px; margin: auto; padding: 30px; background-color: #D8E3F2; border-radius: 10px; position: relative; z-index: 1;">
@@ -51,7 +51,7 @@
             
         <div style="border-left: 2px solid #3b6e3b; margin-top: -10px; padding: 30px 60px 40px 30px; margin-left: 60px; flex: 1">
             <div style="margin-top: -20px; margin-left: 20px;">
-                @if (Model != null)
+                @* @if (Model != null)
                 {
                     <p>@Model.Name</p>
                     <p>@Model.Email</p>
@@ -61,7 +61,9 @@
                 else
                 {
                     <p>Ingen data tilgjengelig</p>
-                }
+                } *@
+
+                
             </div>
 
             <a asp-action="RedigerBrukerProfil" class="edit-profile-button" style="position: absolute; top: 10px; right: 10px; padding: 5px 10px;">

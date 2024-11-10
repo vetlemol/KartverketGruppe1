@@ -6,7 +6,9 @@ namespace KartverketGruppe1.Data
     {
         [Key]
         public int KoordinatID { get; set; }
-        [Required]
-        public string Koordinater { get; set; }
+        public string? Koordinater { get; set; }
+
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
     }
 }
