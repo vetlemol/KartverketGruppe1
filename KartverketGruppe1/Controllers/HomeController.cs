@@ -243,6 +243,7 @@ namespace KartverketGruppe1.Controllers
             return View();
         }
 
+        [AllowAnonymous]
          public IActionResult Registrert()
         {
             return View();
