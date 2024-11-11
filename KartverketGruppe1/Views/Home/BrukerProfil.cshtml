@@ -1,4 +1,4 @@
-﻿@*@model KartverketGruppe1.Models.BrukerProfilViewModel *@
+﻿@model KartverketGruppe1.Models.BrukerProfilViewModel 
 
 @{
     ViewData["Title"] = "Min Profil";
@@ -47,19 +47,18 @@
         <div style="flex 1;">
             <p><strong>Navn</strong></p>
             <p><strong>E-postadresse</strong></p>
-            <p><strong>Telefon</strong></p>
+           @*  <p><strong>Telefon</strong></p> *@
             <p><strong>Fødselsdato</strong></p>
         </div>
-
-        <div style="position: absolute; bottom: 80px; left: 85px;">
-            <button onclick="window.location.href='@Url.Action("Index", "Home")'" class="logout-button">
+        <div style="position: absolute; bottom: 50px; left: 85px;">
+            <button onclick="window.location.href='@Url.Action("logout", "Account")'" class="logout-button">
                 Logg ut
             </button>
         </div>
             
         <div style="border-left: 2px solid #3b6e3b; margin-top: -10px; padding: 30px 60px 40px 30px; margin-left: 60px; flex: 1">
             <div style="margin-top: -20px; margin-left: 20px;">
-                @* @if (Model != null)
+                 @if (Model != null)
                 {
                     <p>@Model.Name</p>
                     <p>@Model.Email</p>
@@ -69,7 +68,7 @@
                 else
                 {
                     <p>Ingen data tilgjengelig</p>
-                } *@
+                } 
 
                 
             </div>

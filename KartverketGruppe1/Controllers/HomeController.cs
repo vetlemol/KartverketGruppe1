@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using KartverketGruppe1.Data;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace KartverketGruppe1.Controllers
 {
@@ -15,13 +17,15 @@ namespace KartverketGruppe1.Controllers
         private readonly IKommuneInfoService _kommuneInfoService;
         private readonly IStedsnavnService _stedsnavnService;
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public HomeController(ILogger<HomeController> logger, IKommuneInfoService kommuneInfoService, IStedsnavnService stedsnavnService, ApplicationDbContext context)
+        public HomeController(ILogger<HomeController> logger, IKommuneInfoService kommuneInfoService, IStedsnavnService stedsnavnService, ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _logger = logger;
             _kommuneInfoService = kommuneInfoService;
             _stedsnavnService = stedsnavnService;
             _context = context;
+            _userManager = userManager;
         }
 
         // [AllowAnonymous]
@@ -31,36 +35,86 @@ namespace KartverketGruppe1.Controllers
             return View();
         }
 
-        //[HttpPost]
-        //public IActionResult Index(string Epost, string Passord) // Håndterer Parameterene fra innloggingsskjemaet i Index
-        //{
-        //    var user = _context.Bruker.SingleOrDefault(u => u.Epost == Epost && u.Passord == Passord);
-        //    if (user != null)
-        //    {
-        //        HttpContext.Session.SetInt32("BrukerID", user.BrukerID);
-        //        return RedirectToAction("FjernOversikt", new { id = user.BrukerID }); // Redirect til oversiktssiden for brukeren
-        //    }
-        //    else
-        //    {
-        //        ViewBag.Error = "Invalid email or password.";
-        //        return View();
-        //    }
-
-        //}
-
-
-        //public IActionResult FjernOversikt(int id)
-        //{
-        //    var bruker = _context.Bruker.Find(id); // Henter brukeren som er logget inn
-        //    var innmeldinger = _context.Innmelding.Where(i => i.BrukerID == id).ToList(); // Henter alle innmeldinger brukeren har laget
-        //    ViewBag.Bruker = bruker;
-        //    ViewBag.Innmeldinger = innmeldinger;
-        //    return View();
-        //}
-
-        public IActionResult FjernOversikt()
+        public async Task<IActionResult> Oversikt()
         {
-            return View();
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (currentUser == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            var innmeldinger = await _context.Innmelding
+                .Include(i => i.Status)
+                .Include(i => i.Kommune)
+                .Where(i => i.BrukerID == currentUser.Id)
+                .OrderByDescending(i => i.Dato)
+                .ToListAsync();
+
+            return View(innmeldinger);
+        }
+    
+
+
+    // Henter innmeldinger for innlogget bruker
+    //public async Task<IActionResult> FjernOversikt()
+    //    {
+    //        var currentUser = await _userManager.GetUserAsync(User);
+    //        if (currentUser == null)
+    //        {
+    //            return RedirectToAction("Login", "Account");
+    //        }
+
+    //        var innmeldinger = await _context.Innmelding
+    //            .Include(i => i.Kommune)
+    //            .Include(i => i.Status)
+    //            .Include(i => i.Prioritet)
+    //            .Include(i => i.Koordinat)
+    //            .Include(i => i.Avvikstype)
+    //            .Include(i => i.Bruker)
+    //            .Include(i => i.Saksbehandler)
+    //            .Where(i => i.BrukerID == currentUser.Id)
+    //            .OrderByDescending(i => i.Dato)
+    //            .ToListAsync();
+
+    //        return View(innmeldinger);
+    //    }
+
+
+
+
+        // Denne metoden viser detaljene for en spesifikk innmelding
+        public async Task<IActionResult> InnmeldingOversikt(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (currentUser == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            var innmelding = await _context.Innmelding
+                .Include(i => i.Kommune)
+                .Include(i => i.Status)
+                .Include(i => i.Prioritet)
+                .Include(i => i.Koordinat)
+                .Include(i => i.Avvikstype)
+                .Include(i => i.Bruker)
+                .Include(i => i.Saksbehandler)
+                .FirstOrDefaultAsync(m => m.InnmeldingID == id && m.BrukerID == currentUser.Id);
+
+            if (innmelding == null)
+            {
+                return NotFound();
+            }
+
+            ViewBag.Statuser = await _context.Status.ToListAsync();
+            ViewBag.Prioriteter = await _context.Prioritet.ToListAsync();
+
+            return View(innmelding);
         }
 
 
@@ -69,53 +123,6 @@ namespace KartverketGruppe1.Controllers
         {
             return View();
         }
-
-        //[HttpPost]
-        //public IActionResult LagBruker(Bruker bruker) 
-        //{
-        //    try
-        //    {
-        //        if (ModelState.IsValid)
-        //        {
-        //            if (bruker.Telefonnummer != null) // Sjekker om telefonnummer er fylt ut
-        //            {
-        //                bruker = new Bruker
-        //                {
-        //                    Fornavn = bruker.Fornavn,
-        //                    Etternavn = bruker.Etternavn,
-        //                    Epost = bruker.Epost,
-        //                    Passord = bruker.Passord,
-        //                    Telefonnummer = bruker.Telefonnummer,
-        //                };
-
-        //            }
-        //            else
-        //            {
-        //                bruker = new Bruker // Trenger ikke ha telefonnummer her siden det er nullable
-        //                {
-        //                    Fornavn = bruker.Fornavn,
-        //                    Etternavn = bruker.Etternavn,
-        //                    Epost = bruker.Epost,
-        //                    Passord = bruker.Passord
-        //                };
-        //            }
-
-        //            _context.Bruker.Add(bruker);
-        //            _context.SaveChanges();
-        //            return RedirectToAction("BrukerProfil");
-
-        //        }
-        //        else
-        //        {
-        //            return View(Feilmelding);
-        //        }
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        ViewData["Error"] = e.Message;
-        //        return View();
-        //    }
-        //}
 
 
 
@@ -131,10 +138,63 @@ namespace KartverketGruppe1.Controllers
         };
 
         [HttpGet]
-        public IActionResult BrukerProfil()
+        //public IActionResult BrukerProfil()
+        //{
+        //    return View(_brukerProfil);
+        //}
+
+
+        public async Task<IActionResult> BrukerProfil()
         {
-            return View(_brukerProfil);
+            // Hent innlogget bruker
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (currentUser == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            // Hent innmeldinger for statistikk
+            var innmeldinger = await _context.Innmelding
+                .Where(i => i.BrukerID == currentUser.Id)
+                .ToListAsync();
+
+            // Beregn innmeldinger per måned for inneværende år
+            var currentYear = DateTime.Now.Year;
+            var submissionsPerMonth = new int[12];
+
+            foreach (var innmelding in innmeldinger.Where(i => i.Dato.Year == currentYear))
+            {
+                submissionsPerMonth[innmelding.Dato.Month - 1]++;
+            }
+
+            // Hent unike år for innmeldinger
+            var years = innmeldinger
+                .Select(i => i.Dato.Year)
+                .Distinct()
+                .OrderByDescending(y => y)
+                .ToList();
+
+            var viewModel = new BrukerProfilViewModel
+            {
+                Name = $"{currentUser.Fornavn} {currentUser.Etternavn}",
+                Email = currentUser.Email,
+                Phone = currentUser.PhoneNumber,
+                BirthDate = new DateTime(1999, 03, 27),
+                SubmissionsPerMonth = new List<int> { 3, 2, 0, 3, 1, 0, 2, 1, 0, 4, 0, 3 },
+                Years = new List<int> { 2022, 2023, 2024 }
+            };
+
+            return View(viewModel);
         }
+
+
+
+
+
+
+
+
+
 
         [HttpGet]
         public IActionResult RedigerBrukerProfil()
@@ -460,6 +520,8 @@ namespace KartverketGruppe1.Controllers
                 return View();
             }
         }
+
+
 
 
 
