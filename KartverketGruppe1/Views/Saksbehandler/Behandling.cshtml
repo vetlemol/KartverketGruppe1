@@ -203,7 +203,7 @@ padding: 5px 20px 20px 6px;
  border-radius: 10px;
  color: #030303;
 margin-bottom: 20px;
-height: 150px;
+height: 80px;
 }
 
 .extra-box2 p {
@@ -332,9 +332,9 @@ padding: 2px 10px;
 border-radius: 5px;
 color: #070707;
  margin-bottom: 20px;
-height: 80px;
+height: 30px;
 line-height: 1.1;
-margin-top: 20px;
+margin-top: 10px;
         }
 
 .extra-box9 {
@@ -354,7 +354,7 @@ padding: 2px 10px;
 border-radius: 5px;
 color: #070707;
 margin-bottom: 20px;
-height: 80px;
+height: 50px;
 line-height: 1.1;
 margin-top: 20px;
  }
@@ -365,6 +365,17 @@ border-radius: 5px;
 color: #070707;
 margin-bottom: 20px;
 height: 150px;
+line-height: 1.1;
+ margin-top: 20px;
+border: 1px solid #ccc;
+}
+.extra-box13 {
+background-color: white; /* Ny bakgrunnsfarge for ekstraboksen */
+padding: 2px 10px;
+border-radius: 5px;
+color: #070707;
+margin-bottom: 20px;
+height: 40px;
 line-height: 1.1;
  margin-top: 20px;
 border: 1px solid #ccc;
@@ -593,7 +604,7 @@ display:flex;
                         <option value="option8">Geolett</option>
                         <option value="option9">Grunnvann</option>
                         <option value="option10">Ruter</option>
-                         <option value="option11">Sjokart</option>
+                         <option value="option11">Sjøkart</option>
                           <option value="option12">Stedsnavn</option>
                            <option value="option13">Ut</option>
                     </select>
@@ -613,7 +624,7 @@ display:flex;
                         <option value="option5">Geolett</option>
                         <option value="option6">Grunnvann</option>
                         <option value="option7">Ruter</option>
-                         <option value="option8">Sjokart</option>
+                         <option value="option8">Sjøkart</option>
                           <option value="option9">Stedsnavn</option>
                            <option value="option10">Ut</option>
 
@@ -632,18 +643,32 @@ display:flex;
                          <option value="option4">Behandlet uten tilbakemelding</option>
                           <option value="option5">Ikke tatt til følge</option>
                     </select>
+                    <label for="dropdown3">Saksbehandler:</label>
+                    <select id="dropdown3" name="dropdown3">
+                        <option value="option1">Ola Nordmann</option>
+                        <option value="option2">Tore Thoresen</option>
+                        <option value="option3">Kari Hansen</option>
+                         <option value="option4">Lisa Nordmann</option>
+                          <option value="option5">Finn Finsen</option>
+                    </select>
                 </div>
-                <div class="extra-box7">
-                    <p> 
-                        Saksbehandler:    Navn Etternavn
-                    </p>
-                     <p class="endre-link">Endre...</p> <!-- Legger til teksten her -->
-                </div>
+                
+               
                 <div class="extra-box8">
-                    <p> Kommentar:<br>
-                        Ingen kommentarer..<br>
-                    </p>
-                    <p class="ny-kommentar-link">Ny kommentar...</p> <!-- Legger til teksten her -->
+                    <p style=> Kommentar: </p>
+                         <p style= color:#0068CB; margin-left: 10px;  > Ny kommentar.. </p>
+                    </div>
+                <div class="extra-box13">
+                    <p><strong> Saksbehandler 1: <br></strong>
+                    Kommentar om sak<br></p>
+                </div>
+                <div class="extra-box13">
+                    <p><strong> Saksbehandler 3: <br></strong>
+                    Kommentar om sak<br></p>
+                </div>
+                <div class="extra-box13">
+                    <p><strong> Innmelder: <br></strong>
+                    Feks. ekstra info fra innmelder<br></p>
                 </div>
                
             </div>
@@ -672,8 +697,8 @@ display:flex;
                 </div>
                 <div class="bottom-line"> 
                     <p class="contact-info">
-                        Saksbehandler: Navn Etternavn (ID:1234), navnetternavn@statkart.no, 123 45 678(tlf)<br>
-                        Innmelder: Navn Etternavn (ID:1234), navnetternavn@mail.no, 123 45 678(tlf)<br>
+                        Saksbehandler: Navn Etternavn (ID:1234), navnetternavn@statkart.no, 123 45 678 (tlf)<br>
+                        Innmelder: Navn Etternavn (ID:1234), navnetternavn@mail.no, 123 45 678 (tlf)<br>
                         <span class="send-email">Send henvendelse som e-post</span> <!-- Legger til teksten her -->
                     </p>
                 </div> <!-- Legger til linjen her -->

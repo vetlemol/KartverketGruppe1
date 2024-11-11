@@ -179,6 +179,7 @@ namespace KartverketGruppe1.Controllers
 
 
 
+
         private void LoadAvvikstyper()
         {
             ViewBag.Avvikstyper = _context.Avvikstype
@@ -334,6 +335,7 @@ namespace KartverketGruppe1.Controllers
 
         [HttpPost]
         // [ValidateAntiForgeryToken]
+
         public async Task<IActionResult> LagreKoordinatOgKommune([FromBody] KoordinatKommuneModel model)
         {
             try
@@ -494,6 +496,8 @@ namespace KartverketGruppe1.Controllers
         public string Kommunenummer { get; set; }
         public string Kommunenavn { get; set; }
     }
+
+
 
 
 
