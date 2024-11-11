@@ -84,7 +84,13 @@
         <div class="form-container">
             <img src="~/Images/KartikusGlad.png" alt="Kartikus" />
             <h2>Registrert!</h2>
-            <p>Du vil nå få oppdateringer om din henvendelse på e-post</p>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <p>Du vil nå få oppdateringer om din henvendelse på hjemmesiden</p>
+            }
+            else{
+                <p style="padding: 0px 40px;">Gå tilbake til forsiden.</p>
+            }
             <button onclick="redirectToIndex()">Tilbake til forsiden</button>
         </div>
     </div>
