@@ -1,4 +1,4 @@
-﻿@model KartverketGruppe1.Data.Innmelding
+﻿@* @model KartverketGruppe1.Data.Innmelding
 @Html.AntiForgeryToken()
 
 <style>
@@ -115,16 +115,20 @@
         <form id="innmeldingForm" asp-action="Innmelding" asp-controller="Kart" method="post">
             @Html.AntiForgeryToken()
             <!-- Hidden inputs -->
-            <input type="hidden" asp-for="Dato" value="@DateTime.Now" />
-            <input type="hidden" asp-for="StatusID" value="1" />
-            <input type="hidden" asp-for="PrioritetID" value="1" />
             <input type="hidden" asp-for="KoordinatID" id="KoordinatID" />
             <input type="hidden" asp-for="KommuneID" id="KommuneID" />
+            <input type="hidden" asp-for="StatusID" value="3" />
+            <input type="hidden" asp-for="PrioritetID" value="1" />
+
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+
            @* @if (User.Identity.IsAuthenticated)
             {
                 @* <input type="hidden" asp-for="BrukerID" value="@User.FindFirst(ClaimTypes.NameIdentifier)?.Value" /> * @
                 <input type="hidden" asp-for="BrukerID" value="@User.Identity.Name" />
-            } *@
+            } *@ @*
 
             <div class="search-panel">
                 <!-- Kommune Info -->
@@ -288,11 +292,17 @@
                 console.error('Error:', error);
                 alert('Kunne ikke lagre posisjon. Vennligst prøv igjen.');
             }
+            console.log('Form data:', {
+    koordinatId: document.getElementById('KoordinatID').value,
+    kommuneId: document.getElementById('KommuneID').value,
+    avvikstypeId: document.querySelector('[name="AvvikstypeID"]').value,
+    beskrivelse: document.querySelector('[name="Innmeldingsbeskrivelse"]').value
+});
         });
     </script>
 }
 
-
+ *@
 
 
 
