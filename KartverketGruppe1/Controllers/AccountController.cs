@@ -42,7 +42,7 @@ namespace KartverketGruppe1.Controllers
                     {
                         return RedirectToAction("Arbeidsbord", "Saksbehandler");
                     }
-                    return RedirectToAction("KartInnmelding", "Home");
+                    return RedirectToAction("KartInnmelding", "Kart");
                 }
 
                 ModelState.AddModelError(string.Empty, "Invalid login attempt.");

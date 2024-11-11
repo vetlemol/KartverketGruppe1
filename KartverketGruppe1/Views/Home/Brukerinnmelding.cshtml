@@ -88,7 +88,7 @@
   border-radius: 10px;
   color: #030303;
   margin-bottom: 20px;
-  height: 150px;
+  height: 80px;
 }
 
 .extra-box2 p {
@@ -157,7 +157,7 @@
   border-radius: 5px;
   color: #070707;
    margin-bottom: 20px;
-  height: 80px;
+  height: 40px;
    line-height: 1.1;
    margin-top: 20px;
 }
@@ -173,6 +173,19 @@
   margin-top: 10px;
    border: 1px solid #ccc;
  }
+
+ .extra-box13 {
+background-color: white; /* Ny bakgrunnsfarge for ekstraboksen */
+border-radius: 5px;
+color: #070707;
+height: 20px;
+line-height: 1.1;
+ height: 60px;
+border: 1px solid #ccc;
+width: 250px;
+padding: 10px;
+
+}
        
  /* Knapp-container */
 .button-container {
@@ -326,7 +339,7 @@
             <div class="box">
                 <h3> <span class="underline-text">Innmelding info</span></h3>
             <div class="extra-box">
-                    <p> Tekst: Her skal det være masse info om hva aviket er.</p>
+                    <p> Tekst: Her skal det være masse info om hva avviket er.</p>
                 </div>
                 <div class="extra-box2">
                     <p> ID:<br>
@@ -345,52 +358,37 @@
                 
             </div>
 
-            <div class="box">
-                <h3> <span class="underline-text">Innmelding behandlig</span></h3>
-                <div class="extra-box6">
-                     <label for="dropdown1">Produktnavn:</label>
-                    <select id="dropdown1" name="dropdown1">
-                        <option value="option1">Bygg</option>
-                        <option value="option2">Den norske los</option>
-                        <option value="option3">DNT</option>
-                        <option value="option4">FKB</option>
-                        <option value="option5">Geolett</option>
-                        <option value="option6">Grunnvann</option>
-                        <option value="option7">Ruter</option>
-                         <option value="option8">Sjokart</option>
-                          <option value="option9">Stedsnavn</option>
-                           <option value="option10">Ut</option>
-
-                    </select>
-                    <label for="dropdown2">Prioritering:</label>
-                    <select id="dropdown2" name="dropdown2">
-                        <option value="option1">Vanlig prioritet</option>
-                        <option value="option2">Prioritet</option>
-                        <option value="option3">lav prioritet</option>
-                    </select>
-                    <label for="dropdown3">Status:</label>
-                    <select id="dropdown3" name="dropdown3">
-                        <option value="option1">Ikke påbegynt</option>
-                        <option value="option2">Under behandlig</option>
-                        <option value="option3">Behandlet</option>
-                         <option value="option4">Behandlet uten tilbakemelding</option>
-                          <option value="option5">Under behandlig</option>
-                    </select>
-                    <label for="dropdown3">Saksbehandler:</label>
-                    <select id="dropdown3" name="dropdown3">
-                        <option value="option1">Ola Nordmann</option>
-                        <option value="option2">Tore Thoresen</option>
-                        <option value="option3">Kari Hansen</option>
-                         <option value="option4">Lisa Nordmann</option>
-                          <option value="option5">Finn Finsen</option>
-                    </select>
+           <div class="box">
+        <h3> <span class="underline-text">Innmelding behandling</span></h3>
+            <div class="extra-box4">
+                    <p style= color:black;> Produktnavn:</p>
                 </div>
+                <div class="extra-box4">
+                    <p style= color:black;> Prioritering:</p>
+                </div>
+                <div class="extra-box4">
+                    <p style= color:black;> Status:</p>
+                </div>
+                <div class="extra-box4">
+                    <p style= color:black;> Saksbehandler:</p>
+                </div>
+       
+       
+                   
+
+                   
+                
                
                 <div class="extra-box8">
-                    <p> Kommentar:<br>
-                        Ingen kommentarer..<br>
+                    <p> Kommentar:<br> </p>
+                    <p style= color:#0068cb> Ny kommentar..<br>
                     </p>
-                    <p class="ny-kommentar-link">Ny kommentar...</p> <!-- Legger til teksten her -->
+                   
+                </div>
+
+                 <div class="extra-box13">
+                    <p style= color:black;> <strong> Innmelder:</p></strong>
+                   Feks ekstra info<br>
                 </div>
                
             </div>

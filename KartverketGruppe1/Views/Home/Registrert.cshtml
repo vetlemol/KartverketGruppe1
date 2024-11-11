@@ -85,7 +85,7 @@
             <img src="~/Images/KartikusGlad.png" alt="Kartikus" />
             <h2>Registrert!</h2>
             <p>Du vil nå få oppdateringer om din henvendelse på e-post</p>
-            <button onclick="redirectToMineInnmeldinger()">Gå til mine innmeldinger</button>
+            <button onclick="redirectToOversikt()">Gå til mine innmeldinger</button>
         </div>
     </div>
 
@@ -104,8 +104,8 @@
         // Kjør konfetti når siden lastes inn
         window.onload = showConfetti;
 
-        function redirectToMineInnmeldinger() {
-            window.location.href = "/Home/MineInnmeldinger";
+        function redirectToOversikt() {
+            window.location.href = "/Home/Oversikt";
         }
     </script>
 </body>

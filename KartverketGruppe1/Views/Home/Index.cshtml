@@ -105,9 +105,9 @@
     }
 
     .guest-link {
+        color: #4CAF50;
         display: block;
         margin-bottom: 15px;
-        color: #777;
     }
 
     .temporary-notice {
@@ -121,7 +121,11 @@
 </style>
 
 <div class="login-container">
-    <h2>Logg på</h2>
+    <button class="btn btn-google btn-block" onclick="redirectToHjemMap()">
+        <h3>Meld inn feil i kartet</h3>
+    </button>
+</div>
+    @* <h2>Logg på</h2>
     <p>Har du ikke konto? <a href="/Account/Register" class="register-link">Registrer deg</a></p>
     <a href="/Home/KartInnmelding" class="guest-link">Fortsett som gjest</a>
 
@@ -179,11 +183,14 @@
     <div class="temporary-notice" >
         <p>Saksbehandler</p>
     </div>
-</a>
+</a> *@
 <script>
 
     function redirectToHjemSkjermGjest() {
         window.location.href = "/Home/Privacy";
+    }
+    function redirectToHjemMap() {
+        window.location.href = "/Kart/KartInnmelding";
     }
 
     function setRandomBackground() { // Funksjon for å hente random bilde fra 'Bakgrunnsbilder'
