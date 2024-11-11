@@ -285,6 +285,7 @@ namespace KartverketGruppe1.Controllers
         }
 
 
+        [AllowAnonymous]
         public IActionResult Hjelp()
         {
             return View();

@@ -87,11 +87,13 @@
             @if (User.Identity.IsAuthenticated)
             {
                 <p>Du vil nå få oppdateringer om din henvendelse på hjemmesiden</p>
+                <button onclick="redirectToOversikt()">Gå til mine henvendelser</button>
             }
             else{
                 <p style="padding: 0px 40px;">Gå tilbake til forsiden.</p>
+                <button onclick="redirectToOversikt()"></button>
             }
-            <button onclick="redirectToIndex()">Tilbake til forsiden</button>
+            
         </div>
     </div>
 
