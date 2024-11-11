@@ -82,13 +82,12 @@
             <img src="~/Images/Kartikus-loading.png" alt="Kartikus" />  <!-- Hente bilde av Kartikus -->
             <h3>Gi meg litt tid til å tenke</h3>
             <p>Laster, vennligst vent.</p>
-
-            <button id="go-back">Prøv igjen</button>
+            <button onclick="redirectHome()">Prøv igjen</button>
         </div>
     </div>
     <script>
-        function redirectToIndex() {
-            window.location.href = "/Home/Index";
+        function redirectHome() {
+                window.location.href = "/Kart/KartInnmelding";
         }
     </script>
 </body>
