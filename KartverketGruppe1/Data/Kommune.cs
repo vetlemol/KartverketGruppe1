@@ -8,6 +8,6 @@ namespace KartverketGruppe1.Data
         public int KommuneID { get; set; }
         [Required]
         public string Kommunenavn { get; set; }
-        public int Kommunenummer { get; set; }
+        public string Kommunenummer { get; set; }
     }
 }
