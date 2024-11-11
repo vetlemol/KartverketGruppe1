@@ -1,0 +1,88 @@
+@{
+    ViewData["Title"] = "Slett bruker";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Slett Bruker - KartverketGruppe1</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/KartverketGruppe1.styles.css" asp-append-version="true" />
+    <style>
+        body, html {
+            margin: 0; /*Avstand fra innhold til sidene*/
+            padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+        }
+
+        .background-image {
+            background-image: url('~/Images/background.jpg');
+            background-size: cover;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .container {
+            height: calc(100% - 60px); /* For å ta høyde for top bar */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .form-container {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 500px;
+            margin: 100px auto;
+            text-align: center;
+        }
+
+        .form-container h2 {
+            color: #58a77b;
+        }
+
+        .form-container p {
+            color: #333;
+        }
+
+        .form-container button {
+            background-color: #58a77b;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .form-container button:hover {
+            background-color: #45a069;
+        }
+
+        .form-container img {
+            max-width: 150px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="background-image"></div> <!-- Bakgrunnsbildet -->
+
+    <div class="container">
+        <div class="form-container">
+            <h2>Slettet!</h2>
+            <p>Din bruker er slettet fra våre systemer.</p>
+            <a href="@Url.Action("Login", "Account")" class="btn btn-primary">Tilbake til forsiden</a>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -97,5 +97,31 @@ namespace KartverketGruppe1.Controllers
             await _signInManager.SignOutAsync();
             return RedirectToAction("Login", "Account");
         }
+
+        [HttpGet]
+        public IActionResult SlettBruker()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SlettBrukerConfirmed()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user != null)
+            {
+                var result = await _userManager.DeleteAsync(user);
+                if (result.Succeeded)
+                {
+                    await _signInManager.SignOutAsync();
+                    return RedirectToAction("Login", "Account");
+                }
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+            }
+            return View("SlettBruker");
+        }
     }
 }
