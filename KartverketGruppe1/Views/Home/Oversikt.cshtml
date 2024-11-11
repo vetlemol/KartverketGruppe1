@@ -63,7 +63,7 @@
 
         @foreach (var innmelding in Model)
         {
-            <div class="innmelding-item" onclick="window.location.href='@Url.Action("InnmeldingOversikt", "Innmelding", new { id = innmelding.InnmeldingID })'">
+            <div class="innmelding-item" onclick="RedirectToFeilmelding()">
                 <div class="innmelding-header">
                     <strong>Innmelding #@innmelding.InnmeldingID</strong>
                     <span class="innmelding-status">@innmelding.Status?.Statustype</span>
@@ -85,5 +85,9 @@
 </body>
 
 <script>
+
+    function RedirectToFeilmelding() {
+        window.location.href = "/Home/Feilmelding";
+    }
 </script>
 </html>

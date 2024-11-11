@@ -86,19 +86,13 @@
             <img src="~/Images/KartikusNy.png" alt="Kartikus" />
             <h2>En feil har oppstått</h2>
             <p>Oops... her har det skjedd en feil <br /> Prøv igjen senere</p>
-            <button onclick="redirectToIndex()">Prøv igjen</button>
+            <button onclick="redirectHome()">Prøv igjen</button>
         </div>
     </div>
     <script>
-        function redirectToKartInnmelding() {
-            window.location.href = "/Home/KartInnmelding";
-        }
 
-        function redirectHome(){
-            if (Role.IsUserInRole("Saksbehandler" ))
-                window.location.href = "/Saksbehandler/Arbeidsbord";
-            else
-                window.location.href = "/Home/KartInnmelding";)
+        function redirectHome() {
+            window.location.href = "/Kart/KartInnmelding";
         }
     </script>
 </body>
