@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using KartverketGruppe1.Data;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace KartverketGruppe1.Controllers
 {
@@ -119,16 +120,16 @@ namespace KartverketGruppe1.Controllers
 
 
 
-        private static BrukerProfilViewModel _brukerProfil = new BrukerProfilViewModel
-        {
-            Name = "Ola Nordmann",
-            Email = "eksempel@epost.com",
-            Phone = "+47 12345678",
-            BirthDate = new DateTime(1990, 1, 1),
-            Password = "********",
+         private static BrukerProfilViewModel _brukerProfil = new BrukerProfilViewModel
+            {
+        //    Name = "Navn",
+        //    Email = "Epostadresse",
+        //    Phone = "********",
+        //    Password = "Nytt Passord",
+        //    GjentaPassword = "Gjenta Passord",
             SubmissionsPerMonth = new List<int> { 3, 2, 0, 3, 1, 0, 2, 1, 0, 4, 0, 0 },
             Years = new List<int> { 2022, 2023, 2024 }
-        };
+            };
 
         [HttpGet]
         public IActionResult BrukerProfil()

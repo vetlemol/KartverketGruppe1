@@ -1,16 +1,13 @@
 @{
-    ViewData["Title"] = "Slett bruker";
+    ViewData["Title"] = "Kartikus Error";
 }
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="no">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Slett Bruker - KartverketGruppe1</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/KartverketGruppe1.styles.css" asp-append-version="true" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kartverket</title>
     <style>
         body, html {
             margin: 0; /*Avstand fra innhold til sidene*/
@@ -20,14 +17,15 @@
         }
 
         .background-image {
-            background-image: url('~/Images/background.jpg');
+            background-image: url('/Bakgrunnsbilder/TestBryggeBilde.png'); /* Legg til ditt bakgrunnsbilde */
             background-size: cover;
-            position: fixed;
+            background-position: center;
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1;
+            z-index: -1; /* Sørger for at bakgrunnsbildet ligger bak innholdet */
         }
 
         .container {
@@ -38,51 +36,79 @@
         }
 
         .form-container {
-            background-color: rgba(255, 255, 255, 0.8);
-            padding: 20px;
+            background-color: #d8e3f2;
+            padding: 30px;
             border-radius: 10px;
-            max-width: 500px;
-            margin: 100px auto;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             text-align: center;
+            max-width: 400px;
+            width: 100%;
+            z-index: 1;
         }
 
-        .form-container h2 {
-            color: #58a77b;
-        }
+            .form-container h2 {
+                color: #00509C;
+                margin-bottom: 20px;
+            }
 
-        .form-container p {
-            color: #333;
-        }
+            .form-container p {
+                margin-bottom: 20px;
+                color: #333;
+            }
 
-        .form-container button {
-            background-color: #58a77b;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+            .form-container button {
+                background-color: #8ebf94;
+                color: white;
+                padding: 12px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                width: 100%;
+                font-size: 16px;
+            }
 
-        .form-container button:hover {
-            background-color: #45a069;
-        }
+                .form-container button:hover {
+                    background-color: #58a77b;
+                }
 
-        .form-container img {
-            max-width: 150px;
-            margin-bottom: 10px;
-        }
+                .form-container img {
+                    background-image: url('/Images/KartikusNy.png');
+                    max-width: 150px;
+                    margin-bottom: 10px;
+                }
     </style>
 </head>
-<body>
-    <div class="background-image"></div> <!-- Bakgrunnsbildet -->
+    <body>
+        <div class="background-image"></div> <!-- Bakgrunnsbildet -->
 
-    <div class="container">
-        <div class="form-container">
-            <h2>Slettet!</h2>
-            <p>Din bruker er slettet fra våre systemer.</p>
-            <a href="@Url.Action("Login", "Account")" class="btn btn-primary">Tilbake til forsiden</a>
+        <div class="container">
+            <div class="form-container">
+                <h2>Slettet!</h2>
+                <p>Din bruker er slettet fra våre systemer</p>
+                <button onclick="redirectToLogin()">Gå tilbake til forsiden</button>
+            </div>
         </div>
-    </div>
+        <script>
+            function setRandomBackground() { // Funksjon for å hente random bilde fra 'Bakgrunnsbilder'
+                fetch('/Home/GetRandomBackgroundImage')
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.error) {
+                            console.error(data.error);
+                        } else {
+                            document.body.style.backgroundImage = `url('${data.imagePath}')`;
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+            }
 
-</body>
+
+            window.onload = setRandomBackground;
+
+            function redirectToLogin() {
+            window.location.href = "/Account/Login";
+            }
+        </script>
+        
+    </body>
 </html>
