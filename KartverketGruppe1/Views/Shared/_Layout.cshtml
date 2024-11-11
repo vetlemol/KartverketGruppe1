@@ -17,14 +17,35 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light box-shadow mb-0 custom-navbar fixed-top">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    if (User.IsInRole("Saksbehandler"))
+                    {
+                        <a class="navbar-brand" asp-area="" asp-controller="Saksbehandler" asp-action="Arbeidsbord">
+                            <img src="~/Images/logoKartverketstrl.png" alt="Kartverket logo" class="logo" />
+                        </a>
+                    }
+                    else
+                    {
+                        <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="BrukerProfil">
+                            <img src="~/Images/logoKartverketstrl.png" alt="Kartverket logo" class="logo" />
+                        </a>
+                    }
+                }
+                else
+                {
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="KartInnmelding">
+                        <img src="~/Images/logoKartverketstrl.png" alt="Kartverket logo" class="logo" />
+                    </a>
+                }
+                @* <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
                     <img src="~/Images/logoKartverketstrl.png" alt="Kartverket logo" class="logo"/>
-                </a>
+                </a> *@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+               @*  <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         
                        
@@ -47,7 +68,75 @@
                         <li class="divider"><hr class="dropdown-divider"></li> 
                         <li class="spacer"><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Hjelp">Hjelp / Kontakt Oss</a></li> 
                         <li class="divider"><hr class="dropdown-divider"></li> 
-                      <li class="logout"><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Index">Logg ut</a></li>
+                      <li class="logout"><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Index">Logg ut</a></li> *@
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                    </ul>
+                    <ul class="navbar-nav ms-auto">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            @if (User.IsInRole("Saksbehandler"))
+                            {
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Meny
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-end custom-dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <li class="divider"><hr class="dropdown-divider"></li>
+                                        <li><img src="~/Images/KartikusGlad.png" alt="Profilbilde" width="60" height="70"></li>
+                                        <li class="spacer"><a class="dropdown-item" asp-area="" asp-controller="Saksbehandler" asp-action="Behandling">@User.Identity.Name</a></li>
+                                        <li class="divider"><hr class="dropdown-divider"></li>
+                                        <li class="spacer"><a class="dropdown-item" asp-area="" asp-controller="Saksbehandler" asp-action="MineHenvendelser">Mine Henvendelser</a></li>
+                                        <li class="divider"><hr class="dropdown-divider"></li>
+                                        <li class="spacer"><a class="dropdown-item" asp-area="" asp-controller="Saksbehandler" asp-action="Arbeidsbord">Arbeidsbord</a></li>
+                                        <li class="divider"><hr class="dropdown-divider"></li>
+                                        <li class="spacer"><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Hjelp">Hjelp / Kontakt Oss</a></li>
+                                        <li class="divider"><hr class="dropdown-divider"></li>
+                                        <li class="logout"><a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="LogOut">Logg ut</a></li>
+                                    </ul>
+                                </li>
+                            }
+                            else if (User.IsInRole("Bruker"))
+                            {
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Meny
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-end custom-dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <li class="divider"><hr class="dropdown-divider"></li>
+                                        <li><img src="~/Images/KartikusGlad.png" alt="Profilbilde" width="60" height="70"></li>
+                                        <li class="spacer"><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="BrukerProfile">Min Profil</a></li>
+                                        <li class="divider"><hr class="dropdown-divider"></li>
+                                        <li class="spacer"><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="MineInnmeldinger">Mine Innmeldinger</a></li>
+                                        <li class="divider"><hr class="dropdown-divider"></li>
+                                        <li class="spacer"><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="KartInnmelding">Ny Innmelding</a></li>
+                                        <li class="divider"><hr class="dropdown-divider"></li>
+                                        <li class="spacer"><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Hjelp">Hjelp / Kontakt Oss</a></li>
+                                        <li class="divider"><hr class="dropdown-divider"></li>
+                                        <li class="logout"><a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="LogOut">Logg ut</a></li>
+                                    </ul>
+                                </li>
+                            }
+                        }
+                        else
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Meny
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end custom-dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li class="divider"><hr class="dropdown-divider"></li>
+                                    <li><img src="~/Images/KartikusGlad.png" alt="Profilbilde" width="60" height="70"></li>
+                                    <li class="spacer"><a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Login">Logg inn</a></li>
+                                    <li class="divider"><hr class="dropdown-divider"></li>
+                                    <li class="spacer"><a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Register">Registrer deg</a></li>
+                                    <li class="divider"><hr class="dropdown-divider"></li>
+                                    <li class="spacer"><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Hjelp">Hjelp / Kontakt Oss</a></li>
+                                </ul>
+                            </li>
+                        }
+                    </ul>
+                </div>
                      
                 <style>
     li.spacer a {

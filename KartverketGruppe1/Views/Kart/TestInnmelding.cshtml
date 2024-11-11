@@ -1,0 +1,99 @@
+﻿@model KartverketGruppe1.Data.Innmelding
+
+<div class="container mt-4">
+    <h2>Test Innmelding</h2>
+
+    <form asp-action="TestInnmelding" asp-controller="Kart" method="post">
+        <div class="mb-3">
+            <label>Beskrivelse</label>
+            <textarea class="form-control" asp-for="Innmeldingsbeskrivelse" rows="3"></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label>Avvikstype</label>
+            <select class="form-control" asp-for="AvvikstypeID">
+                @foreach (var type in ViewBag.Avvikstyper)
+                {
+                    <option value="@type.Value">@type.Text</option>
+                }
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label>Test Koordinater</label>
+            <input type="number" class="form-control" id="testLat" placeholder="Latitude" />
+            <input type="number" class="form-control mt-2" id="testLng" placeholder="Longitude" />
+            <button type="button" class="btn btn-secondary mt-2" onclick="lagreKoordinater()">Test Lagre Koordinater</button>
+        </div>
+
+        <input type="hidden" asp-for="KoordinatID" id="KoordinatID" />
+        <input type="hidden" asp-for="KommuneID" id="KommuneID" />
+
+        @if (!User.Identity.IsAuthenticated)
+        {
+            <div class="mb-3">
+                <label>Gjest E-post</label>
+                <input type="email" class="form-control" asp-for="Gjest_epost" />
+            </div>
+        }
+
+        <!-- Debug info -->
+        <div class="alert alert-info">
+            <p>KoordinatID: <span id="debugKoordinatID">-</span></p>
+            <p>KommuneID: <span id="debugKommuneID">-</span></p>
+            <p>Innlogget som: @(User.Identity.IsAuthenticated ? User.Identity.Name : "Ikke innlogget")</p>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Send Inn</button>
+    </form>
+</div>
+
+<script>
+    async function lagreKoordinater() {
+        const lat = document.getElementById('testLat').value;
+        const lng = document.getElementById('testLng').value;
+
+        if (!lat || !lng) {
+            alert('Fyll inn koordinater');
+            return;
+        }
+
+        try {
+            // Først hent kommune-info
+            const kommuneResponse = await fetch(
+                `/api/Kommune/GetByCoordinate?lat=${lat}&lng=${lng}&koordsys=4258`
+            );
+            const kommuneData = await kommuneResponse.json();
+
+            // Så lagre koordinat og kommune
+            const lagreResponse = await fetch('/Kart/LagreKoordinatOgKommune', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                },
+                body: JSON.stringify({
+                    latitude: parseFloat(lat),
+                    longitude: parseFloat(lng),
+                    kommunenummer: kommuneData.kommunenummer,
+                    kommunenavn: kommuneData.kommunenavn
+                })
+            });
+
+            if (!lagreResponse.ok) throw new Error('Kunne ikke lagre');
+
+            const data = await lagreResponse.json();
+
+            // Oppdater skjulte felt og debug info
+            document.getElementById('KoordinatID').value = data.koordinatId;
+            document.getElementById('KommuneID').value = data.kommuneId;
+            document.getElementById('debugKoordinatID').textContent = data.koordinatId;
+            document.getElementById('debugKommuneID').textContent = data.kommuneId;
+
+            alert('Koordinater lagret!');
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Feil ved lagring: ' + error.message);
+        }
+    }
+</script>

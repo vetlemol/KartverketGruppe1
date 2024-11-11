@@ -1,0 +1,215 @@
+﻿@model KartverketGruppe1.Data.Innmelding
+
+@{
+    ViewData["Title"] = "Innmelding av kartavvik";
+}
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet.pm@latest/dist/leaflet.pm.css" />
+
+<style>
+    .map-container {
+        display: flex;
+        height: calc(100vh - 60px);
+    }
+
+    .sidebar {
+        width: 400px;
+        padding: 20px;
+        background-color: #f8f9fa;
+        overflow-y: auto;
+    }
+
+    .map-content {
+        flex: 1;
+    }
+
+    #map {
+        height: 100%;
+    }
+
+    .info-box {
+        background-color: white;
+        padding: 15px;
+        border-radius: 5px;
+        margin-bottom: 15px;
+    }
+</style>
+
+<div class="map-container">
+    <div class="sidebar">
+        <form id="innmeldingForm" asp-action="LagInnmelding" asp-controller="Kart" method="post">
+            @Html.AntiForgeryToken()
+
+            @if (ViewData["Error"] != null)
+            {
+                <div class="alert alert-danger">@ViewData["Error"]</div>
+            }
+
+            <!-- Skjulte felt -->
+            <input type="hidden" asp-for="KoordinatID" id="KoordinatID" />
+            <input type="hidden" asp-for="KommuneID" id="KommuneID" />
+
+            <!-- Valgt posisjon -->
+            <div class="info-box">
+                <h4>Posisjon</h4>
+                <div>
+                    <p>Latitude: <span id="latitude">-</span></p>
+                    <p>Longitude: <span id="longitude">-</span></p>
+                </div>
+            </div>
+
+            <!-- Kommune info -->
+            <div class="info-box">
+                <h4>Kommune</h4>
+                <div>
+                    <p>Kommunenavn: <span id="kommunenavn">-</span></p>
+                    <p>Kommunenummer: <span id="kommunenummer">-</span></p>
+                </div>
+            </div>
+
+            <!-- Avvikstype -->
+            <div class="form-group mb-3">
+                <label>Type avvik</label>
+                <select class="form-control" asp-for="AvvikstypeID" required>
+                    <option value="">Velg type avvik</option>
+                    @foreach (var type in ViewBag.Avvikstyper)
+                    {
+                        <option value="@type.Value">@type.Text</option>
+                    }
+                </select>
+            </div>
+
+            <!-- Beskrivelse -->
+            <div class="form-group mb-3">
+                <label>Beskrivelse av avvik</label>
+                <textarea class="form-control" asp-for="Innmeldingsbeskrivelse"
+                          rows="4" required></textarea>
+            </div>
+
+            <!-- E-post for gjester -->
+            @if (!User.Identity.IsAuthenticated)
+            {
+                <div class="form-group mb-3">
+                    <label>Din e-post</label>
+                    <input type="email" class="form-control" asp-for="Gjest_epost" required />
+                </div>
+            }
+
+            <button type="submit" class="btn btn-primary w-100" id="submitBtn" disabled>
+                Send inn
+            </button>
+        </form>
+    </div>
+
+    <div class="map-content">
+        <div id="map"></div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.pm@latest/dist/leaflet.pm.min.js"></script>
+
+    <script>
+        var map = L.map('map').setView([58.164048, 8.004007], 13);
+        var currentMarker = null;
+
+        L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/topo/default/webmercator/{z}/{y}/{x}.png', {
+            maxZoom: 18,
+            attribution: '&copy; <a href="http://www.kartverket.no/">Kartverket</a>'
+        }).addTo(map);
+
+        map.pm.addControls({
+            position: 'topleft',
+            drawMarker: true,
+            removalMode: true,
+            drawPolyline: false,
+            drawCircleMarker: false,
+            drawRectangle: false,
+            drawCircle: false,
+            drawPolygon: false,
+            editMode: false,
+            cutPolygon: false,
+        });
+
+        map.on('pm:create', async function (e) {
+            if (currentMarker) {
+                map.removeLayer(currentMarker);
+            }
+            currentMarker = e.layer;
+
+            const coordinates = e.layer.getLatLng();
+
+            // Oppdater koordinat-visning
+            document.getElementById('latitude').textContent = coordinates.lat.toFixed(6);
+            document.getElementById('longitude').textContent = coordinates.lng.toFixed(6);
+
+            try {
+                // Hent kommune-info
+                const kommuneResponse = await fetch(
+                    `/api/Kommune/GetByCoordinate?lat=${coordinates.lat}&lng=${coordinates.lng}&koordsys=4258`
+                );
+                const kommuneData = await kommuneResponse.json();
+
+                // Vis kommune-info
+                document.getElementById('kommunenavn').textContent = kommuneData.kommunenavn || '-';
+                document.getElementById('kommunenummer').textContent = kommuneData.kommunenummer || '-';
+
+                // Lagre koordinat og kommune
+                const lagreResponse = await fetch('/Kart/LagreKoordinatOgKommune', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                    },
+                    body: JSON.stringify({
+                        latitude: coordinates.lat,
+                        longitude: coordinates.lng,
+                        kommunenummer: kommuneData.kommunenummer,
+                        kommunenavn: kommuneData.kommunenavn
+                    })
+                });
+
+                if (!lagreResponse.ok) throw new Error('Kunne ikke lagre posisjon');
+
+                const responseData = await lagreResponse.json();
+
+                // Oppdater skjulte felt med ID-er
+                document.getElementById('KoordinatID').value = responseData.koordinatId;
+                document.getElementById('KommuneID').value = responseData.kommuneId;
+
+                // Aktiver submit-knappen
+                document.getElementById('submitBtn').disabled = false;
+
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Kunne ikke lagre posisjon. Vennligst prøv igjen.');
+            }
+        });
+
+        // Form validering
+        document.getElementById('innmeldingForm').addEventListener('submit', function (e) {
+            if (!document.getElementById('KoordinatID').value ||
+                !document.getElementById('KommuneID').value) {
+                e.preventDefault();
+                alert('Vennligst velg en posisjon på kartet først');
+                return false;
+            }
+
+            // Sjekk avvikstype
+            if (!document.getElementById('AvvikstypeID').value) {
+                e.preventDefault();
+                alert('Vennligst velg type avvik');
+                return false;
+            }
+
+            // Sjekk beskrivelse
+            if (!document.getElementById('Innmeldingsbeskrivelse').value.trim()) {
+                e.preventDefault();
+                alert('Vennligst skriv en beskrivelse');
+                return false;
+            }
+        });
+    </script>
+}

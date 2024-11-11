@@ -155,7 +155,7 @@
 <div class="login-container">
     <h2>Logg på</h2>
     <p>Har du ikke konto? <a href="/Account/Register" class="register-link">Registrer deg</a></p>
-    <a href="/Home/KartInnmelding" class="guest-link">Fortsett som gjest</a>
+    <a href="/Kart/KartInnmelding" class="guest-link">Fortsett som gjest</a>
 
     <!-- <form asp-action="Index" asp-controller="Home" method="post">
         <div class="form-group">
@@ -204,13 +204,13 @@
     <!--                                                            -->
     <div class="separator">eller</div>
 
-    <button class="btn btn-google btn-block" onclick="redirectToHjemSkjermGjest">
+    <button class="btn btn-google btn-block" onclick="redirectToHjemSkjermGjest()">
         <img src="~/images/GoogleIcon.png" alt="Google icon" /> Fortsett med Google
     </button>
-    <button class="btn btn-facebook btn-block" onclick="redirectToHjemSkjermGjest">
+    <button class="btn btn-facebook btn-block" onclick="redirectToHjemSkjermGjest()">
         <img src="~/images/FacebookIcon.png" alt="Facebook icon" /> Fortsett med Facebook
     </button>
-    <button class="btn btn-apple btn-block" onclick="redirectToHjemSkjermGjest">
+    <button class="btn btn-apple btn-block" onclick="redirectToHjemSkjermGjest()">
         <img src="~/images/AppleIconWhite.png" alt="Apple icon" /> Fortsett med Apple
     </button>
 
