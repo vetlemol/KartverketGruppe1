@@ -9,6 +9,10 @@ namespace KartverketGruppe1.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+         /*Bruker dependency injection for å håndtere Identity-tjenester 
+         * UserManager: Håndterer brukeroperasjoner mot databasen
+         * SignInManager: Håndterer autentisering og sesjonsstyring
+         */
 
         public AccountController(
         UserManager<ApplicationUser> userManager,
@@ -18,7 +22,7 @@ namespace KartverketGruppe1.Controllers
             _signInManager = signInManager;
         }
 
-        [AllowAnonymous]
+        [AllowAnonymous] // Tillater anonym tilgang
         [HttpGet]
         public IActionResult Login()
         {
