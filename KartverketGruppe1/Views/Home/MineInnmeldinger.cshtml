@@ -209,7 +209,7 @@
         <!-- Den store blå boksen -->
         <div class="blue-box">
             <!-- Hver enkelt boks med informasjon -->
-            <div class="item-box" onclick="redirectToBrukerinnmelding()">
+            <div class="item-box" onclick="redirectToSak1()">
                 <div class="info">
                     <img src="~/Images/AnkerRod.png" alt="Info ikon">
                     <span>Kristiansand, Agder</span>
@@ -224,7 +224,7 @@
                 </div>
             </div>
 
-            <div class="item-box" onclick="redirectToBrukerinnmelding()">
+            <div class="item-box" onclick="redirectToSak2()">
                 <div class="info">
                     <img src="~/Images/Location.png" alt="Info ikon">
                     <span>Kristiansand, Agder</span>
@@ -285,7 +285,7 @@
                 </div>
             </div>
 
-            <div class="item-box" onclick="redirectToBrukerinnmelding()">
+            <div class="item-box" onclick="redirectToSak3()">
                 <div class="info">
                     <img src="~/Images/EiendomRod.png" alt="Info ikon">
                     <span>Kristiansand, Agder</span>
@@ -452,6 +452,18 @@
 <script>
     function redirectToBrukerinnmelding() {
         window.location.href = "/Home/Brukerinnmelding";
+    }
+
+    function redirectToSak1() {
+                window.location.href = "/Home/Innmeldoversikt/26";
+    }
+
+    function redirectToSak2() {
+                window.location.href = "/Home/Innmeldoversikt/27";
+    }
+    
+    function redirectToSak3() {
+                window.location.href = "/Home/Innmeldoversikt/28";
     }
 
 </script>

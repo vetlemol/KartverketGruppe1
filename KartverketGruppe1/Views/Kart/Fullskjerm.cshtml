@@ -1,0 +1,109 @@
+﻿@model KartverketGruppe1.Data.Innmelding
+@{
+    ViewData["Title"] = "Innmelding";
+}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<style>
+    #map {
+        width: 100%;
+        height: 100%;
+    }
+
+    .map-container {
+        display: flex;
+        /* height: calc(100vh - 60px);  Justert for navbar */
+        height: 100vh;
+        width: 100%;
+        position: absolute;
+        top: 60px;
+        left: 0;
+    }
+</style>
+
+
+<div class="map-container">
+        <div id="map"></div>
+</div>
+
+
+
+
+
+
+
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+
+
+
+    // Initialiser kartet
+    var map = L.map('map').setView([@Model.Koordinat.Latitude, @Model.Koordinat.Longitude], 13);
+
+    // Legg til kartlag
+    L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/topo/default/webmercator/{z}/{y}/{x}.png', {
+        maxZoom: 18,
+    attribution: '&copy; <a href="http://www.kartverket.no/">Kartverket</a>'
+    }).addTo(map);
+
+    // Legg til markør for innmeldingen
+    L.marker([@Model.Koordinat.Latitude, @Model.Koordinat.Longitude])
+    .addTo(map)
+    .bindPopup(
+    `<strong>@Model.Avvikstype.Type</strong><br>
+        Status: @Model.Status.Statustype<br>
+            Dato: @Model.Dato.ToString("dd.MM.yyyy")`
+    );
+
+    function RedirectToOversikt() {
+        window.location.href = "/Home/InnmeldOversikt";
+    }
+
+
+
+
+    ///////////// funk som skal vise linje og polygon også, funker ikke enda. feil med lagring av geometrytype og koordinater
+    /*// I view hvor du viser innmeldingen
+    var map = L.map('map').setView([58.164048, 8.004007], 13);
+
+    L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/topo/default/webmercator/{z}/{y}/{x}.png', {
+        maxZoom: 18,
+        attribution: '&copy; <a href="http://www.kartverket.no/">Kartverket</a>'
+    }).addTo(map);
+
+    function visGeometri(koordinater, geometryType) {
+        if (!koordinater) return;
+
+        const coords = koordinater.split(';').map(pair => {
+            const [lat, lng] = pair.split(',').map(Number);
+            return [lat, lng];
+        });
+
+        let layer;
+
+        switch (geometryType) {
+            case 'Marker':
+                layer = L.marker(coords[0]);
+                map.setView(coords[0], 13);
+                break;
+
+            case 'Polygon':
+                layer = L.polygon(coords);
+                map.fitBounds(layer.getBounds());
+                break;
+
+            case 'Line':
+            case 'Polyline':
+                layer = L.polyline(coords);
+                map.fitBounds(layer.getBounds());
+                break;
+        }
+
+        if (layer) {
+            layer.addTo(map);
+        }
+    }
+
+    // Bruk funksjonen med modelldata
+    visGeometri('@Model.Koordinat?.Koordinater', '@Model.Koordinat?.GeometryType');*/
+</script>
