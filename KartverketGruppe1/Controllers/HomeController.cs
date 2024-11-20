@@ -6,6 +6,7 @@ using KartverketGruppe1.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace KartverketGruppe1.Controllers
 {
@@ -35,8 +36,79 @@ namespace KartverketGruppe1.Controllers
             return View();
         }
 
-        // Metoden viser en enkel oversikt over alle innmeldinger for en spesifikk bruker sortert etter dato
-        public async Task<IActionResult> Oversikt()
+        //[HttpGet]
+        //public IActionResult InnmeldOversikt()
+        //{
+        //    return View();
+        //}
+
+
+        public async Task<IActionResult> InnmeldOversikt(int id)
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (currentUser == null)
+            {
+                return NotFound();
+            }
+
+            var innmelding = await _context.Innmelding
+                .Include(i => i.Koordinat)
+                .Include(i => i.Bruker)
+                .Include(i => i.Kommune)
+                .Include(i => i.Avvikstype)
+                .Include(i => i.Status)
+                .Include(i => i.Prioritet)
+                .Include(i => i.Saksbehandler)
+                .FirstOrDefaultAsync(i => i.InnmeldingID == id &&
+                    (i.BrukerID == currentUser.Id));
+
+            if (innmelding == null)
+            {
+                return NotFound();
+            }
+
+            await LoadViewbags();
+            return View(innmelding);
+        }
+
+
+        public IActionResult NyInnmelding() ////////////////////////////////////////////
+        {
+            return View();
+        }
+
+
+        private async Task LoadViewbags()
+        {
+            ViewBag.Avvikstype = _context.Avvikstype
+                .Select(a => new SelectListItem
+                {
+                    Value = a.AvvikstypeID.ToString(),
+                    Text = a.Type
+                })
+                .ToList();
+
+            ViewBag.Status = _context.Status
+                .Select(a => new SelectListItem
+                {
+                    Value = a.StatusID.ToString(),
+                    Text = a.Statustype
+                })
+                .ToList();
+
+            ViewBag.Prioritet = _context.Prioritet
+                .Select(a => new SelectListItem
+                {
+                    Value = a.PrioritetID.ToString(),
+                    Text = a.Prioritetsnivå
+                })
+                .ToList();
+        }
+
+
+
+            // Metoden viser en enkel oversikt over alle innmeldinger for en spesifikk bruker sortert etter dato
+            public async Task<IActionResult> Oversikt()
         {
             var currentUser = await _userManager.GetUserAsync(User);
             if (currentUser == null)

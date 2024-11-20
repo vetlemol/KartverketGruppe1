@@ -54,7 +54,7 @@
                 <p style="margin-bottom: 45px;"><strong>Nytt passord</strong></p>
                 <p style="margin-bottom: 80px;"><strong>Gjenta passord</strong></p>
 
-                <a href="@Url.Action("SlettBruker", "Account")" style="margin-bottom: 40px; color: red;">Slett min bruker</a>   
+                <a href="javascript:void(0);" onclick="confirmDelete()" class="btn btn-danger" style="margin-bottom: 40px;">Slett min bruker</a>
             </div>
 
 
@@ -84,3 +84,11 @@
         </div>
     </form>
 </div>
+
+    <script>
+        function confirmDelete() {
+            if (confirm("Er du sikker på at du vil slette brukeren din?")) {
+                window.location.href = '@Url.Action("SlettBruker", "Account")';
+            }
+        }
+    </script>
