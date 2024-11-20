@@ -63,10 +63,7 @@
 
         @foreach (var innmelding in Model)
         {
-
-            <div class="innmelding-item">
-              <a href="@Url.Action("InnmeldOversikt", new { id = innmelding.InnmeldingID })"
-                   class="button3" style="text-decoration: none;">
+            <div class="innmelding-item" onclick="redirectToTest()">
                 <div class="innmelding-header">
                     <strong>Innmelding #@innmelding.InnmeldingID</strong>
                     <span class="innmelding-status">@innmelding.Status?.Statustype</span>
@@ -82,11 +79,21 @@
                     <span>Kommune: @innmelding.Kommune?.Kommunenavn</span>
                     <span>Dato: @innmelding.Dato.ToString("dd.MM.yyyy")</span>
                 </div>
-              </a>
+                <a href="@Url.Action("Test", new { id = innmelding.InnmeldingID })"
+                   class="button3" style="text-decoration: none;">
+                    <p>Se detaljer</p>
+                </a>
             </div>
         }
     </div>
 </body>
 
+<script>
 
+    function RedirectToFeilmelding() {
+        window.location.href = "/Home/Feilmelding";
+    }
+
+
+</script>
 </html>
