@@ -9,8 +9,8 @@ using Microsoft.AspNetCore.Identity;
 
 namespace KartverketGruppe1.Controllers
 {
-    [Authorize(Roles = "Bruker")]
-    // [AllowAnonymous]
+    [Authorize(Roles = "Bruker")] // Krever at brukeren er logget inn og har rollen "Bruker" for å ha tilgang til denne kontrolleren
+    // [AllowAnonymous] blir brukt for å gi tilgang til noen funksjoner i kontrolleren uten å være logget inn for feks anonym innmelding
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -35,6 +35,7 @@ namespace KartverketGruppe1.Controllers
             return View();
         }
 
+        // Metoden viser en enkel oversikt over alle innmeldinger for en spesifikk bruker sortert etter dato
         public async Task<IActionResult> Oversikt()
         {
             var currentUser = await _userManager.GetUserAsync(User);
@@ -53,33 +54,6 @@ namespace KartverketGruppe1.Controllers
             return View(innmeldinger);
         }
     
-
-
-    // Henter innmeldinger for innlogget bruker
-    //public async Task<IActionResult> FjernOversikt()
-    //    {
-    //        var currentUser = await _userManager.GetUserAsync(User);
-    //        if (currentUser == null)
-    //        {
-    //            return RedirectToAction("Login", "Account");
-    //        }
-
-    //        var innmeldinger = await _context.Innmelding
-    //            .Include(i => i.Kommune)
-    //            .Include(i => i.Status)
-    //            .Include(i => i.Prioritet)
-    //            .Include(i => i.Koordinat)
-    //            .Include(i => i.Avvikstype)
-    //            .Include(i => i.Bruker)
-    //            .Include(i => i.Saksbehandler)
-    //            .Where(i => i.BrukerID == currentUser.Id)
-    //            .OrderByDescending(i => i.Dato)
-    //            .ToListAsync();
-
-    //        return View(innmeldinger);
-    //    }
-
-
 
 
         // Denne metoden viser detaljene for en spesifikk innmelding
@@ -125,8 +99,8 @@ namespace KartverketGruppe1.Controllers
         }
 
 
-
-         private static BrukerProfilViewModel _brukerProfil = new BrukerProfilViewModel
+        // Denne metoden viser detaljene for en statisk brukerprofil, og er kun for demonstrasjon
+        private static BrukerProfilViewModel _brukerProfil = new BrukerProfilViewModel
             {
         //    Name = "Navn",
         //    Email = "Epostadresse",
@@ -143,7 +117,7 @@ namespace KartverketGruppe1.Controllers
         //    return View(_brukerProfil);
         //}
 
-
+        // Denne metoden viser detaljene for en brukerprofil hvis brukeren er logget inn
         public async Task<IActionResult> BrukerProfil()
         {
             // Hent innlogget bruker
@@ -194,6 +168,8 @@ namespace KartverketGruppe1.Controllers
             return View(_brukerProfil);
         }
 
+
+        // Metode for å oppdatere brukerprofil
         [HttpPost]
         public IActionResult RedigerBrukerProfil(BrukerProfilViewModel model)
         {
@@ -213,6 +189,8 @@ namespace KartverketGruppe1.Controllers
             return RedirectToAction("BrukerProfil");
         }
 
+
+        // IActionResult brukes her for å hente Views for forskjellige sider vi har i systemet
         [AllowAnonymous]
         public IActionResult Feilmelding()
         {
