@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <link rel="stylesheet" href="https://unpkg.com/leaflet.pm@latest/dist/leaflet.pm.css" />
 
+
 <style>
     .map-container {
         display: flex;
@@ -156,7 +157,7 @@
             <!-- Skjulte felt -->
             <input type="hidden" asp-for="KoordinatID" id="KoordinatID" />
             <input type="hidden" asp-for="KommuneID" id="KommuneID" />
-            <input type="hidden" asp-for="StatusID" value="3" />
+            <input type="hidden" asp-for="StatusID" value="1" />
             <input type="hidden" asp-for="PrioritetID" value="1" />
             <input type="hidden" asp-for="Dato" value="@DateTime.Now" />
 
