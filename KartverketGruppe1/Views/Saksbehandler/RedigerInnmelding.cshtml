@@ -1,185 +1,5 @@
 ﻿@* @model KartverketGruppe1.Data.Innmelding
 
-@{
-    ViewData["Title"] = "Vis innmelding";
-}
-
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-
-<style>
-    .map-container {
-        display: flex;
-        height: calc(100vh - 60px);
-        width: 100%;
-        position: absolute;
-        top: 60px;
-        left: 0;
-    }
-
-    .sidebar {
-        width: 700px;
-        background-color: #d8e3f2;
-        padding: 20px;
-        overflow-y: auto;
-    }
-
-    .info-box {
-        background-color: white;
-        padding: 15px;
-        margin-bottom: 15px;
-        border-radius: 5px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-
-    .map-content {
-        flex: 1;
-        position: relative;
-    }
-
-    #map {
-        width: 100%;
-        height: 100%;
-    }
-
-    .status-badge {
-        padding: 5px 10px;
-        border-radius: 15px;
-        font-weight: bold;
-        display: inline-block;
-        margin-bottom: 10px;
-    }
-
-    .status-ny {
-        background-color: #ffd700;
-    }
-
-    .status-behandles {
-        background-color: #87ceeb;
-    }
-
-    .status-lukket {
-        background-color: #90ee90;
-    }
-</style>
-
-<div class="map-container">
-   <div class="sidebar">
-
-        <form asp-action="OppdaterInnmelding" asp-controller="Saksbehandler" method="post">
-            @Html.AntiForgeryToken()
-            <input type="hidden" asp-for="InnmeldingID" />
-            
-            @* <div class="info-box">
-                <div class="form-group mb-3">
-                    <label><strong>Status:</strong></label>
-                    <select class="form-control" asp-for="StatusID" asp-items="ViewBag.Status">
-                        <option value="@Model.StatusID">@Model.Status.Statustype</option>
-                    </select>
-                </div> *@ @*
-
-            <div class="info-box">
-                <div class="form-group mb-3">
-                    <label><strong>Status:</strong></label>
-                    <select class="form-control" asp-for="StatusID" asp-items="ViewBag.Status">
-                        <option value="">Velg status...</option>
-                    </select>
-                </div>
-
-                <div class="form-group mb-3">
-                    <label><strong>Prioritet:</strong></label>
-                    <select class="form-control" asp-for="PrioritetID" asp-items="ViewBag.Prioritet">
-                        <option value="">Velg pri...</option>
-                    </select>
-                </div>
-
-                <div class="form-group mb-3">
-                    <label><strong>Saksbehandler:</strong></label>
-                    <select class="form-control" asp-for="SaksbehandlerID" asp-items="ViewBag.Saksbehandler">
-                        <option value="">Velg saksbehandler...</option>
-                    </select>
-                </div>
-
-                <p><strong>Innmeldt:</strong> @Model.Dato.ToString("dd.MM.yyyy HH:mm")</p>
-
-                <button type="submit" class="btn btn-primary mt-2">Lagre endringer</button>
-        </form>
-        <!-- Status -->
-        <div class="info-box">
-            <div class="status-badge @($"status-{Model.Status.Statustype.ToLower()}")">
-                @Model.Status.Statustype
-            </div>
-            <p><strong>Innmeldt:</strong> @Model.Dato.ToString("dd.MM.yyyy HH:mm")</p>
-            <p><strong>Prioritet:</strong> @Model.Prioritet.Prioritetsnivå</p>
-        </div>
-
-        <!-- Koordinat info -->
-        <div class="info-box">
-            <h4>Posisjon</h4>
-            <p>Latitude: @Model.Koordinat.Latitude</p>
-            <p>Longitude: @Model.Koordinat.Longitude</p>
-        </div>
-
-        <!-- Kommune info -->
-        <div class="info-box">
-            <h4>Kommune</h4>
-            <p>@Model.Kommune.Kommunenavn (@Model.Kommune.Kommunenummer)</p>
-        </div>
-
-        <!-- Avvikstype og beskrivelse -->
-        <div class="info-box">
-            <h4>Type avvik</h4>
-            <p>@Model.Avvikstype.Type</p>
-
-            <h4 class="mt-3">Beskrivelse</h4>
-            <p>@Model.Innmeldingsbeskrivelse</p>
-        </div>
-
-        @if (!string.IsNullOrEmpty(Model.Gjest_epost))
-        {
-            <div class="info-box">
-                <h4>Innmelder</h4>
-                <p>E-post: @Model.Gjest_epost</p>
-            </div>
-        }
-    </div>
-    </div>
-    <div class="map-content">
-        <div id="map"></div>
-    </div>
-</div>
-
-@section Scripts {
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
-    <script>
-        // Initialiser kartet
-        var map = L.map('map').setView([@Model.Koordinat.Latitude, @Model.Koordinat.Longitude], 13);
-
-        // Legg til kartlag
-        L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/topo/default/webmercator/{z}/{y}/{x}.png', {
-            maxZoom: 18,
-            attribution: '&copy; <a href="http://www.kartverket.no/">Kartverket</a>'
-        }).addTo(map);
-
-        // Legg til markør for innmeldingen
-        L.marker([@Model.Koordinat.Latitude, @Model.Koordinat.Longitude])
-            .addTo(map)
-            .bindPopup(
-                `<strong>@Model.Avvikstype.Type</strong><br>
-                        Status: @Model.Status.Statustype<br>
-                        Dato: @Model.Dato.ToString("dd.MM.yyyy")`
-            );
-    </script>
-}
-
-
-@* 
-<select asp-for="SaksbehandlerId" asp-items="@ViewBag.Saksbehandler" class="form-control">
-    <option value="">Velg saksbehandler...</option>
-</select> *@ 
-
-@model KartverketGruppe1.Data.Innmelding
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <div class="container p-4 rounded" style="background-color: #D8E3F2;">
     <form asp-action="RedigerInnmelding" method="post">
         <input type="hidden" asp-for="InnmeldingID" />
@@ -254,6 +74,107 @@
         <div class="row mt-3">
             <div class="col-12 text-end">
                 <a href="@Url.Action("InnmeldingOversikt")" class="btn btn-secondary">Avbryt</a>
+                <button type="submit" class="btn btn-success">Lagre endringer</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // Samme kartkode som i InnmeldingOversikt
+        // drawGeometry() funksjon etc.
+    </script>
+}
+ *@
+
+
+
+
+
+
+
+
+
+@model KartverketGruppe1.Data.Innmelding
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<div class="container p-4 rounded" style="background-color: #D8E3F2;">
+    <form asp-action="RedigerInnmelding" method="post">
+        <input type="hidden" asp-for="InnmeldingID" />
+
+        <div class="row">
+            <!-- Venstre kolonne - Info -->
+            <div class="col-md-4">
+                <div class="card mb-3 bg-transparent border-0">
+                    <h4>Innmelding info</h4>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label>Beskrivelse:</label>
+                            <textarea class="form-control" readonly>@Model.Innmeldingsbeskrivelse</textarea>
+                        </div>
+                        <div class="mt-3">
+                            <div>ID: @Model.InnmeldingID</div>
+                            <div>Avvikstype: @Model.Avvikstype.Type</div>
+                            <div>Dato: @Model.Dato.ToString("dd.MM.yyyy")</div>
+                            <div>Kommune: @Model.Kommune?.Kommunenummer</div>
+                            <div>@Model.Kommune?.Kommunenavn</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Midtre kolonne - Redigerbare felter -->
+            <div class="col-md-4">
+                <div class="card mb-3 bg-transparent border-0">
+                    <h4>Behandling</h4>
+                    <div class="card-body">
+                        <div class="form-group mb-3">
+                            <label>Prioritering:</label>
+                            <select asp-for="PrioritetID" asp-items="ViewBag.Prioritet" class="form-control"></select>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label>Status:</label>
+                            <select asp-for="StatusID" asp-items="ViewBag.Status" class="form-control"></select>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label>Tildel saksbehandler:</label>
+                            <select asp-for="SaksbehandlerID" asp-items="ViewBag.Saksbehandler" class="form-control">
+                                <option value="">-- Velg saksbehandler --</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Høyre kolonne - Kart -->
+            <div class="col-md-4">
+                <div class="card mb-3 bg-transparent border-0">
+                    <h4>Kartutsnitt</h4>
+                    <a href="@Url.Action("Fullskjerm" , "Kart", new {id = Model.InnmeldingID})">Vis i fullskjerm</a>
+                    <div class="card-body p-0">
+                        <div id="map" style="height: 300px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="row mt-3">
+            <div class="col-12">
+                <div class="border-top pt-3">
+                    <small class="text-muted">
+                        Innmelder: @(Model.Bruker?.UserName ?? Model.Gjest_epost) <br />
+                        Saksbehandler: @(Model.Saksbehandler?.UserName ?? "Ikke tildelt")
+                    </small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="row mt-3">
+            <div class="col-12 text-end">
+                <a href="@Url.Action("Oversikt")" class="btn btn-secondary">Avbryt</a>
                 <button type="submit" class="btn btn-success">Lagre endringer</button>
             </div>
         </div>
