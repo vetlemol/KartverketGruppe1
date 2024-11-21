@@ -4,6 +4,7 @@
 }
 
 <style>
+    /* Stiler for body-elementet */
     body {
         font-family: Arial, sans-serif;
         margin: 0;
@@ -14,6 +15,7 @@
         min-height: 100vh; /* Sørger for at body fyller hele skjermen */
     }
 
+    /* Stiler for container-elementet */
     .container {
         width: 75%;
         margin: 0 auto;
@@ -21,108 +23,88 @@
         flex: 1; /* Hovedinnholdet strekker seg før footeren */
     }
 
+    /* Stiler for h2-elementer */
     h2 {
         color: #006428;
         border-bottom: 2px solid #2E7D32;
         display: inline-block;
         padding left: 25px;
     }
-     
+
+     /* Stiler for h2-elementer */
     a {
-    text-decoration: none;
-    color: #006400; /* Bruker samme grønnfarge for alle linker */
-}
-
-a:hover {
-    color: #006400;
-    text-decoration: underline;
-}
-
-    .contact-info a, .help a {
         text-decoration: none;
-        color: #000000;
+        color: #006400; /* Bruker samme grønnfarge for alle linker */
     }
+
+    /* Stiler for a-elementer (lenker) når de hovres over */
+    a:hover {
+        text-decoration: underline;
+    }
+
     .contact-info {
-         padding-top: 10px;
+        padding-top: 10px;
         border-right: 1px solid #706F6E;
     }
 
-
-
-    .contact-info a:hover, .help a:hover {
-        text-decoration: underline;
-    }
-      /* CSS for å senke annen og fjerde boks */
+      /* Senke annen og fjerde boks */
     .row > div:nth-child(2),
     .row > div:nth-child(4) {
         margin-top: 40px; /* Juster høyden her som nødvendig */
     }
-
 
     .contact-icons {
         display: flex;
         align-items: center;
         margin: 10px 0;
     }
-    .help-info {
-    padding-top: 10px;
-    padding-right: 50;
-    padding-left: 10px;
 
+    .help-info {
+        padding-top: 10px;
+        padding-right: 50;
+        padding-left: 10px;
         border-left: 1px solid #2E7D32; /* Legg til en linje for å matche høyre linje i 'Kontakt oss' */
     }
 
     .footer {
-  background-color: #f8f8f8;
-  padding: 20px;
-  color: #333;
-  border-top: 10px solid #006400; /* Legger til en linje på toppen */
-  text-align: left;
-}
+        background-color: #f8f8f8;
+        padding: 20px;
+        color: #333;
+        border-top: 10px solid #006400; /* Legger til en linje på toppen */
+        text-align: left;
+    }
 
-.footer-content {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
+    .footer-content {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
 
-.footer-section {
-  margin: 5px;
-  flex: 1;
-  min-width: 200px;
-}
+    .footer-section {
+        margin: 5px;
+        flex: 1;
+        min-width: 200px;
+    }
 
-.footer-section h3 {
-       color: #1A532A;
-  margin-top: 0;
-}
+    .footer-section h3 {
+        color: #1A532A;
+        margin-top: 0;
+    }
 
-.footer-section a,
-.footer-link {
-  color: #006400;
-  text-decoration: none;
-}
-
-.footer-section a:hover,
-.footer-link:hover {
-    color:#006400;
-  text-decoration: underline;
-}
-
-.footer-bottom {
-  text-align: left;
-  padding-top: 10px;
-  border-top: 1px solid #ccc;
-}
-
-
-
+    /* Stiler for elementer med klassen .footer-bottom */
+    .footer-bottom {
+        text-align: left;
+        padding-top: 10px;
+        border-top: 1px solid #ccc;
+    }
 </style>
 
 <body>
     <div class="container">
+        <!-- Hovedinnholdet på siden -->
         <div class="content">
             <div class="row">
+             <!-- En kolonne som tar opp 3 av 12 kolonner i et grid-system -->
                 <div class="col-md-3">
                     <h2>Kontakt oss</h2>
                     <div class="contact-info">
@@ -143,7 +125,6 @@ a:hover {
                         <a href="tel:+4732118000">32 11 80 00</a><br>
                       <p><p>
                         <a href="mailto:post@kartverket.no">post@kartverket.no</a><br>
-                        
                     </div>
                 </div>
                 <div class="col-md-3">
@@ -157,26 +138,28 @@ a:hover {
        <a href="https://www.kartverket.no/om-kartverket/faq">Ofte stilte spørsmål</a><br>
        <p><p>
        <a href="https://www.kartverket.no/eiendom/skjema/alleskjema">Skjemaer</a>
-    
-          </div>
-            </div>
-                </div>
-            </div>
-        </div>
     </div>
- </div>
-  </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    <!-- Footer-seksjonen -->
       <footer class="footer">
         <div class="footer-content">
+          <!-- Første seksjon i footeren -->
             <div class="footer-section">
                 <img src="~/images/KartikusGladTekst.png" alt="Kartverket logo" width="220" height="135" />
-
             </div>
+             <!-- Andre seksjon i footeren -->
             <div class="footer-section">
-                <h3>Åpningstider (man–fre):</h3>
-                <p>Kundesenter/sentralbord: 09.00–15.00</p>
-                <p>Resepsjon: 08.00–15.00</p>
+                <h3>Åpningstider (man – fre):</h3>
+                <p>Kundesenter/sentralbord: 09.00 – 15.00</p>
+                <p>Resepsjon: 08.00 – 15.00</p>
             </div>
+              <!-- Tredje seksjon i footeren -->
             <div class="footer-section">
                 <h3>Aktuelt</h3>
                 <a href="https://www.kartverket.no/om-kartverket/arrangement">Arrangementer og kurs</a><br />
@@ -184,9 +167,9 @@ a:hover {
                 <a href="https://www.kartverket.no/om-kartverket/jobb-i-kartverket">Ledige stillinger</a><br />
                 <a href="https://www.kartverket.no/om-kartverket/presse">Presse</a>
             </div>
-             </div>
-        
         </div>
+        </div>  
+        <!-- Footer-bunnseksjonen -->
           <div class="footer-bottom">
                 <h3>Følg oss</h3> 
                 <a href="https://www.facebook.com/kartverket.no" class="footer-link">Facebook</a> | 
@@ -197,11 +180,8 @@ a:hover {
         </div>
     </footer>
 
- 
-
-  
+     <!-- Inkluderer nødvendige JavaScript-biblioteker -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
-
