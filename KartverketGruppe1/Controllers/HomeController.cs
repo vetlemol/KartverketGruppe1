@@ -107,8 +107,8 @@ namespace KartverketGruppe1.Controllers
 
 
 
-            // Metoden viser en enkel oversikt over alle innmeldinger for en spesifikk bruker sortert etter dato
-            public async Task<IActionResult> Oversikt()
+        // Metoden viser en enkel oversikt over alle innmeldinger for en spesifikk bruker sortert etter dato
+        public async Task<IActionResult> Oversikt()
         {
             var currentUser = await _userManager.GetUserAsync(User);
             if (currentUser == null)
@@ -125,7 +125,7 @@ namespace KartverketGruppe1.Controllers
 
             return View(innmeldinger);
         }
-    
+
 
 
         // Denne metoden viser detaljene for en spesifikk innmelding
@@ -569,8 +569,8 @@ namespace KartverketGruppe1.Controllers
 
 
 
-        // Laster inn tilfeldig bakgrunnsbilde fra wwwroot/Bakgrunnsbilder
-        [AllowAnonymous]
+            // Laster inn tilfeldig bakgrunnsbilde fra wwwroot/Bakgrunnsbilder
+            [AllowAnonymous]
         public IActionResult GetRandomBackgroundImage()
             {
             string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Bakgrunnsbilder");

@@ -37,23 +37,87 @@
 
 
 
+    // // Initialiser kartet
+    // var map = L.map('map').setView([@Model.Koordinat.Latitude, @Model.Koordinat.Longitude], 13);
+
+    // // Legg til kartlag
+    // L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/topo/default/webmercator/{z}/{y}/{x}.png', {
+    //     maxZoom: 18,
+    // attribution: '&copy; <a href="http://www.kartverket.no/">Kartverket</a>'
+    // }).addTo(map);
+
+    // // Legg til markør for innmeldingen
+    // L.marker([@Model.Koordinat.Latitude, @Model.Koordinat.Longitude])
+    // .addTo(map)
+    // .bindPopup(
+    // `<strong>@Model.Avvikstype.Type</strong><br>
+    //     Status: @Model.Status.Statustype<br>
+    //         Dato: @Model.Dato.ToString("dd.MM.yyyy")`
+    // );
+
+
+
     // Initialiser kartet
-    var map = L.map('map').setView([@Model.Koordinat.Latitude, @Model.Koordinat.Longitude], 13);
+    var map = L.map('map');
 
     // Legg til kartlag
     L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/topo/default/webmercator/{z}/{y}/{x}.png', {
         maxZoom: 18,
-    attribution: '&copy; <a href="http://www.kartverket.no/">Kartverket</a>'
+        attribution: '&copy; <a href="http://www.kartverket.no/">Kartverket</a>'
     }).addTo(map);
 
-    // Legg til markør for innmeldingen
-    L.marker([@Model.Koordinat.Latitude, @Model.Koordinat.Longitude])
-    .addTo(map)
-    .bindPopup(
-    `<strong>@Model.Avvikstype.Type</strong><br>
-        Status: @Model.Status.Statustype<br>
-            Dato: @Model.Dato.ToString("dd.MM.yyyy")`
-    );
+    // Funksjon for å tegne geometri basert på type
+    function drawGeometry() {
+        const geometryType = '@Model.Koordinat.GeometryType';
+        const coordinates = JSON.parse('@Html.Raw(Model.Koordinat.Koordinater)');
+        let geometry;
+
+        switch (geometryType) {
+            case 'Point':
+                geometry = L.marker([coordinates.lat, coordinates.lng])
+                    .addTo(map)
+                    .bindPopup(
+                        `<strong>@Model.Avvikstype.Type</strong><br>
+                        Status: @Model.Status.Statustype<br>
+                        Dato: @Model.Dato.ToString("dd.MM.yyyy")`
+                    );
+                break;
+
+            case 'LineString':
+                geometry = L.polyline(coordinates)
+                    .addTo(map)
+                    .bindPopup(
+                        `<strong>@Model.Avvikstype.Type</strong><br>
+                        Status: @Model.Status.Statustype<br>
+                        Dato: @Model.Dato.ToString("dd.MM.yyyy")`
+                    );
+                break;
+
+            case 'Polygon':
+                geometry = L.polygon(coordinates)
+                    .addTo(map)
+                    .bindPopup(
+                        `<strong>@Model.Avvikstype.Type</strong><br>
+                        Status: @Model.Status.Statustype<br>
+                        Dato: @Model.Dato.ToString("dd.MM.yyyy")`
+                    );
+                break;
+        }
+
+        // Zoom kartet til å vise hele geometrien
+        if (geometry) {
+            if (geometryType === 'Point') {
+                map.setView([coordinates.lat, coordinates.lng], 13); // Standard på punkter
+            } else {
+                map.fitBounds(geometry.getBounds());
+            }
+        }
+    }
+
+    // Sett inn markeringen i kartet
+    drawGeometry();
+
+
 
     function RedirectToOversikt() {
         window.location.href = "/Home/InnmeldOversikt";
