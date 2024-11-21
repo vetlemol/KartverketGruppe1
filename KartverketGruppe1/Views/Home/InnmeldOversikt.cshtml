@@ -122,21 +122,6 @@
  *@
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @model KartverketGruppe1.Data.Innmelding
 @{
     ViewData["Title"] = "Innmelding";
@@ -150,14 +135,14 @@
 </style>
 <div class="container p-4 rounded" style="background-color: #D8E3F2;">
     <div class="row">
-        <!-- Left Column - Info -->
+        <!-- Info på venstre side -->
         <div class="col-md-4 bg-transparent">
             <div class="card mb-3 bg-transparent border-0">
                 <h4>Innmelding info</h4>
                 <div class="card-body">
                     <div class="form-group">
                         <label>Tekst:</label>
-                        <textarea class="form-control" rows="6" readonly>@Model.Innmeldingsbeskrivelse</textarea>
+                        <textarea class="form-control" rows="auto" readonly>@Model.Innmeldingsbeskrivelse</textarea>
                     </div>
                     <div class="mt-3">
                         <div>ID: @Model.InnmeldingID</div>
@@ -168,8 +153,8 @@
                     <div class="mt-3">
                         <label>Vedlegg:</label>
                         @if (Model.Dokumentasjon != null)
-                        {
-                            <input type="text" class="form-control" value="Dokumentasjon tilgjengelig" readonly />
+                        {  // Hvis det er dokumentasjon, vis bilde ved å konvertere byte[] til base64 som kan vises i img-tag
+                            <img src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Dokumentasjon)" alt="Opplastet bilde" class="img-fluid mt-2" style="max-width: 300px;" />
                         }
                         else
                         {
@@ -180,7 +165,7 @@
             </div>
         </div>
 
-        <!-- Middle Column - Processing -->
+        <!-- Midtre kolonne -->
         <div class="col-md-4">
             <div class="card mb-3 bg-transparent border-0">
                 <h4>Innmelding behandling</h4>
@@ -197,16 +182,20 @@
                         <label>Saksbehandler:</label>
                         <input type="text" class="form-control" value="@(Model.Saksbehandler?.UserName ?? "Ikke tildelt")" readonly />
                     </div>
+                    <a href="@Url.Action("SendMelding", new { innmeldingId = Model.InnmeldingID })" class="btn btn-primary">Ny melding</a> 
+                    <a href="@Url.Action("SeMeldinger", "Kart", new { innmeldingId = Model.InnmeldingID })" class="btn btn-primary">Se meldinger</a>
                 </div>
             </div>
         </div>
     @* </div> <a href="@Url.Action("InnmeldOversikt", new { id = innmelding.InnmeldingID })"
               class="button3" style="text-decoration: none;"> *@
 
-        <!-- Right Column - Map -->
+        <!-- Kart på høyre side -->
         <div class="col-md-4">
             <div class="card mb-3 bg-transparent border-0">
                 <h4>Kartutsnitt</h4>
+                @* <a href="@Url.Action("SendMelding", "Home", new { id = Model.InnmeldingID })">Send melding</a> *@
+                <a href="@Url.Action("SendMelding", new { innmeldingId = Model.InnmeldingID })" class="btn btn-primary">Ny melding</a>
                 <a href="@Url.Action("Fullskjerm" , "Kart", new {id = Model.InnmeldingID})">Vis i fullskjerm</a>
                 <div class="card-body p-0">
                     <div id="map" style="height: 300px;">
@@ -222,8 +211,7 @@
                 @if (Model.Saksbehandler != null)
                 {
                     <small class="text-muted">
-                        Saksbehandler: @Model.Saksbehandler.UserName (id:@Model.SaksbehandlerID),
-                        @Model.Saksbehandler.Email, @Model.Saksbehandler.PhoneNumber
+                        Saksbehandler: @Model.Saksbehandler.UserName
                     </small>
                     <br />
                 }
@@ -241,37 +229,107 @@
     <!-- Buttons -->
     <div class="row mt-3">
         <div class="col-12 text-end">
-            <button class="btn btn-danger">Henvendelse</button>
+           @*  <button class="btn btn-danger">Henvendelse</button> *@
             <button class="btn btn-secondary" onclick="RedirectToOversikt()">Lukk</button>
-            <button class="btn btn-success">Lagre</button>
+            <button class="btn btn-success" onclick="@Url.Action("SendMelding" , "Home", new {id = Model.InnmeldingID})">Lagre</button>
         </div>
     </div>
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-    
 
+        // Initialiser kartet
+        var map = L.map('map');
 
-            // Initialiser kartet
-            var map = L.map('map').setView([@Model.Koordinat.Latitude, @Model.Koordinat.Longitude], 13);
-
-            // Legg til kartlag
-            L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/topo/default/webmercator/{z}/{y}/{x}.png', {
-                maxZoom: 20,
+        // Legg til kartlag
+        L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/topo/default/webmercator/{z}/{y}/{x}.png', {
+            maxZoom: 18,
             attribution: '&copy; <a href="http://www.kartverket.no/">Kartverket</a>'
-            }).addTo(map);
+        }).addTo(map);
 
-            // Legg til markør for innmeldingen
-            L.marker([@Model.Koordinat.Latitude, @Model.Koordinat.Longitude])
-            .addTo(map)
-            .bindPopup(
-            `<strong>@Model.Avvikstype.Type</strong><br>
-                Status: @Model.Status.Statustype<br>
-                    Dato: @Model.Dato.ToString("dd.MM.yyyy")`
-            );
+        // Funksjon for å tegne geometri basert på type
+        function drawGeometry() {
+            const geometryType = '@Model.Koordinat.GeometryType';
+            const coordinates = JSON.parse('@Html.Raw(Model.Koordinat.Koordinater)');
+            let geometry;
 
-            function RedirectToOversikt() {
-                window.location.href = "/Home/Oversikt";
+            switch (geometryType) {
+                case 'Point':
+                    geometry = L.marker([coordinates.lat, coordinates.lng])
+                        .addTo(map)
+                        .bindPopup(
+                            `<strong>@Model.Avvikstype.Type</strong><br>
+                            Status: @Model.Status.Statustype<br>
+                            Dato: @Model.Dato.ToString("dd.MM.yyyy")`
+                        );
+                    break;
+
+                case 'LineString':
+                    geometry = L.polyline(coordinates)
+                        .addTo(map)
+                        .bindPopup(
+                            `<strong>@Model.Avvikstype.Type</strong><br>
+                            Status: @Model.Status.Statustype<br>
+                            Dato: @Model.Dato.ToString("dd.MM.yyyy")`
+                        );
+                    break;
+
+                case 'Polygon':
+                    geometry = L.polygon(coordinates)
+                        .addTo(map)
+                        .bindPopup(
+                            `<strong>@Model.Avvikstype.Type</strong><br>
+                            Status: @Model.Status.Statustype<br>
+                            Dato: @Model.Dato.ToString("dd.MM.yyyy")`
+                        );
+                    break;
             }
+
+            // Zoom kartet til å vise hele geometrien
+            if (geometry) {
+                if (geometryType === 'Point') {
+                    map.setView([coordinates.lat, coordinates.lng], 13);
+                } else {
+                    map.fitBounds(geometry.getBounds());
+                }
+            }
+        }
+
+        // Tegn geometrien
+        drawGeometry();
+
+
+        // Juster høyden på tekstfeltet automatisk etter størrelsen på teksten
+        window.onload = function () {
+            var textarea = document.querySelector('textarea');
+            textarea.style.height = 'auto';
+            textarea.style.height = (textarea.scrollHeight + 5) + 'px';
+        }
+
+        function RedirectToOversikt() {
+            window.location.href = "/Home/Oversikt";
+        }
+
+
+
+            // // Initialiser kartet
+            // var map = L.map('map').setView([@Model.Koordinat.Latitude, @Model.Koordinat.Longitude], 13);
+
+            // // Legg til kartlag
+            // L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/topo/default/webmercator/{z}/{y}/{x}.png', {
+            //     maxZoom: 20,
+            // attribution: '&copy; <a href="http://www.kartverket.no/">Kartverket</a>'
+            // }).addTo(map);
+
+            // // Legg til markør for innmeldingen
+            // L.marker([@Model.Koordinat.Latitude, @Model.Koordinat.Longitude])
+            // .addTo(map)
+            // .bindPopup(
+            // `<strong>@Model.Avvikstype.Type</strong><br>
+            //     Status: @Model.Status.Statustype<br>
+            //         Dato: @Model.Dato.ToString("dd.MM.yyyy")`
+            // );
+
+            
 </script>

@@ -1,4 +1,4 @@
-﻿using KartverketGruppe1.Data;
+using KartverketGruppe1.Data;
 using KartverketGruppe1.Models;
 using KartverketGruppe1.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -18,7 +18,62 @@ namespace KartverketGruppe1.Controllers
         private readonly ILogger<SaksbehandlerController> _logger;
         private readonly ApplicationDbContext _context;
 
-    
+        public SaksbehandlerController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ILogger<SaksbehandlerController> logger, ApplicationDbContext context)
+        {
+            _userManager = userManager;
+            _signInManager = signInManager;
+            _logger = logger;
+            _context = context;
+        }
+
+
+        // [Authorize(Roles = "Saksbehandler")] // For at bare eksisterende saksbehandlere kan registrere nye, må se om vi skal ha dette.
+        [AllowAnonymous]
+        [HttpGet]
+        public IActionResult SaksbehandlerRegistrer()
+        {
+            return View();
+        }
+
+        // [Authorize(Roles = "Saksbehandler")]
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<IActionResult> Registrer(RegistrerSaksbehandlerViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new ApplicationUser
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    Fornavn = model.Fornavn,
+                    Etternavn = model.Etternavn
+                };
+
+                var result = await _userManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    await _userManager.AddToRoleAsync(user, "Saksbehandler");
+                    return RedirectToAction("Arbeidsbord");
+                }
+
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+            }
+            return View(model);
+        }
+
+
+
+
+
+        [Authorize(Roles = "Saksbehandler")]
+        public IActionResult Behandling()
+        {
+            return View();
+        }
 
         [Authorize(Roles = "Saksbehandler")]
         public IActionResult AlleHenvendelser()
@@ -26,8 +81,8 @@ namespace KartverketGruppe1.Controllers
             return View();
         }
 
-         [Authorize(Roles = "Saksbehandler")]
-        public IActionResult Arbeidsbord()
+        [Authorize(Roles = "Saksbehandler")]
+        public IActionResult MineHenvendelser()
         {
             return View();
         }
@@ -39,13 +94,90 @@ namespace KartverketGruppe1.Controllers
         }
 
         [Authorize(Roles = "Saksbehandler")]
-        public IActionResult Behandling()
+        public IActionResult SaksbehandlerRediger()
         {
             return View();
         }
 
+        [Authorize(Roles = "Saksbehandler")]
+        public IActionResult Arbeidsbord()
+        {
+            return View();
+        }
+
+
+
+        public async Task<IActionResult> Oversikt()
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (currentUser == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            var innmeldinger = await _context.Innmelding
+                .Include(i => i.Status)
+                .Include(i => i.Kommune)
+                .Where(i => i.StatusID == 1 || i.StatusID == 3)
+                .OrderByDescending(i => i.Dato)
+                .ToListAsync();
+
+            return View(innmeldinger);
+        }
+
+        public async Task<IActionResult> Arkivert()
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+            if(currentUser == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            var innmeldinger = await _context.Innmelding
+                .Include(i => i.Status)
+                .Include(i => i.Kommune)
+                .Where(i => i.StatusID == 2 || i.StatusID == 4)
+                .OrderByDescending(i => i.Dato)
+                .ToListAsync();
+
+            return View(innmeldinger);
+        }
+
+
+        public async Task<IActionResult> Test(int id)
+        {
+            var innmelding = await _context.Innmelding
+                .Include(i => i.Koordinat)
+                .Include(i => i.Bruker)
+                .Include(i => i.Kommune)
+                .Include(i => i.Avvikstype)
+                .Include(i => i.Status)
+                .Include(i => i.Prioritet)
+                .Include(i => i.Saksbehandler)
+                .FirstOrDefaultAsync(i => i.InnmeldingID == id);
+
+            if (innmelding == null)
+            {
+                return NotFound();
+            }
+
+            await LoadViewbags();
+            return View(innmelding);
+        }
+
         private async Task LoadViewbags()
         {
+
+            // Hent alle brukere med rollen Saksbehandler
+            var saksbehandlere = await _userManager.GetUsersInRoleAsync("Saksbehandler");
+            ViewBag.Saksbehandler = saksbehandlere
+                .Select(user => new SelectListItem
+                {
+                    Value = user.Id,
+                    Text = user.UserName
+                })
+                .ToList();
+
             ViewBag.Avvikstype = _context.Avvikstype
                 .Select(a => new SelectListItem
                 {
@@ -69,23 +201,8 @@ namespace KartverketGruppe1.Controllers
                     Text = a.Prioritetsnivå
                 })
                 .ToList();
-
-            // Hent alle brukere med rollen Saksbehandler
-            var saksbehandlere = await _userManager.GetUsersInRoleAsync("Saksbehandler");
-            ViewBag.Saksbehandler = saksbehandlere
-                .Select(user => new SelectListItem
-                {
-                    Value = user.Id,
-                    Text = user.UserName
-                })
-                .ToList();
         }
 
-        [Authorize(Roles = "Saksbehandler")]
-        public IActionResult MineHenvendelser()
-        {
-            return View();
-        }
 
 
         [HttpPost]
@@ -125,102 +242,51 @@ namespace KartverketGruppe1.Controllers
             }
         }
 
-     public async Task<IActionResult> Oversikt()
-        {
-            var currentUser = await _userManager.GetUserAsync(User);
-            if (currentUser == null)
-            {
-                return RedirectToAction("Login", "Account");
-            }
-
-            var innmeldinger = await _context.Innmelding
-                .Include(i => i.Status)
-                .Include(i => i.Kommune)
-                //.Where(i => i.BrukerID == currentUser.Id)
-                .OrderByDescending(i => i.Dato)
-                .ToListAsync();
-
-            return View(innmeldinger);
-        }
-
-        // [Authorize(Roles = "Saksbehandler")]
-        [AllowAnonymous]
-        [HttpPost]
-        public async Task<IActionResult> Registrer(RegistrerSaksbehandlerViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                var user = new ApplicationUser
-                {
-                    UserName = model.Email,
-                    Email = model.Email,
-                    Fornavn = model.Fornavn,
-                    Etternavn = model.Etternavn
-                };
-
-                var result = await _userManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
-                {
-                    await _userManager.AddToRoleAsync(user, "Saksbehandler");
-                    return RedirectToAction("Arbeidsbord");
-                }
-
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError(string.Empty, error.Description);
-                }
-            }
-            return View(model);
-        }
-
-          public SaksbehandlerController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ILogger<SaksbehandlerController> logger, ApplicationDbContext context)
-        {
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _logger = logger;
-            _context = context;
-        }
 
 
-        [Authorize(Roles = "Saksbehandler")]
-        public IActionResult SaksbehandlerRediger()
-        {
-            return View();
-        }
 
-        // [Authorize(Roles = "Saksbehandler")] // For at bare eksisterende saksbehandlere kan registrere nye, må se om vi skal ha dette.
-        [AllowAnonymous]
-        [HttpGet]
-        public IActionResult SaksbehandlerRegistrer()
-        {
-            return View();
-        }
 
-    
-
-        public async Task<IActionResult> Test(int id)
+        public async Task<IActionResult> RedigerInnmelding(int id)
         {
             var innmelding = await _context.Innmelding
-                .Include(i => i.Koordinat)
-                .Include(i => i.Bruker)
-                .Include(i => i.Kommune)
-                .Include(i => i.Avvikstype)
                 .Include(i => i.Status)
                 .Include(i => i.Prioritet)
                 .Include(i => i.Saksbehandler)
+                .Include(i => i.Kommune)
+                .Include(i => i.Avvikstype)
+                .Include(i => i.Koordinat)
+                .Include(i => i.Bruker)
                 .FirstOrDefaultAsync(i => i.InnmeldingID == id);
 
-            if (innmelding == null)
-            {
-                return NotFound();
-            }
+            if (innmelding == null) return NotFound();
 
-            await LoadViewbags();
+            await LoadViewbags(); // Trenger await for å kunne bruke async i metoden. Hvis ikke lastes ikke viewbags før viewen vises.
             return View(innmelding);
         }
 
-    
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RedigerInnmelding(int id, Innmelding model)
+        {
+            if (id != model.InnmeldingID) return NotFound();
+
+            try
+            {
+                var innmelding = await _context.Innmelding.FindAsync(id);
+                innmelding.StatusID = model.StatusID;
+                innmelding.PrioritetID = model.PrioritetID;
+                innmelding.SaksbehandlerID = model.SaksbehandlerID;
+
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Oversikt");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Feil ved oppdatering av innmelding");
+                return View(model);
+            }
+        }
 
 
 
