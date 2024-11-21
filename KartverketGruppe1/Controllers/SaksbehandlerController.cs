@@ -1,4 +1,4 @@
-﻿using KartverketGruppe1.Data;
+using KartverketGruppe1.Data;
 using KartverketGruppe1.Models;
 using KartverketGruppe1.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -118,7 +118,25 @@ namespace KartverketGruppe1.Controllers
             var innmeldinger = await _context.Innmelding
                 .Include(i => i.Status)
                 .Include(i => i.Kommune)
-                //.Where(i => i.BrukerID == currentUser.Id)
+                .Where(i => i.StatusID == 1 || i.StatusID == 3)
+                .OrderByDescending(i => i.Dato)
+                .ToListAsync();
+
+            return View(innmeldinger);
+        }
+
+        public async Task<IActionResult> Arkivert()
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+            if(currentUser == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            var innmeldinger = await _context.Innmelding
+                .Include(i => i.Status)
+                .Include(i => i.Kommune)
+                .Where(i => i.StatusID == 2 || i.StatusID == 4)
                 .OrderByDescending(i => i.Dato)
                 .ToListAsync();
 
@@ -149,6 +167,17 @@ namespace KartverketGruppe1.Controllers
 
         private async Task LoadViewbags()
         {
+
+            // Hent alle brukere med rollen Saksbehandler
+            var saksbehandlere = await _userManager.GetUsersInRoleAsync("Saksbehandler");
+            ViewBag.Saksbehandler = saksbehandlere
+                .Select(user => new SelectListItem
+                {
+                    Value = user.Id,
+                    Text = user.UserName
+                })
+                .ToList();
+
             ViewBag.Avvikstype = _context.Avvikstype
                 .Select(a => new SelectListItem
                 {
@@ -170,16 +199,6 @@ namespace KartverketGruppe1.Controllers
                 {
                     Value = a.PrioritetID.ToString(),
                     Text = a.Prioritetsnivå
-                })
-                .ToList();
-
-            // Hent alle brukere med rollen Saksbehandler
-            var saksbehandlere = await _userManager.GetUsersInRoleAsync("Saksbehandler");
-            ViewBag.Saksbehandler = saksbehandlere
-                .Select(user => new SelectListItem
-                {
-                    Value = user.Id,
-                    Text = user.UserName
                 })
                 .ToList();
         }
@@ -223,6 +242,51 @@ namespace KartverketGruppe1.Controllers
             }
         }
 
+
+
+
+
+        public async Task<IActionResult> RedigerInnmelding(int id)
+        {
+            var innmelding = await _context.Innmelding
+                .Include(i => i.Status)
+                .Include(i => i.Prioritet)
+                .Include(i => i.Saksbehandler)
+                .Include(i => i.Kommune)
+                .Include(i => i.Avvikstype)
+                .Include(i => i.Koordinat)
+                .Include(i => i.Bruker)
+                .FirstOrDefaultAsync(i => i.InnmeldingID == id);
+
+            if (innmelding == null) return NotFound();
+
+            await LoadViewbags(); // Trenger await for å kunne bruke async i metoden. Hvis ikke lastes ikke viewbags før viewen vises.
+            return View(innmelding);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RedigerInnmelding(int id, Innmelding model)
+        {
+            if (id != model.InnmeldingID) return NotFound();
+
+            try
+            {
+                var innmelding = await _context.Innmelding.FindAsync(id);
+                innmelding.StatusID = model.StatusID;
+                innmelding.PrioritetID = model.PrioritetID;
+                innmelding.SaksbehandlerID = model.SaksbehandlerID;
+
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Oversikt");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Feil ved oppdatering av innmelding");
+                return View(model);
+            }
+        }
 
 
 

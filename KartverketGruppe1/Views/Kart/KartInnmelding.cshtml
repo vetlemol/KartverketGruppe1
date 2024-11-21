@@ -39,13 +39,37 @@
         border-radius: 4px;
     }
 
-    .upload-box {
+    /* .upload-box {
         border: 2px dashed #ccc;
         padding: 20px;
         text-align: center;
-        border-radius: 4px;
+        border-radius: 20px;
         cursor: pointer;
+        
+    } */
+
+    .upload-box {
+        border: 2px dashed #ccc;
+        border-radius: 8px;
+        padding: 20px;
+        text-align: center;
+        margin: 15px 0;
+        cursor: pointer;
+        width: 100%;
+        max-width: 400px;
+        background-color: #f8f9fa;
+        transition: border-color 0.3s;
     }
+
+        .upload-box:hover {
+            border-color: #8ebf94;
+        }
+
+        .upload-box img {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 10px;
+        }
 
 
     /* .vedlegg label {
@@ -111,40 +135,28 @@
         width: 100%;
         height: 100%;
     }
-    /* .map-container {
-        display: flex;
-        height: calc(100vh - 60px);
-    }
 
-    .sidebar {
-        width: 400px;
-        padding: 20px;
-        background-color: #f8f9fa;
-        overflow-y: auto;
-    }
 
-    .map-content {
-        flex: 1;
-        position: relative;
-    }
-
-    #map {
+    .input-group .btn {
+        background-color: #8ebf94;
+        color: white;
+        border: 0px solid #8ebf94;
         height: 100%;
-        width: 100%;
+        display: flex;
+        align-items: center;
+        padding: 1.5;
     }
 
-    .info-box {
-        background-color: white;
-        padding: 15px;
-        border-radius: 5px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        margin-bottom: 15px;
-    } */
+        .input-group .btn:hover {
+            background-color: #7dab83;
+            border-color: #7dab83;
+        }
 </style>
 
 <div class="map-container">
     <div class="sidebar">
-        <form id="innmeldingForm" asp-action="LagreInnmelding" asp-controller="Kart" method="post">
+        <!-- Form må ha enctype="multipart/form-data" for å kunne laste opp filer -->
+        <form id="innmeldingForm" asp-action="LagreInnmelding" asp-controller="Kart" method="post" enctype="multipart/form-data">
             @Html.AntiForgeryToken()
 
             @if (ViewData["Error"] != null)
@@ -161,27 +173,37 @@
             <input type="hidden" asp-for="PrioritetID" value="1" />
             <input type="hidden" asp-for="Dato" value="@DateTime.Now" />
 
-            <!-- Koordinat info -->
-            <div class="info-box">
-                <h4>Valgt posisjon</h4>
+            <!-- Koordinat og Kommune info skjult -->
+            <div class="info-box" style="display: none;">
                 <div>
-                    <p>Latitude: <span id="latitude">-</span></p>
-                    <p>Longitude: <span id="longitude">-</span></p>
+                    <span id="latitude">-</span>
+                    <span id="longitude">-</span>
+                </div>
+                <div>
+                    <span id="kommunenavn">-</span>
+                    <span id="kommunenummer">-</span>
                 </div>
             </div>
 
-            <!-- Kommune info -->
-            <div class="info-box">
-                <h4>Kommune</h4>
-                <div>
-                    <p>Kommunenavn: <span id="kommunenavn">-</span></p>
-                    <p>Kommunenummer: <span id="kommunenummer">-</span></p>
+            <!-- Søk etter sted -->
+            @* <div class="form-group mb-3">
+                <h5>Søk etter sted</h5>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="SokeTekst" placeholder="Søk etter sted" />
+                     <button type="button" class="btn btn-primary" onclick="sokStedsnavn()">Søk</button>
+                </div>
+            </div>
+             <button type="button" class="btn input-group-text" style="background-color: #8ebf94; color: white;">Søk</button> *@
+            <div class="form-group mb-3">
+                <h5>Søk etter sted</h5>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="SokeTekst" placeholder="Søk etter sted" onkeydown="if(event.key === 'Enter') sokStedsnavn()" />
                 </div>
             </div>
 
             <!-- Avvikstype -->
             <div class="form-group mb-3">
-                <label>Type avvik</label>
+                <h5><label>Type avvik</label></h5> 
                 <select class="form-control" asp-for="AvvikstypeID" required>
                     <option value="">Velg type avvik</option>
                     @foreach (var type in ViewBag.Avvikstyper)
@@ -194,10 +216,21 @@
 
             <!-- Beskrivelse -->
             <div class="form-group mb-3">
-                <label>Beskrivelse av avvik</label>
+                <h5><label>Beskrivelse av avvik</label></h5>
                 <textarea class="form-control" asp-for="Innmeldingsbeskrivelse" rows="4" required
                           placeholder="Beskriv avviket så detaljert som mulig..."></textarea>
                 <span asp-validation-for="Innmeldingsbeskrivelse" class="text-danger"></span>
+            </div>
+
+            <h5>Legg ved bilde om ønskelig</h5>
+            @* <div class="upload-box" id="uploadBox" onclick="document.getElementById('fileUpload').click()">
+                <img src="~/Images/UploadIcon.png" alt="Upload" />
+                <input type="file" id="fileUpload" name="file-upload" accept="image/*" style="display: none;" />
+            </div> *@
+            <div class="upload-box" id="uploadBox" onclick="document.getElementById('fileUpload').click()">
+                <img src="~/Images/UploadIcon.png" alt="Upload" />
+                <input type="file" id="fileUpload" name="Dokumentasjon" accept="image/*" style="display: none;" onchange="showFileName(this)" />
+                <p id="fileName"></p>
             </div>
 
             <!-- E-post for gjester -->
@@ -221,6 +254,14 @@
     </div>
 </div>
 
+
+
+
+
+
+
+
+
 @section Scripts {
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet.pm@latest/dist/leaflet.pm.min.js"></script>
@@ -228,41 +269,78 @@
     <script>
         var map = L.map('map').setView([58.164048, 8.004007], 13);
         var currentMarker = null;
+        var currentGeometry = null;
 
         L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/topo/default/webmercator/{z}/{y}/{x}.png', {
             maxZoom: 18,
             attribution: '&copy; <a href="http://www.kartverket.no/">Kartverket</a>'
         }).addTo(map);
 
+
         map.pm.addControls({
             position: 'topleft',
             drawMarker: true,
+            drawPolyline: true,
+            drawPolygon: true,
             removalMode: true,
-            drawPolyline: false,
             drawCircleMarker: false,
             drawRectangle: false,
             drawCircle: false,
-            drawPolygon: false,
-            editMode: false,
+            editMode: false, // Systemet for lagring av koordinater støtter ikke redigering.
             cutPolygon: false,
         });
 
+
+
+        function getGeometryData(layer) {
+            let geometryType = '';
+            let coordinates = '';
+            let centerPoint = null;
+
+            if (layer instanceof L.Marker) {
+                geometryType = 'Point';
+                coordinates = JSON.stringify(layer.getLatLng());
+                centerPoint = layer.getLatLng();
+            }
+            else if (layer instanceof L.Polyline && !(layer instanceof L.Polygon)) {
+                geometryType = 'LineString';
+                coordinates = JSON.stringify(layer.getLatLngs());
+                centerPoint = layer.getBounds().getCenter();
+            }
+            else if (layer instanceof L.Polygon) {
+                geometryType = 'Polygon';
+                coordinates = JSON.stringify(layer.getLatLngs());
+                centerPoint = layer.getBounds().getCenter();
+            }
+
+            return {
+                geometryType: geometryType,
+                coordinates: coordinates,
+                latitude: centerPoint.lat,
+                longitude: centerPoint.lng
+            };
+        }
+
+
+
+
         map.on('pm:create', async function (e) {
             try {
-                if (currentMarker) {
-                    map.removeLayer(currentMarker);
+                if (currentGeometry) {
+                    map.removeLayer(currentGeometry);
                 }
-                currentMarker = e.layer;
+                currentGeometry = e.layer;
 
-                const coordinates = e.layer.getLatLng();
+                // Hent geometridata
+                const geometryData = getGeometryData(currentGeometry);
 
-                // Oppdater koordinat-visning med flere desimaler
-                document.getElementById('latitude').textContent = coordinates.lat.toFixed(8);
-                document.getElementById('longitude').textContent = coordinates.lng.toFixed(8);
+                // Oppdater skjulte felt med koordinater
+                document.getElementById('latitude').textContent = geometryData.latitude.toFixed(8);
+                document.getElementById('longitude').textContent = geometryData.longitude.toFixed(8);
 
-                // Hent kommune-info
+                // Hent kommune-info basert på senterpunktet
                 const kommuneResponse = await fetch(
-                    `/api/Kommune/GetByCoordinate?lat=${coordinates.lat}&lng=${coordinates.lng}&koordsys=4258`
+                    `/api/Kommune/GetByCoordinate?lat=${geometryData.latitude}&lng=${geometryData.longitude}&koordsys=4258`
                 );
 
                 if (!kommuneResponse.ok) {
@@ -275,7 +353,7 @@
                 document.getElementById('kommunenavn').textContent = kommuneData.kommunenavn || '-';
                 document.getElementById('kommunenummer').textContent = kommuneData.kommunenummer || '-';
 
-                // Lagre koordinat og kommune
+                // Lagre koordinat og kommune med geometridata
                 const lagreResponse = await fetch('/Kart/LagreKoordinatOgKommune', {
                     method: 'POST',
                     headers: {
@@ -283,8 +361,10 @@
                         'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
                     },
                     body: JSON.stringify({
-                        latitude: coordinates.lat,
-                        longitude: coordinates.lng,
+                        latitude: geometryData.latitude,
+                        longitude: geometryData.longitude,
+                        koordinater: geometryData.coordinates,
+                        geometryType: geometryData.geometryType,
                         kommunenummer: kommuneData.kommunenummer,
                         kommunenavn: kommuneData.kommunenavn
                     })
@@ -309,7 +389,37 @@
             }
         });
 
-        // Form validering
+
+
+        // Stedsnavn-søk
+        async function sokStedsnavn() {
+            const sokeTekst = document.getElementById('SokeTekst').value;
+            if (!sokeTekst) return;
+
+            try {
+                const response = await fetch('/Kart/SokStedsnavn', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                    },
+                    body: JSON.stringify({ SokeTekst: sokeTekst })
+                });
+
+                if (!response.ok) throw new Error('Søk feilet');
+
+                const data = await response.json();
+                if (data && data.length > 0) {
+                    map.setView([data[0].nord, data[0].ost], 13);
+                }
+            } catch (error) {
+                console.error('Søkefeil:', error);
+                alert('Kunne ikke utføre søk. Prøv igjen.');
+            }
+        }
+
+
+
         document.getElementById('innmeldingForm').addEventListener('submit', function (e) {
             if (!document.getElementById('KoordinatID').value ||
                 !document.getElementById('KommuneID').value) {
@@ -332,5 +442,13 @@
                 return false;
             }
         });
+
+
+        // Vis filnavn i upload-boks hvis noe blir lastet opp
+        function showFileName(input) {
+            const fileName = document.getElementById('fileName');
+            fileName.textContent = input.files[0] ? input.files[0].name : '';
+        }
+
     </script>
 }

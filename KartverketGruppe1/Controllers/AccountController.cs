@@ -54,6 +54,17 @@ namespace KartverketGruppe1.Controllers
             return View(model);
         }
 
+          public IActionResult Loggut()
+        {
+            return View();
+        }
+        
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Login", "Account");
+        }
+
         [AllowAnonymous]
         [HttpGet]
         public IActionResult Register()
@@ -92,15 +103,7 @@ namespace KartverketGruppe1.Controllers
         }
 
 
-        public IActionResult Loggut()
-        {
-            return View();
-        }
-        public async Task<IActionResult> Logout()
-        {
-            await _signInManager.SignOutAsync();
-            return RedirectToAction("Login", "Account");
-        }
+    
 
         [HttpGet]
         public IActionResult SlettBruker()
