@@ -84,10 +84,8 @@ namespace KartverketGruppe1.Controllers
                     KommuneID = innmelding.KommuneID,
                     AvvikstypeID = innmelding.AvvikstypeID,
                     KoordinatID = innmelding.KoordinatID,
-                    StatusID = 3,
-                    PrioritetID = 1,
-                    Dokumentasjon = innmelding.Dokumentasjon // Henter fra konvertert fil
-
+                    StatusID = 1,
+                    PrioritetID = 1
                 };
 
                 // Håndter bruker-ID
@@ -261,9 +259,6 @@ namespace KartverketGruppe1.Controllers
 
 
 
-
-
-
         public async Task<IActionResult> Fullskjerm(int id)
         {
             //var currentUser = await _userManager.GetUserAsync(User);
@@ -288,6 +283,28 @@ namespace KartverketGruppe1.Controllers
             }
 
             return View(innmelding);
+        }
+
+
+        public async Task<IActionResult> SeMeldinger(int id)
+        {
+            //var currentUser = await _userManager.GetUserAsync(User);
+            //if (currentUser == null)
+            //{
+            //    return NotFound();
+            //}
+
+            var meldinger = await _context.Meldinger
+                .Where(m => m.InnmeldingID == id)
+                .OrderByDescending(m => m.SendeTidspunkt)
+                .ToListAsync();
+
+            if (meldinger == null)
+            {
+                return NotFound();
+            }
+
+            return View(meldinger);
         }
 
 

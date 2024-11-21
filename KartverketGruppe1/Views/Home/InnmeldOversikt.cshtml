@@ -122,21 +122,6 @@
  *@
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @model KartverketGruppe1.Data.Innmelding
 @{
     ViewData["Title"] = "Innmelding";
@@ -197,6 +182,8 @@
                         <label>Saksbehandler:</label>
                         <input type="text" class="form-control" value="@(Model.Saksbehandler?.UserName ?? "Ikke tildelt")" readonly />
                     </div>
+                    <a href="@Url.Action("SendMelding", new { innmeldingId = Model.InnmeldingID })" class="btn btn-primary">Ny melding</a> 
+                    <a href="@Url.Action("SeMeldinger", "Kart", new { innmeldingId = Model.InnmeldingID })" class="btn btn-primary">Se meldinger</a>
                 </div>
             </div>
         </div>
