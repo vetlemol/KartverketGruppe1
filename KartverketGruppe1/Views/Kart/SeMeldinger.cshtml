@@ -1,0 +1,50 @@
+﻿@model IEnumerable<KartverketGruppe1.Data.Meldinger>
+
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alle Meldinger</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {            /* tr = table row, td = table data*/
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Alle meldinger</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Dato</th>
+                <th>Melding</th>
+                <th>Bruker</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var melding in Model)
+            {
+                <tr>
+                    <td>@melding.SendeTidspunkt</td>
+                    <td>@melding.Innhold</td>
+                    <td>@melding.InnmeldingID</td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</body>
+</html>

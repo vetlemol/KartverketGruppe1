@@ -1,0 +1,107 @@
+﻿@model KartverketGruppe1.Data.Meldinger
+
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meldingsboks</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f0f0f0;
+        }
+
+        textarea {
+            width: 100%;
+            height: 150px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            resize: none;
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #00973D;
+            color: white;
+            border: none;
+            border-radius: 5px; 
+            cursor: pointer;
+        }
+
+            button:hover {
+                background-color: #58a77b;
+            }
+    </style>
+</head>
+<body>
+@*  @{
+    var innmeldingsID = ViewBag.InnmeldingsID;
+    var token = ViewBag.Token;
+  }
+            
+<h2>Melding til sak @Model.InnmeldingID</h2> <textarea placeholder="Skriv meldingen din her..."></textarea>
+<input type="hidden" id="innmeldingsID" value="@innmeldingsID" />
+@Html.AntiForgeryToken()
+<br>
+<button onclick="sendMelding()">Send</button>
+ *@
+
+<div class="container">
+    @* <h3>Send melding</h3>
+    <p>InnmeldingID er @Model.InnmeldingID</p> *@
+
+    <form for asp-action="SendMelding" method="post">
+        <input type="hidden" asp-for="InnmeldingID" id="id" />
+        <input type="hidden" asp-for="SendeTidspunkt" id="SendeTidspunkt"/>
+
+        <input type="text" asp-for="Innhold" id="Innhold"/>
+
+    </form>
+</div>
+
+<script>
+    // function sendMelding() {
+    //     const melding = document.querySelector('textarea').value;
+    //     const innmeldingsID = document.getElementById('innmeldingsID').value;
+    //     const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+    //     /*Validering*/
+    //     if (melding.trim() === "") {
+    //         alert("Meldingen kan ikke være tom!");
+    //     } else {
+    //         fetch('/Home/MeldingInnmelding', {
+    //             method: 'POST',
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //                 'RequestVerificationToken': token
+    //             },
+    //             body: JSON.stringify({
+    //                 melding: melding,
+    //                 innmeldingsID: innmeldingsID
+    //             })
+    //         })
+
+    //         /* Håndtering av respons*/
+    //             .then(response => response.json())
+    //             .then(data => {
+    //                 if (data.success) {
+    //                     alert(data.message);
+    //                 } else {
+    //                     alert(data.message);
+    //                 }
+    //             })
+
+    //         /*Feilhåndtering*/
+    //             .catch(error => {
+    //                 console.error('Error:', error);
+    //                 alert("En feil oppstod. Prøv igjen.");
+    //             });
+    //     }
+    // }
+</script>
+</body>
+</html>
