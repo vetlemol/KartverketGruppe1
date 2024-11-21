@@ -1,4 +1,4 @@
-﻿using KartverketGruppe1.Data;
+using KartverketGruppe1.Data;
 using KartverketGruppe1.Models;
 using KartverketGruppe1.Services;
 using Microsoft.AspNetCore.Authorization;
