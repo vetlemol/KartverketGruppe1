@@ -20,168 +20,36 @@ namespace KartverketGruppe1.Controllers
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public HomeController(ILogger<HomeController> logger, IKommuneInfoService kommuneInfoService, IStedsnavnService stedsnavnService, ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        [HttpPost]
+        public IActionResult AddAvvik(string Avvik)
         {
-            _logger = logger;
-            _kommuneInfoService = kommuneInfoService;
-            _stedsnavnService = stedsnavnService;
-            _context = context;
-            _userManager = userManager;
-        }
-
-        // [AllowAnonymous]
-        [HttpGet]
-        public IActionResult Index()
-        {
-            return View();
-        }
-
-        //[HttpGet]
-        //public IActionResult InnmeldOversikt()
-        //{
-        //    return View();
-        //}
-
-
-        public async Task<IActionResult> InnmeldOversikt(int id)
-        {
-            var currentUser = await _userManager.GetUserAsync(User);
-            if (currentUser == null)
+            try
             {
-                return NotFound();
-            }
-
-            var innmelding = await _context.Innmelding
-                .Include(i => i.Koordinat)
-                .Include(i => i.Bruker)
-                .Include(i => i.Kommune)
-                .Include(i => i.Avvikstype)
-                .Include(i => i.Status)
-                .Include(i => i.Prioritet)
-                .Include(i => i.Saksbehandler)
-                .FirstOrDefaultAsync(i => i.InnmeldingID == id &&
-                    (i.BrukerID == currentUser.Id));
-
-            if (innmelding == null)
-            {
-                return NotFound();
-            }
-
-            await LoadViewbags();
-            return View(innmelding);
-        }
-
-
-        public IActionResult NyInnmelding() ////////////////////////////////////////////
-        {
-            return View();
-        }
-
-
-        private async Task LoadViewbags()
-        {
-            ViewBag.Avvikstype = _context.Avvikstype
-                .Select(a => new SelectListItem
+                if (string.IsNullOrEmpty(Avvik))
                 {
-                    Value = a.AvvikstypeID.ToString(),
-                    Text = a.Type
-                })
-                .ToList();
-
-            ViewBag.Status = _context.Status
-                .Select(a => new SelectListItem
+                    ViewData["Error"] = "Vennligst fyll ut feltene.";
+                    return View();
+                }
+                else
                 {
-                    Value = a.StatusID.ToString(),
-                    Text = a.Statustype
-                })
-                .ToList();
+                    var nyAvvik = new Avvikstype
+                    {
+                        Type = Avvik
+                    };
 
-            ViewBag.Prioritet = _context.Prioritet
-                .Select(a => new SelectListItem
-                {
-                    Value = a.PrioritetID.ToString(),
-                    Text = a.Prioritetsnivå
-                })
-                .ToList();
+                    _context.Avvikstype.Add(nyAvvik);
+                    _context.SaveChanges();
+                    return RedirectToAction("KartInnmelding");
+                }
+            }
+            catch (Exception e)
+            {
+                ViewData["Error"] = e.Message;
+                return View();
+            }
         }
 
 
-
-            // Metoden viser en enkel oversikt over alle innmeldinger for en spesifikk bruker sortert etter dato
-            public async Task<IActionResult> Oversikt()
-        {
-            var currentUser = await _userManager.GetUserAsync(User);
-            if (currentUser == null)
-            {
-                return RedirectToAction("Login", "Account");
-            }
-
-            var innmeldinger = await _context.Innmelding
-                .Include(i => i.Status)
-                .Include(i => i.Kommune)
-                .Where(i => i.BrukerID == currentUser.Id)
-                .OrderByDescending(i => i.Dato)
-                .ToListAsync();
-
-            return View(innmeldinger);
-        }
-    
-
-
-        // Denne metoden viser detaljene for en spesifikk innmelding
-        public async Task<IActionResult> InnmeldingOversikt(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var currentUser = await _userManager.GetUserAsync(User);
-            if (currentUser == null)
-            {
-                return RedirectToAction("Login", "Account");
-            }
-
-            var innmelding = await _context.Innmelding
-                .Include(i => i.Kommune)
-                .Include(i => i.Status)
-                .Include(i => i.Prioritet)
-                .Include(i => i.Koordinat)
-                .Include(i => i.Avvikstype)
-                .Include(i => i.Bruker)
-                .Include(i => i.Saksbehandler)
-                .FirstOrDefaultAsync(m => m.InnmeldingID == id && m.BrukerID == currentUser.Id);
-
-            if (innmelding == null)
-            {
-                return NotFound();
-            }
-
-            ViewBag.Statuser = await _context.Status.ToListAsync();
-            ViewBag.Prioriteter = await _context.Prioritet.ToListAsync();
-
-            return View(innmelding);
-        }
-
-
-        [HttpGet]
-        public IActionResult LagBruker()
-        {
-            return View();
-        }
-
-
-        // Denne metoden viser detaljene for en statisk brukerprofil, og er kun for demonstrasjon
-        private static BrukerProfilViewModel _brukerProfil = new BrukerProfilViewModel
-            {
-        //    Name = "Navn",
-        //    Email = "Epostadresse",
-        //    Phone = "********",
-        //    Password = "Nytt Passord",
-        //    GjentaPassword = "Gjenta Passord",
-            SubmissionsPerMonth = new List<int> { 3, 2, 0, 3, 1, 0, 2, 1, 0, 4, 0, 0 },
-            Years = new List<int> { 2022, 2023, 2024 }
-            };
 
         [HttpGet]
         //public IActionResult BrukerProfil()
@@ -233,105 +101,55 @@ namespace KartverketGruppe1.Controllers
             return View(viewModel);
         }
 
-
-        [HttpGet]
-        public IActionResult RedigerBrukerProfil()
-        {
-            return View(_brukerProfil);
-        }
-
-
-        // Metode for å oppdatere brukerprofil
-        [HttpPost]
-        public IActionResult RedigerBrukerProfil(BrukerProfilViewModel model)
-        {
-            if (ModelState.IsValid)
+         // Denne metoden viser detaljene for en statisk brukerprofil, og er kun for demonstrasjon
+        private static BrukerProfilViewModel _brukerProfil = new BrukerProfilViewModel
             {
-                // Oppdaterer brukerinformasjon
-                _brukerProfil.Name = model.Name;
-                _brukerProfil.Email = model.Email;
-                _brukerProfil.Phone = model.Phone;
-                _brukerProfil.BirthDate = model.BirthDate;
-                _brukerProfil.Password = model.Password;
+        //    Name = "Navn",
+        //    Email = "Epostadresse",
+        //    Phone = "********",
+        //    Password = "Nytt Passord",
+        //    GjentaPassword = "Gjenta Passord",
+            SubmissionsPerMonth = new List<int> { 3, 2, 0, 3, 1, 0, 2, 1, 0, 4, 0, 0 },
+            Years = new List<int> { 2022, 2023, 2024 }
+            };
 
-
-                return View(model); 
-            }
-            
-            return RedirectToAction("BrukerProfil");
+          public IActionResult Brukerinnmelding()
+        {
+            return View();
         }
 
 
-        // IActionResult brukes her for å hente Views for forskjellige sider vi har i systemet
+        [AllowAnonymous]
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+
+         // IActionResult brukes her for å hente Views for forskjellige sider vi har i systemet
         [AllowAnonymous]
         public IActionResult Feilmelding()
         {
             return View();
         }
 
-        public IActionResult Loading()
-        {
-            return View();
-        }
-
-
-        public IActionResult Start()
-        {
-            return View();
-        }
-
-        public IActionResult Innlogging()
-        {
-            return View();
-        }
-
+        // Laster inn tilfeldig bakgrunnsbilde fra wwwroot/Bakgrunnsbilder
         [AllowAnonymous]
-        public IActionResult KartInnmelding()
-        {
-            return View(new List<StedsnavnViewModel>());  // Tom Liste for Stedsnavn for å kunne søke etter Stedsnavn i kartavvik uten error ved første visning
-        }
-
-
-        // Håndterer søk etter Stedsnavn i kartinnmelding
-        // Funker, ikke rør :)
-        [AllowAnonymous]
-        [HttpPost]
-        public async Task<IActionResult> SokStedsnavn(string? SokeTekst)
-        {
-            if (string.IsNullOrEmpty(SokeTekst))
+        public IActionResult GetRandomBackgroundImage()
             {
-                return View("KartInnmelding");
+            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Bakgrunnsbilder");
+            var files = Directory.GetFiles(path, "*.png").Select(Path.GetFileName).ToList();
+
+            if (files.Count == 0)
+            {
+                return Json(new { error = "Ingen bilder funnet" });
             }
 
-            // Får fortsatt ArgumentNullException hvis den ikke finner noe på søketekst
+            Random rnd = new Random();
+            string randomImage = files[rnd.Next(files.Count)];
 
-            var stedsnavnResponse = await _stedsnavnService.GetStedsnavnAsync(SokeTekst);
-            if (stedsnavnResponse?.Navn != null && stedsnavnResponse.Navn.Any())
-            {
-                var viewModel = stedsnavnResponse.Navn.Select(n => new StedsnavnViewModel
-                {
-                    Nord = n.Representasjonspunkt.Nord,
-                    Ost = n.Representasjonspunkt.Ost
-                }).ToList();
-
-                return View("KartInnmelding", viewModel);
-            }
-            else
-            {
-                ViewData["Error"] = $"No results found for '{SokeTekst}'.";
-                return View("KartInnmelding");
-            }
-        }
-
-        
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        public IActionResult MineInnmeldinger()
-        {
-            return View();
+            return Json(new { imagePath = $"/Bakgrunnsbilder/{randomImage}" });
         }
 
 
@@ -341,20 +159,110 @@ namespace KartverketGruppe1.Controllers
             return View();
         }
 
-        public IActionResult Brukerinnmelding()
+
+
+        public HomeController(ILogger<HomeController> logger, IKommuneInfoService kommuneInfoService, IStedsnavnService stedsnavnService, ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        {
+            _logger = logger;
+            _kommuneInfoService = kommuneInfoService;
+            _stedsnavnService = stedsnavnService;
+            _context = context;
+            _userManager = userManager;
+        }
+
+        // [AllowAnonymous]
+        [HttpGet]
+        public IActionResult Index()
         {
             return View();
         }
+
+        //[HttpGet]
+        //public IActionResult InnmeldOversikt()
+        //{
+        //    return View();
+        //}
+
+         public IActionResult Innlogging()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> InnmeldOversikt(int id)
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (currentUser == null)
+            {
+                return NotFound();
+            }
+
+            var innmelding = await _context.Innmelding
+                .Include(i => i.Koordinat)
+                .Include(i => i.Bruker)
+                .Include(i => i.Kommune)
+                .Include(i => i.Avvikstype)
+                .Include(i => i.Status)
+                .Include(i => i.Prioritet)
+                .Include(i => i.Saksbehandler)
+                .FirstOrDefaultAsync(i => i.InnmeldingID == id &&
+                    (i.BrukerID == currentUser.Id));
+
+            if (innmelding == null)
+            {
+                return NotFound();
+            }
+
+            await LoadViewbags();
+            return View(innmelding);
+        }
+
+
+         // Denne metoden viser detaljene for en spesifikk innmelding
+        public async Task<IActionResult> InnmeldingOversikt(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (currentUser == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            var innmelding = await _context.Innmelding
+                .Include(i => i.Kommune)
+                .Include(i => i.Status)
+                .Include(i => i.Prioritet)
+                .Include(i => i.Koordinat)
+                .Include(i => i.Avvikstype)
+                .Include(i => i.Bruker)
+                .Include(i => i.Saksbehandler)
+                .FirstOrDefaultAsync(m => m.InnmeldingID == id && m.BrukerID == currentUser.Id);
+
+            if (innmelding == null)
+            {
+                return NotFound();
+            }
+
+            ViewBag.Statuser = await _context.Status.ToListAsync();
+            ViewBag.Prioriteter = await _context.Prioritet.ToListAsync();
+
+            return View(innmelding);
+        }
+
+
+    
 
         [AllowAnonymous]
-         public IActionResult Registrert()
+        public IActionResult KartInnmelding()
         {
-            return View();
+            return View(new List<StedsnavnViewModel>());  // Tom Liste for Stedsnavn for å kunne søke etter Stedsnavn i kartavvik uten error ved første visning
         }
 
 
-
-        // H�ndterer s�k etter Kommuneinformasjon
+         // H�ndterer s�k etter Kommuneinformasjon
         [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> KommuneInfo(string kommuneNr)
@@ -384,45 +292,6 @@ namespace KartverketGruppe1.Controllers
             }
         }
 
-        // View for sÃ¸k etter Stedsnavn og kommuneinformasjon
-        [AllowAnonymous]
-        public IActionResult Sok()
-        {
-            return View();
-        }
-
-        // Handterer sok etter Stedsnavn
-        [AllowAnonymous]
-        [HttpPost]
-        public async Task<IActionResult> Stedsnavn(string searchTerm)
-        {
-            if (string.IsNullOrEmpty(searchTerm))
-            {
-                ViewData["Error"] = "Please enter a valid place name.";
-                return View("Index");
-            }
-
-            var stedsnavnResponse = await _stedsnavnService.GetStedsnavnAsync(searchTerm);
-            if (stedsnavnResponse?.Navn != null && stedsnavnResponse.Navn.Any())
-            {
-                var viewModel = stedsnavnResponse.Navn.Select(n => new StedsnavnViewModel
-                {
-                    Skrivemate = n.Skrivemate,
-                    Navneobjekttype = n.Navneobjekttype,
-                    Sprak = n.Sprak,
-                    Navnestatus = n.Navnestatus,
-                    Nord = n.Representasjonspunkt.Nord,
-                    Ost = n.Representasjonspunkt.Ost
-                }).ToList();
-
-                return View("Stedsnavn", viewModel);
-            }
-            else
-            {
-                ViewData["Error"] = $"No results found for '{searchTerm}'.";
-                return View("Index");
-            }
-        }
 
         [AllowAnonymous]
         [HttpGet]
@@ -432,51 +301,13 @@ namespace KartverketGruppe1.Controllers
         }
 
 
-
         [HttpGet]
-        public IActionResult TestHedda()
+        public IActionResult LagBruker()
         {
             return View();
         }
 
-        [HttpPost]
-        public IActionResult AddAvvik(string Avvik)
-        {
-            try
-            {
-                if (string.IsNullOrEmpty(Avvik))
-                {
-                    ViewData["Error"] = "Vennligst fyll ut feltene.";
-                    return View();
-                }
-                else
-                {
-                    var nyAvvik = new Avvikstype
-                    {
-                        Type = Avvik
-                    };
-
-                    _context.Avvikstype.Add(nyAvvik);
-                    _context.SaveChanges();
-                    return RedirectToAction("KartInnmelding");
-                }
-            }
-            catch (Exception e)
-            {
-                ViewData["Error"] = e.Message;
-                return View();
-            }
-        }
-
-
-
-        [HttpGet]
-        public IActionResult TestVetle()
-        {
-            return View();
-        }
-
-        [HttpPost]
+         [HttpPost]
         public IActionResult lagStatus(Status status)
         {
             try
@@ -565,34 +396,207 @@ namespace KartverketGruppe1.Controllers
         }
 
 
+        public IActionResult Loading()
+        {
+            return View();
+        }
 
 
+        private async Task LoadViewbags()
+        {
+            ViewBag.Avvikstype = _context.Avvikstype
+                .Select(a => new SelectListItem
+                {
+                    Value = a.AvvikstypeID.ToString(),
+                    Text = a.Type
+                })
+                .ToList();
+
+            ViewBag.Status = _context.Status
+                .Select(a => new SelectListItem
+                {
+                    Value = a.StatusID.ToString(),
+                    Text = a.Statustype
+                })
+                .ToList();
+
+            ViewBag.Prioritet = _context.Prioritet
+                .Select(a => new SelectListItem
+                {
+                    Value = a.PrioritetID.ToString(),
+                    Text = a.Prioritetsnivå
+                })
+                .ToList();
+        }
+
+          public IActionResult MineInnmeldinger()
+        {
+            return View();
+        }
+      
 
 
-        // Laster inn tilfeldig bakgrunnsbilde fra wwwroot/Bakgrunnsbilder
-        [AllowAnonymous]
-        public IActionResult GetRandomBackgroundImage()
+        public IActionResult NyInnmelding() ////////////////////////////////////////////
+        {
+            return View();
+        }
+
+
+            // Metoden viser en enkel oversikt over alle innmeldinger for en spesifikk bruker sortert etter dato
+            public async Task<IActionResult> Oversikt()
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (currentUser == null)
             {
-            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Bakgrunnsbilder");
-            var files = Directory.GetFiles(path, "*.png").Select(Path.GetFileName).ToList();
-
-            if (files.Count == 0)
-            {
-                return Json(new { error = "Ingen bilder funnet" });
+                return RedirectToAction("Login", "Account");
             }
 
-            Random rnd = new Random();
-            string randomImage = files[rnd.Next(files.Count)];
+            var innmeldinger = await _context.Innmelding
+                .Include(i => i.Status)
+                .Include(i => i.Kommune)
+                .Where(i => i.BrukerID == currentUser.Id)
+                .OrderByDescending(i => i.Dato)
+                .ToListAsync();
 
-            return Json(new { imagePath = $"/Bakgrunnsbilder/{randomImage}" });
+            return View(innmeldinger);
         }
 
-
-        [AllowAnonymous]
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+         
+        public IActionResult Privacy()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View();
         }
+
+
+        [HttpGet]
+        public IActionResult RedigerBrukerProfil()
+        {
+            return View(_brukerProfil);
+        }
+
+
+        // Metode for å oppdatere brukerprofil
+        [HttpPost]
+        public IActionResult RedigerBrukerProfil(BrukerProfilViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                // Oppdaterer brukerinformasjon
+                _brukerProfil.Name = model.Name;
+                _brukerProfil.Email = model.Email;
+                _brukerProfil.Phone = model.Phone;
+                _brukerProfil.BirthDate = model.BirthDate;
+                _brukerProfil.Password = model.Password;
+
+
+                return View(model); 
+            }
+            
+            return RedirectToAction("BrukerProfil");
+        }
+
+
+       
+         [AllowAnonymous]
+         public IActionResult Registrert()
+        {
+            return View();
+        }
+
+
+        // View for sÃ¸k etter Stedsnavn og kommuneinformasjon
+        [AllowAnonymous]
+        public IActionResult Sok()
+        {
+            return View();
+        }
+
+         // Håndterer søk etter Stedsnavn i kartinnmelding
+        // Funker, ikke rør :)
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<IActionResult> SokStedsnavn(string? SokeTekst)
+        {
+            if (string.IsNullOrEmpty(SokeTekst))
+            {
+                return View("KartInnmelding");
+            }
+
+            // Får fortsatt ArgumentNullException hvis den ikke finner noe på søketekst
+
+            var stedsnavnResponse = await _stedsnavnService.GetStedsnavnAsync(SokeTekst);
+            if (stedsnavnResponse?.Navn != null && stedsnavnResponse.Navn.Any())
+            {
+                var viewModel = stedsnavnResponse.Navn.Select(n => new StedsnavnViewModel
+                {
+                    Nord = n.Representasjonspunkt.Nord,
+                    Ost = n.Representasjonspunkt.Ost
+                }).ToList();
+
+                return View("KartInnmelding", viewModel);
+            }
+            else
+            {
+                ViewData["Error"] = $"No results found for '{SokeTekst}'.";
+                return View("KartInnmelding");
+            }
+        }
+
+
+        public IActionResult Start()
+        {
+            return View();
+        }
+
+
+        // Handterer sok etter Stedsnavn
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<IActionResult> Stedsnavn(string searchTerm)
+        {
+            if (string.IsNullOrEmpty(searchTerm))
+            {
+                ViewData["Error"] = "Please enter a valid place name.";
+                return View("Index");
+            }
+
+            var stedsnavnResponse = await _stedsnavnService.GetStedsnavnAsync(searchTerm);
+            if (stedsnavnResponse?.Navn != null && stedsnavnResponse.Navn.Any())
+            {
+                var viewModel = stedsnavnResponse.Navn.Select(n => new StedsnavnViewModel
+                {
+                    Skrivemate = n.Skrivemate,
+                    Navneobjekttype = n.Navneobjekttype,
+                    Sprak = n.Sprak,
+                    Navnestatus = n.Navnestatus,
+                    Nord = n.Representasjonspunkt.Nord,
+                    Ost = n.Representasjonspunkt.Ost
+                }).ToList();
+
+                return View("Stedsnavn", viewModel);
+            }
+            else
+            {
+                ViewData["Error"] = $"No results found for '{searchTerm}'.";
+                return View("Index");
+            }
+        }
+
+
+        [HttpGet]
+        public IActionResult TestHedda()
+        {
+            return View();
+        }
+
+
+        [HttpGet]
+        public IActionResult TestVetle()
+        {
+            return View();
+        }
+
+       
+
     }
 }
