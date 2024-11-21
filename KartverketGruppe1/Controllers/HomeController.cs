@@ -234,32 +234,42 @@ namespace KartverketGruppe1.Controllers
         }
 
 
-        [HttpGet]
-        public IActionResult RedigerBrukerProfil()
-        {
-            return View(_brukerProfil);
-        }
+
+
+
+
+
+
+
+
+
+
+        //[HttpGet]
+        //public IActionResult RedigerBrukerProfil()
+        //{
+        //    return View(_brukerProfil);
+        //}
 
 
         // Metode for å oppdatere brukerprofil
-        [HttpPost]
-        public IActionResult RedigerBrukerProfil(BrukerProfilViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                // Oppdaterer brukerinformasjon
-                _brukerProfil.Name = model.Name;
-                _brukerProfil.Email = model.Email;
-                _brukerProfil.Phone = model.Phone;
-                _brukerProfil.BirthDate = model.BirthDate;
-                _brukerProfil.Password = model.Password;
+        //[HttpPost]
+        //public IActionResult RedigerBrukerProfil(BrukerProfilViewModel model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        // Oppdaterer brukerinformasjon
+        //        _brukerProfil.Name = model.Name;
+        //        _brukerProfil.Email = model.Email;
+        //        _brukerProfil.Phone = model.Phone;
+        //        _brukerProfil.BirthDate = model.BirthDate;
+        //        _brukerProfil.Password = model.Password;
 
 
-                return View(model); 
-            }
-            
-            return RedirectToAction("BrukerProfil");
-        }
+        //        return View(model); 
+        //    }
+
+        //    return RedirectToAction("BrukerProfil");
+        //}
 
 
         // IActionResult brukes her for å hente Views for forskjellige sider vi har i systemet
@@ -323,7 +333,7 @@ namespace KartverketGruppe1.Controllers
             }
         }
 
-        
+
         public IActionResult Privacy()
         {
             return View();
