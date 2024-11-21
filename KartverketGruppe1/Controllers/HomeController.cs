@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
 
 namespace KartverketGruppe1.Controllers
 {
@@ -301,7 +302,6 @@ namespace KartverketGruppe1.Controllers
             return View(new List<StedsnavnViewModel>());  // Tom Liste for Stedsnavn for å kunne søke etter Stedsnavn i kartavvik uten error ved første visning
         }
 
-
         // Håndterer søk etter Stedsnavn i kartinnmelding
         // Funker, ikke rør :)
         [AllowAnonymous]
@@ -355,6 +355,57 @@ namespace KartverketGruppe1.Controllers
         {
             return View();
         }
+
+
+        public async Task<IActionResult> MeldingInnmelding(int id)
+        {
+            if(id == null)
+            {
+                return NotFound();
+            }
+
+            var currentUser = await _userManager.GetUserAsync(User);
+            if(currentUser == null)
+            {
+                return RedirectToAction("login", "Account");
+            }
+
+            var innmeldingID = id;
+            //.Include(i => i.Bruker)
+            //.Include(i => i.Saksbehandler)
+            //.FirstOrDefaultAsync(m => m.InnmeldingID == id && m.BrukerID == currentUser.Id);
+
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+
+            return View(id);
+        }
+
+        public IActionResult SendMelding(int innmeldingId)
+        {
+            ViewBag.InnmeldingID = innmeldingId;
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> NyMelding(int innmeldingId, string innhold)
+        {
+            var melding = new Meldinger
+            {
+                InnmeldingID = innmeldingId,
+                Innhold = innhold,
+                SendeTidspunkt = DateTime.Now
+            };
+
+            _context.Meldinger.Add(melding);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("InnmeldOversikt", new { id = innmeldingId });
+        }
+
 
         [AllowAnonymous]
          public IActionResult Registrert()
@@ -448,6 +499,8 @@ namespace KartverketGruppe1.Controllers
         {
             return View();
         }
+
+ 
 
         [HttpPost]
         public IActionResult AddAvvik(string Avvik)
