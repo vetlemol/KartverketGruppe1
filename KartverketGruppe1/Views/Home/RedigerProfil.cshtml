@@ -1,0 +1,97 @@
+@model RedigerBrukerViewModel
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/KartverketGruppe1.styles.css" asp-append-version="true" />
+
+<style>
+    .save-button {
+        background-color: #8EBF94;
+        color: white;
+        border: none;
+        padding: 10px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .save-button:hover {
+        background-color: #00973d;
+    }
+
+    body {
+        background-color: #f0f0f0;
+        
+    }
+</style>
+
+<div style="display: flex; align-items: center; margin-bottom: 20px;">
+    <button onclick="window.location.href='@Url.Action("BrukerProfil", "Home")'" class="back-button" style="margin-left: -30px; margin-right: 20px; padding: 5px; background-color: transparent; border: none; cursor: pointer; display: flex; align-items: center;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3b6e3b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left">
+            <line x1="500" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+    </button>
+
+    <div style="position: relative; margin-right: 20px; margin-left: 75px;">
+        <img src="~/images/KartikusMinProfil.png" alt="Profilbilde" style="border-radius: 50%; width: 70px; height: 70px; object-fit: cover; border: 1px solid #3b6e3b;" />
+        <label for="profileImageUpload" style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 70px; height: 35px; background-color: rgba(0, 0, 0, 0.3); border-bottom-left-radius: 35px; border-bottom-right-radius: 35px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+            <span style="color: white; font-size: 12px;">ENDRE</span>
+        </label>
+        <input type="file" id="profileImageUpload" name="profileImageUpload" style="display: none;" />
+    </div>
+    <h3 style="color: #3b6e3b;">Rediger profil</h3>
+</div>
+
+ <div class="profile-container" style="max-width: 1000px; margin: auto; padding: 30px; background-color: #D8E3F2; border-radius: 10px; position: relative; z-index: 1;">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+
+            @if (TempData["Message"] != null)
+            {
+                <div class="alert alert-success">
+                    @TempData["Message"]
+                </div>
+            }
+
+            <form asp-action="RedigerProfil" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Fornavn" class="form-label"></label>
+                    <input asp-for="Fornavn" class="form-control" />
+                    <span asp-validation-for="Fornavn" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Etternavn" class="form-label"></label>
+                    <input asp-for="Etternavn" class="form-control" />
+                    <span asp-validation-for="Etternavn" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="PhoneNumber" class="form-label"></label>
+                    <input asp-for="PhoneNumber" class="form-control" />
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Fodselsdato" class="form-label"></label>
+                    <input asp-for="Fodselsdato" class="form-control" type="date" />
+                    <span asp-validation-for="Fodselsdato" class="text-danger"></span>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center mt-4">
+                    <button onclick="window.location.href='@Url.Action("SlettBruker", "Account")'" class="delete-button">
+                            <i class="fas fa-trash-alt me-2"></i>Slett min konto
+                        </button>
+                    <div>
+                        <a href="javascript:history.back()" class="btn btn-secondary ms-2">Avbryt</a>
+                        <button type="submit" class="btn btn-success ms-2">Lagre endringer</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

@@ -82,13 +82,17 @@
     <body>
         <div class="background-image"></div> <!-- Bakgrunnsbildet -->
 
-        <div class="container">
-            <div class="form-container">
-                <h2>Slettet!</h2>
-                <p>Din bruker er slettet fra våre systemer</p>
-                <button onclick="redirectToLogin()">Gå tilbake til forsiden</button>
+            <div class="container">
+                <div class="form-container">
+                    <h2>Er du sikker? Dette kan ikke reverseres!</h2>
+                    <form asp-action="SlettbrukerConfirmed" method="post">
+                        <p>Trykk på knappen under for å slette brukeren din.</p>
+                        <button type="submit" style="background-color: crimson;">Slett bruker</button>
+                    </form>
+                    <button onclick="redirectToLogin()">Gå tilbake til forsiden</button>
+                </div>
             </div>
-        </div>
+
         <script>
             function setRandomBackground() { // Funksjon for å hente random bilde fra 'Bakgrunnsbilder'
                 fetch('/Home/GetRandomBackgroundImage')
