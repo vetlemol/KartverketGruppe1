@@ -103,10 +103,10 @@
     </div>
 
     <!-- Buttons -->
-    <div class="row mt-3">
+    <div class="row mb-2">
         <div class="col-12 text-end">
             <button class="btn btn-secondary" onclick="RedirectToOversikt()">Lukk</button>
-            <button class="btn btn-success" onclick="@Url.Action("SendMelding" , "Home", new {id = Model.InnmeldingID})">Lagre</button>
+            <button class="btn btn-success" onclick="RedirectToOversikt()">Lagre</button>
         </div>
     </div>
 </div>
