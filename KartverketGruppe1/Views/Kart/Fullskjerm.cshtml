@@ -67,6 +67,11 @@
 </div>
  *@
 <div class="map-container">
+    <div style="position: absolute; left: 50px; top: 10px; z-index: 1000;">
+        <button onclick="goBack()" class="layer-btn" style="background-color: white;">
+            ← Tilbake
+        </button>
+    </div>
     <div class="layer-control">
         <button class="layer-btn active" data-layer="topo">Topografisk</button>
         <button class="layer-btn" data-layer="raster">Raster</button>
@@ -133,9 +138,21 @@
 
 
 
-
-
-
+    // Knapp for å gå tilbake fra fullskjerm avhengig av rollen den påloggede er i
+    function goBack() {
+    @if (User.IsInRole("Saksbehandler"))
+    {
+        <text>
+                    window.location.href = '/Saksbehandler/Oversikt';
+        </text>
+    }
+    else
+    {
+        <text>
+                    window.location.href = '/Home/Oversikt';
+        </text>
+    }
+        }
 
 
 
