@@ -38,35 +38,28 @@ namespace KartverketGruppe1.Controllers
 
         public IActionResult KartInnmelding()
         {
-            LoadAvvikstyper();
+            LoadAvvikstyper(); // Henter avvikstyper fra databasen
             return View();
         }
-
-
-        public IActionResult Poly()
-        {
-            LoadAvvikstyper();
-            return View();
-        }
-
 
 
         [HttpPost] // Denne som brukes i KartInnmelding.cshtml
-        public async Task<IActionResult> LagreInnmelding(Innmelding innmelding, IFormFile Dokumentasjon) // , IFormFile Dokumentasjon lagt til for å kunne laste opp filer
+        public async Task<IActionResult> LagreInnmelding(Innmelding innmelding, IFormFile Dokumentasjon) // IFormFile Dokumentasjon lagt til for å kunne laste opp bilder til innmeldingen
         {
             try
             {
                 // Konverterer opplastet fil til byte-array 
                 if (Dokumentasjon != null && Dokumentasjon.Length > 0)
                 {
-                    using var memoryStream = new MemoryStream();
+                    using var memoryStream = new MemoryStream(); // MemoryStream for å kunne lese og skrive til en byte-array
                     await Dokumentasjon.CopyToAsync(memoryStream);
                     innmelding.Dokumentasjon = memoryStream.ToArray();
                 }
 
                 // Sjekk at nødvendige relasjoner eksisterer
-                var koordinat = await _context.Koordinat.FindAsync(innmelding.KoordinatID);
-                var kommune = await _context.Kommune.FindAsync(innmelding.KommuneID);
+                var koordinat = await _context.Koordinat.FindAsync(innmelding.KoordinatID); // Henter koordinat fra databasen
+                var kommune = await _context.Kommune.FindAsync(innmelding.KommuneID); // Henter kommune fra databasen
+                // Koordinat og Kommune blir lagret i databasen underveis i innmeldingen og hentes fra databasen når innmeldingen lagres
                 var avvikstype = await _context.Avvikstype.FindAsync(innmelding.AvvikstypeID);
 
                 if (koordinat == null || kommune == null || avvikstype == null)
@@ -116,16 +109,8 @@ namespace KartverketGruppe1.Controllers
 
 
 
-
-
-
-
-
-
-
-
         [HttpPost]
-        public async Task<IActionResult> TestInnmelding(Innmelding innmelding) // Funker!
+        public async Task<IActionResult> TestInnmelding(Innmelding innmelding) // Denne som brukes i TestInnmelding.cshtml
         {
             try
             {
@@ -232,11 +217,6 @@ namespace KartverketGruppe1.Controllers
 
         public async Task<IActionResult> Fullskjerm(int id)
         {
-            //var currentUser = await _userManager.GetUserAsync(User);
-            //if (currentUser == null)
-            //{
-            //    return NotFound();
-            //}
 
             var innmelding = await _context.Innmelding
                 .Include(i => i.Koordinat)
@@ -311,7 +291,6 @@ namespace KartverketGruppe1.Controllers
 
         [HttpPost]
         // [ValidateAntiForgeryToken]
-
         public async Task<IActionResult> LagreKoordinatOgKommune([FromBody] KoordinatKommuneModel model)
         {
             try
@@ -366,12 +345,6 @@ namespace KartverketGruppe1.Controllers
         {
             return View();
         }
-
-
-
-
-
-
 
 
 
@@ -456,7 +429,7 @@ namespace KartverketGruppe1.Controllers
 
 
     // Model for koordinat og kommune data
-    public class KoordinatKommuneModel
+    public class KoordinatKommuneModel // Brukes for å motta data og kunne legge det til i databasen underveis i innemdlingen i KartInnmelding.cshtml
     {
         public string Koordinater { get; set; }
         public double Latitude { get; set; }

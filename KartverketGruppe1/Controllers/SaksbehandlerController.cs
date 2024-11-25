@@ -27,7 +27,7 @@ namespace KartverketGruppe1.Controllers
         }
 
 
-        // [Authorize(Roles = "Saksbehandler")] // For at bare eksisterende saksbehandlere kan registrere nye, må se om vi skal ha dette.
+        // [Authorize(Roles = "Saksbehandler")] // For at bare eksisterende saksbehandlere kan registrere nye.
         [AllowAnonymous]
         [HttpGet]
         public IActionResult SaksbehandlerRegistrer()

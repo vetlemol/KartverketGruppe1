@@ -19,6 +19,7 @@ namespace KartverketGruppe1.Services
         {
             try
             {
+                // Henter stedsnavn fra Kartverket Stedsnavn API, BaseUrl er satt i appsettings.json
                 var response = await _httpClient.GetAsync($"{_apiSettings.StedsnavnApiBaseUrl}/navn?sok={search}");
                 response.EnsureSuccessStatusCode();
 
