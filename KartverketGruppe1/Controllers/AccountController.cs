@@ -140,7 +140,7 @@ namespace KartverketGruppe1.Controllers
                 if (result.Succeeded)
                 {
                     await _signInManager.SignOutAsync(); // Logg ut brukeren
-                    return RedirectToAction("SlettBruker", "Account"); // Send brukeren til slett-bruker-siden
+                    return RedirectToAction("Login", "Account"); // Send brukeren til slett-bruker-siden
                 }
                 // Legg til feil i ModelState for visning
                 foreach (var error in result.Errors)

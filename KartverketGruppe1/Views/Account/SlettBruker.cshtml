@@ -39,6 +39,7 @@
         .form-container {
             background-color: #d8e3f2;
             padding: 30px;
+            margin: 80px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             text-align: center;
@@ -49,6 +50,7 @@
 
             .form-container h2 {
                 color: #00509C;
+                padding: 0px 50px;
                 margin-bottom: 20px;
             }
 
@@ -57,7 +59,7 @@
                 color: #333;
             }
 
-            .form-container button {
+            .forside-knapp button {
                 background-color: #8ebf94;
                 color: white;
                 padding: 12px;
@@ -68,7 +70,7 @@
                 font-size: 16px;
             }
 
-                .form-container button:hover {
+                .forside-knapp button:hover {
                     background-color: #00973d;
                 }
 
@@ -77,6 +79,23 @@
                     max-width: 150px;
                     margin-bottom: 10px;
                 }
+
+            .delete-button {
+                background-color: #f55959;
+                color: white;
+                padding: 12px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                width: 100%;
+                font-size: 16px;
+            }
+            
+            .delete-button:hover {
+                background-color: #db3232;
+            }                       
+
+                
     </style>
 </head>
     <body>
@@ -84,12 +103,14 @@
 
             <div class="container">
                 <div class="form-container">
-                    <h2>Er du sikker? Dette kan ikke reverseres!</h2>
+                    <h2>Er du sikker?</h2>
                     <form asp-action="SlettbrukerConfirmed" method="post">
-                        <p>Trykk på knappen under for å slette brukeren din.</p>
-                        <button type="submit" style="background-color: crimson;">Slett bruker</button>
+                        <p>Dette kan ikke reverseres.</p>
+                        <button type="submit" class="delete-button">Slett bruker</button>
                     </form>
-                    <button onclick="redirectToLogin()">Gå tilbake til forsiden</button>
+                        <div class="forside-knapp" style="margin-top: 5px;">                 
+                        <button onclick="redirectToLogin()">Gå tilbake til forsiden</button>
+                        </div>    
                 </div>
             </div>
 
