@@ -167,7 +167,7 @@
 
 
 
-        <h1>Mine Innmeldinger</h1>
+        <h1>Mine Innmeldinger (Kun for å vise design)</h1>
 
         <div class="search-container">
             <input type="text" placeholder="Søk etter innmeldinger">
@@ -224,7 +224,7 @@
                 </div>
             </div>
 
-            <div class="item-box" onclick="redirectToSak2()">
+            <div class="item-box" onclick="redirectToBrukerinnmelding()">
                 <div class="info">
                     <img src="~/Images/Location.png" alt="Info ikon">
                     <span>Kristiansand, Agder</span>
@@ -455,16 +455,9 @@
     }
 
     function redirectToSak1() {
-                window.location.href = "/Home/Innmeldoversikt/26";
+                window.location.href = "/Home/Innmeldoversikt/1";
     }
 
-    function redirectToSak2() {
-                window.location.href = "/Home/Innmeldoversikt/27";
-    }
     
-    function redirectToSak3() {
-                window.location.href = "/Home/Innmeldoversikt/28";
-    }
-
 </script>
 </html>
