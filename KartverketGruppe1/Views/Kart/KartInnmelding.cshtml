@@ -151,6 +151,33 @@
             background-color: #7dab83;
             border-color: #7dab83;
         }
+
+
+    .layer-control {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        z-index: 1000;
+        background: white;
+        padding: 10px;
+        border-radius: 4px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .layer-btn {
+        padding: 8px 16px;
+        margin: 4px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background: white;
+        cursor: pointer;
+    }
+
+        .layer-btn.active {
+            background: #4a90e2;
+            color: white;
+            border-color: #357abd;
+        }
 </style>
 
 <div class="map-container">
@@ -248,10 +275,22 @@
             </button>
         </form>
     </div>
+        
 
+    <!-- Muliggjør endring av kartgrunnlag for innmeldingen. Vanlig topo, gråtone og raster -->
     <div class="map-content">
+        <div class="layer-control">
+            <button class="layer-btn active" data-layer="topo">Topografisk</button>
+            <button class="layer-btn" data-layer="raster">Raster</button>
+            <button class="layer-btn" data-layer="graatone">Gråtone</button>
+        </div>
         <div id="map"></div>
     </div>
+
+
+    @* <div class="map-content">
+        <div id="map"></div>
+    </div> *@
 </div>
 
 
@@ -271,10 +310,46 @@
         var currentMarker = null;
         var currentGeometry = null;
 
-        L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/topo/default/webmercator/{z}/{y}/{x}.png', {
-            maxZoom: 18,
-            attribution: '&copy; <a href="http://www.kartverket.no/">Kartverket</a>'
-        }).addTo(map);
+        // Henter forskjellige kartgrunnlag fra kartverket
+        var mapLayers = {
+            topo: L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/topo/default/webmercator/{z}/{y}/{x}.png', {
+                maxZoom: 18,
+                attribution: '&copy; <a href="http://www.kartverket.no/">Kartverket</a>'
+            }),
+            raster: L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/toporaster/default/webmercator/{z}/{y}/{x}.png', {
+                maxZoom: 18,
+                attribution: '&copy; <a href="http://www.kartverket.no/">Kartverket</a>'
+            }),
+            graatone: L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/topograatone/default/webmercator/{z}/{y}/{x}.png', {
+                maxZoom: 18,
+                attribution: '&copy; <a href="http://www.kartverket.no/">Kartverket</a>'
+            })
+        };
+
+        // Bruker topo som standard
+        var currentLayer = mapLayers.topo;
+        currentLayer.addTo(map);
+
+        // Laster inn nytt kartgrunnlag og fjerner det gamle
+        document.querySelectorAll('.layer-btn').forEach(button => {
+            button.addEventListener('click', function () {
+                const layerName = this.getAttribute('data-layer');
+
+                map.removeLayer(currentLayer);
+
+                currentLayer = mapLayers[layerName];
+                map.addLayer(currentLayer);
+
+                document.querySelectorAll('.layer-btn').forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+
+        // L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/topo/default/webmercator/{z}/{y}/{x}.png', {
+        //     maxZoom: 18,
+        //     attribution: '&copy; <a href="http://www.kartverket.no/">Kartverket</a>'
+        // }).addTo(map);
 
 
         map.pm.addControls({

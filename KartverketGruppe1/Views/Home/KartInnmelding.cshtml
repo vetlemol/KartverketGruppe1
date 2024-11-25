@@ -157,10 +157,10 @@
         </div>
     </div>
 
-     <div class="map-content">
+      <div class="map-content">
        
         <div id="map"></div>
-    </div>
+    </div> 
 </div>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script src="https://unpkg.com/leaflet.pm@latest/dist/leaflet.pm.min.js"></script>
@@ -171,12 +171,12 @@
     var map = L.map('map');
 
 
-    // Henter Kartverket sitt kart
-    L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/topo/default/webmercator/{z}/{y}/{x}.png', {
-        maxZoom: 18,
-        attribution: '&copy; <a href="http://www.kartverket.no/">Kartverket</a>'
+     // Henter Kartverket sitt kart
+      L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/topo/default/webmercator/{z}/{y}/{x}.png', {
+          maxZoom: 18,
+          attribution: '&copy; <a href="http://www.kartverket.no/">Kartverket</a>'
 
-    }).addTo(map);
+      }).addTo(map);
 
     // Finner første stedsnavn i listen og setter kartet til denne posisjonen
     // HomeController SokStedsnavn

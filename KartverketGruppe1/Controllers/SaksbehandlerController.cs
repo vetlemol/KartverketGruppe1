@@ -118,7 +118,7 @@ namespace KartverketGruppe1.Controllers
             var innmeldinger = await _context.Innmelding
                 .Include(i => i.Status)
                 .Include(i => i.Kommune)
-                .Where(i => i.StatusID == 1 || i.StatusID == 3)
+                .Where(i => i.StatusID == 1 || i.StatusID == 2)
                 .OrderByDescending(i => i.Dato)
                 .ToListAsync();
 
@@ -136,7 +136,7 @@ namespace KartverketGruppe1.Controllers
             var innmeldinger = await _context.Innmelding
                 .Include(i => i.Status)
                 .Include(i => i.Kommune)
-                .Where(i => i.StatusID == 2 || i.StatusID == 4)
+                .Where(i => i.StatusID == 3 || i.StatusID == 4)
                 .OrderByDescending(i => i.Dato)
                 .ToListAsync();
 
