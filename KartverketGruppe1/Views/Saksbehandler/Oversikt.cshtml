@@ -63,7 +63,11 @@
 </head>
 <body>
     <div class="innmelding-list">
-        <h2>Alle innmeldinger</h2>
+        <div style="display: flex; justify-content: center; gap: 20px;">
+            <h2>Alle innmeldinger</h2>
+            <h2><a href="@Url.Action("Arkivert")" style="text-decoration: none; color: #333;"> | Arkiv</a></h2>
+        </div>
+        @* <h2>Alle innmeldinger</h2> *@
 
         @foreach (var innmelding in Model)
         {
