@@ -164,5 +164,113 @@ namespace KartverketGruppe1.Controllers
             };
             return View(model); // Send modellen til visningen
         }
+
+
+
+
+
+
+       
+        
+
+
+
+        [HttpGet]
+        public IActionResult OppdaterDatabase()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult lagStatus(Status status)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    status = new Status
+                    {
+                        Statustype = status.Statustype,
+                    };
+
+                    _context.Status.Add(status);
+                    _context.SaveChanges();
+                    return RedirectToAction("OppdaterDatabase");
+
+                }
+                else
+                {
+                    return View();
+                }
+            }
+            catch (Exception e)
+            {
+                ViewData["Error"] = e.Message;
+                return View();
+            }
+        }
+
+        [HttpPost]
+        public IActionResult lagAvvikstype(Avvikstype avvikstype)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    avvikstype = new Avvikstype
+                    {
+                        Type = avvikstype.Type,
+                    };
+
+                    _context.Avvikstype.Add(avvikstype);
+                    _context.SaveChanges();
+                    return RedirectToAction("OppdaterDatabase");
+
+                }
+                else
+                {
+                    return View();
+                }
+            }
+            catch (Exception e)
+            {
+                ViewData["Error"] = e.Message;
+                return View();
+            }
+        }
+
+
+        [HttpPost]
+        public IActionResult lagPrioritet(Prioritet prioritet)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    prioritet = new Prioritet
+                    {
+                        Prioritetsnivå = prioritet.Prioritetsnivå,
+                    };
+
+                    _context.Prioritet.Add(prioritet);
+                    _context.SaveChanges();
+                    return RedirectToAction("OppdaterDatabase");
+
+                }
+                else
+                {
+                    return View();
+                }
+            }
+            catch (Exception e)
+            {
+                ViewData["Error"] = e.Message;
+                return View();
+            }
+        }
+
+
+
+
     }
 }

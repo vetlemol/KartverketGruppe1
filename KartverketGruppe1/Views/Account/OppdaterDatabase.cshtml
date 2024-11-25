@@ -1,0 +1,45 @@
+﻿@model List<KartverketGruppe1.Data.Status>
+@{
+    ViewData["Title"] = "Overview";
+}
+
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kartverket</title>
+    <style>
+    </style>
+</head>
+<body>
+    <h2>Statustype</h2>
+
+    <form asp-action="lagStatus" method="post">
+
+        <label for="StatusType">Legg til statustype:</label>
+        <input type="text" id="StatusType" name="StatusType" required>
+        <br />
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+    
+
+    <h2>Avvikstype</h2>
+    <form asp-action="lagAvvikstype" method="post">
+        <label for="Type">Legg til avvikstype:</label>
+        <input type="text" id="Type" name="Type" required>
+        <br />
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+    <h2>Prioritet</h2>
+    <form asp-action="lagPrioritet" method="post">
+        <label for="Prioritetsnivå">Legg til prioritet:</label>
+        <input type="text" id="Prioritetsnivå" name="Prioritetsnivå" required>
+        <br />
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</body>
+
+</html>
