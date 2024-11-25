@@ -140,7 +140,7 @@ namespace KartverketGruppe1.Controllers
                 if (result.Succeeded)
                 {
                     await _signInManager.SignOutAsync(); // Logg ut brukeren
-                    return RedirectToAction("Login", "Account"); // Send brukeren til slett-bruker-siden
+                    return RedirectToAction("Login", "Account"); // Send brukeren til Forsiden
                 }
                 // Legg til feil i ModelState for visning
                 foreach (var error in result.Errors)
@@ -154,16 +154,15 @@ namespace KartverketGruppe1.Controllers
         [HttpGet]
         public IActionResult RedigerProfil()
         {
-            var user = _userManager.GetUserAsync(User).Result;
-            var model = new BrukerProfilViewModel
+            var user = _userManager.GetUserAsync(User).Result; // Hent innlogget bruker
+            var model = new BrukerProfilViewModel // Opprett ViewModel basert på brukerdata
             {
                 Name = user.Fornavn,
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 Fodselsdato = user.Fodselsdato ?? DateTime.MinValue,
-                // Legg til andre nødvendige felter
             };
-            return View(model);
+            return View(model); // Send modellen til visningen
         }
     }
 }
