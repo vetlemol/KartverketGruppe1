@@ -1,4 +1,4 @@
-﻿@model List<KartverketGruppe1.Models.StedsnavnViewModel>
+﻿@* @model List<KartverketGruppe1.Models.StedsnavnViewModel>
 
 
     @{
@@ -123,13 +123,13 @@
         <input type="hidden" asp-for="Dato" value="@DateTime.Now" />
         <input type="hidden" asp-for="Koordinater" id="Koordinater" />
         </form> *@
-
+        @*
         <div class="search-panel">
             <h3>Søk</h3>
             
             <form asp-action="SokStedsnavn" method="post">
                 @* @Html.AntiForgeryToken() *@
-                <input type="text" class="form-control" id="SokeTekst" name="SokeTekst" placeholder="Søk etter sted" />
+@*        <input type="text" class="form-control" id="SokeTekst" name="SokeTekst" placeholder="Søk etter sted" />
             </form>
 
             <h3>Type avvik</h3>
@@ -258,3 +258,4 @@
         window.location.href = "/Home/Registrert";
     }
 </script>
+ *@
