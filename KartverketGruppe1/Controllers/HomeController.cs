@@ -235,7 +235,7 @@ namespace KartverketGruppe1.Controllers
         }
 
 
-    
+
 
 
         // IActionResult brukes her for å hente Views for forskjellige sider vi har i systemet
@@ -298,7 +298,7 @@ namespace KartverketGruppe1.Controllers
             }
         }
 
-        
+
         public IActionResult Privacy()
         {
             return View();
