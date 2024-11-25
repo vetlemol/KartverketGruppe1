@@ -19,6 +19,19 @@
         background-color: #00973d;
     }
 
+    .delete-button {
+        background-color: #f55959;
+        color: white;
+        border: none;
+        padding: 7px 7px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    
+    .delete-button:hover {
+        background-color: #db3232;
+    }
+
     body {
         background-color: #f0f0f0;
         
@@ -81,10 +94,11 @@
                     <span asp-validation-for="Fodselsdato" class="text-danger"></span>
                 </div>
 
-                <div class="d-flex justify-content-between align-items-center mt-4">
-                    <button onclick="window.location.href='@Url.Action("SlettBruker", "Account")'" class="delete-button">
-                            <i class="fas fa-trash-alt me-2"></i>Slett min konto
-                        </button>
+                <div class="d-flex justify-content-between align-items-center mt-2">
+                    <div class="d-flex justify-content-between align-items-center mt-2">
+                    <a asp-controller="Account" asp-action="SlettBruker" class="btn btn-danger delete-button">
+                        <i class="fas fa-trash-alt me-2"></i>Slett min konto
+                    </a>
                     <div>
                         <a href="javascript:history.back()" class="btn btn-secondary ms-2">Avbryt</a>
                         <button type="submit" class="btn btn-success ms-2">Lagre endringer</button>
