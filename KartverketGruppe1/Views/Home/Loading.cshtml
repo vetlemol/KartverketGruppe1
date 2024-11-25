@@ -76,17 +76,24 @@
     </style>
 </head>
 <body>
-    <div class="background-image"></div> <!-- Hente bakgrunnsbilde -->
+    <!-- Hente bakgrunnsbilde -->
+    <div class="background-image"></div>
     <div class="container">
+       
+     <!-- Form for Loading -->
         <div class="form-container">
             <img src="~/Images/Kartikus-loading.png" alt="Kartikus" />  <!-- Hente bilde av Kartikus -->
             <h3>Gi meg litt tid til å tenke</h3>
             <p>Laster, vennligst vent.</p>
+
+            <!-- Knapp for å prøve igjen -->
             <button onclick="redirectHome()">Prøv igjen</button>
         </div>
     </div>
     <script>
-        function redirectHome() {
+
+        // Funksjon for å redirecte tilbake til innmeldingssiden 
+               function redirectHome() {
                 window.location.href = "/Kart/KartInnmelding";
         }
     </script>

@@ -225,8 +225,8 @@ namespace KartverketGruppe1.Controllers
             {
                 Name = $"{currentUser.Fornavn} {currentUser.Etternavn}",
                 Email = currentUser.Email,
-                Phone = currentUser.PhoneNumber,
-                BirthDate = new DateTime(1999, 03, 27),
+                PhoneNumber = currentUser.PhoneNumber,
+                Fodselsdato = currentUser.Fodselsdato,
                 SubmissionsPerMonth = new List<int> { 3, 2, 0, 3, 1, 0, 2, 1, 0, 4, 0, 3 },
                 Years = new List<int> { 2022, 2023, 2024 }
             };
@@ -236,41 +236,6 @@ namespace KartverketGruppe1.Controllers
 
 
 
-
-
-
-
-
-
-
-
-
-        //[HttpGet]
-        //public IActionResult RedigerBrukerProfil()
-        //{
-        //    return View(_brukerProfil);
-        //}
-
-
-        // Metode for å oppdatere brukerprofil
-        //[HttpPost]
-        //public IActionResult RedigerBrukerProfil(BrukerProfilViewModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        // Oppdaterer brukerinformasjon
-        //        _brukerProfil.Name = model.Name;
-        //        _brukerProfil.Email = model.Email;
-        //        _brukerProfil.Phone = model.Phone;
-        //        _brukerProfil.BirthDate = model.BirthDate;
-        //        _brukerProfil.Password = model.Password;
-
-
-        //        return View(model); 
-        //    }
-
-        //    return RedirectToAction("BrukerProfil");
-        //}
 
 
         // IActionResult brukes her for å hente Views for forskjellige sider vi har i systemet
@@ -627,7 +592,58 @@ namespace KartverketGruppe1.Controllers
             }
         }
 
+        [HttpGet]
+        public async Task<IActionResult> RedigerProfil()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound();
+            }
 
+            var model = new RedigerBrukerViewModel
+            {
+                Fornavn = user.Fornavn,
+                Etternavn = user.Etternavn,
+                PhoneNumber = user.PhoneNumber,
+                Fodselsdato = user.Fodselsdato,
+                Profilbilde = user.Profilbilde
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RedigerProfil(RedigerBrukerViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.GetUserAsync(User);
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                user.Fornavn = model.Fornavn;
+                user.Etternavn = model.Etternavn;
+                user.PhoneNumber = model.PhoneNumber;
+                user.Fodselsdato = model.Fodselsdato;
+
+                var result = await _userManager.UpdateAsync(user);
+                if (result.Succeeded)
+                {
+
+                    return RedirectToAction("BrukerProfil");
+                }
+
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+            }
+
+            return View(model);
+        }
 
 
 
