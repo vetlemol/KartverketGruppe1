@@ -40,6 +40,7 @@
     /* Stiler for a-elementer (lenker) når de hovres over */
     a:hover {
         text-decoration: underline;
+        color: #006400;
     }
 
     .contact-info {
@@ -98,6 +99,16 @@
         border-top: 1px solid #ccc;
     }
 </style>
+  <!-- Legger til pil -->
+<div style="display: flex; align-items: center; margin-bottom: 20px;">
+    <button onclick="window.location.href='@Url.Action("KartInnmelding", "Home")'" style="margin-left: -50px; margin-right: 30px; padding: 5px; background-color: transparent; color: #3b6e3b; border: none; cursor: pointer; display: flex; align-items: center;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="45" height="24" viewBox="0 0 24 24" fill="none" stroke="#3b6e3b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left">
+            <line x1="30" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+    </button>
+</div>
+
 
 <body>
     <div class="container">

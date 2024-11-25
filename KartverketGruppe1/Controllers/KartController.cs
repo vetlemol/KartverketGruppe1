@@ -257,6 +257,8 @@ namespace KartverketGruppe1.Controllers
         }
 
 
+        // Funksjonen henter alle meldinger som tilhører en spesifikk innmelding (identifisert ved id),
+        // sorterer dem i synkende rekkefølge etter tidspunktet de ble sendt, og viser dem i en view.
         public async Task<IActionResult> SeMeldinger(int id)
         {
             var meldinger = await _context.Meldinger

@@ -22,7 +22,6 @@
             resize: none;
         }
 
-   <style >
         .button-container {
             display: flex; /* Gjør knappene fleksible og plassert på samme linje */
             gap: 10px; /* Legger til mellomrom mellom knappene */
@@ -67,16 +66,20 @@
 </head>
 <body>
 
+    @*Når brukeren sender skjemaet, sendes InnmeldingID automatisk til serveren som en del av dataene uten å være synlig for brukeren*@
 <div class="container p-4">
     <form asp-action="NyMelding" method="post">
         <input type="hidden" name="InnmeldingID" value="@ViewBag.InnmeldingID" />
 
+        @*Felt for å skrive inn meldingen. Feltet er påkrevd og har en placeholder som viser brukeren hva som skal skrives inn.*@
         <div class="form-group">
             <h2><label>Melding</label></h2>
                 <textarea name="Innhold" class="form-control" rows="4" required placeholder="Skriv meldingen din her..."></textarea>
         </div>
 
-            <div class="mt-3 button-container">
+       
+        @*Knapp for å sende meldingen slik at den lagres i databasen og kan ses under alle meldinger. Og knapp for å avbryte.*@
+        <div class="mt-3 button-container">
             <button type="submit" class="btn btn-success">Send melding</button>
             <a href="javascript:history.back()" class="btn btn-secondary">Avbryt</a>
         </div>
