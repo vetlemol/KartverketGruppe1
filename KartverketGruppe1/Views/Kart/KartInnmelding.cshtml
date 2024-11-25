@@ -257,7 +257,7 @@
                 </div>
             }
 
-            <button type="submit" class="btn btn-primary w-100" id="submitBtn" disabled style="background-color: #8ebf94;">
+            <button type="submit" class="btn btn-primary w-100" id="submitBtn" disabled style="background-color: #8ebf94;"> <!-- Submit-knapp fungerer ikke før nødvendig info er med -->
                 Send inn
             </button>
         </form>
@@ -273,17 +273,7 @@
         </div>
         <div id="map"></div>
     </div>
-
-
-    @* <div class="map-content">
-        <div id="map"></div>
-    </div> *@
 </div>
-
-
-
-
-
 
 
 
@@ -293,7 +283,7 @@
     <script src="https://unpkg.com/leaflet.pm@latest/dist/leaflet.pm.min.js"></script>
 
     <script>
-        var map = L.map('map').setView([58.164048, 8.004007], 13);
+        var map = L.map('map').setView([58.164048, 8.004007], 13); // Starter over Kristiansand som standard
         var currentMarker = null;
         var currentGeometry = null;
 
@@ -333,12 +323,7 @@
         });
 
 
-        // L.tileLayer('https://cache.kartverket.no/v1/wmts/1.0.0/topo/default/webmercator/{z}/{y}/{x}.png', {
-        //     maxZoom: 18,
-        //     attribution: '&copy; <a href="http://www.kartverket.no/">Kartverket</a>'
-        // }).addTo(map);
-
-
+        // Kontroller for forskjellige funksjoner i kartet, markeringer og geometri
         map.pm.addControls({
             position: 'topleft',
             drawMarker: true,
@@ -439,7 +424,7 @@
                 const responseData = await lagreResponse.json();
 
                 // Oppdater skjulte felt
-                document.getElementById('KoordinatID').value = responseData.koordinatId;
+                document.getElementById('KoordinatID').value = responseData.koordinatId; // Sørger for at riktig KoordinatID og KommuneID blir lagt til i innmeldingen
                 document.getElementById('KommuneID').value = responseData.kommuneId;
 
                 // Aktiver submit-knappen
@@ -472,7 +457,7 @@
 
                 const data = await response.json();
                 if (data && data.length > 0) {
-                    map.setView([data[0].nord, data[0].ost], 13);
+                    map.setView([data[0].nord, data[0].ost], 13); // Hvis det er treff på stedsnavn hentes koordinatene og oppdaterer plassering i kartet
                 }
             } catch (error) {
                 console.error('Søkefeil:', error);
