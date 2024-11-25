@@ -569,13 +569,14 @@ namespace KartverketGruppe1.Controllers
         [HttpGet]
         public async Task<IActionResult> RedigerProfil()
         {
-            var user = await _userManager.GetUserAsync(User);
+            var user = await _userManager.GetUserAsync(User); // Hent innlogget bruker
             if (user == null)
             {
                 return NotFound();
             }
 
-            var model = new RedigerBrukerViewModel
+            // Fyll ViewModel med brukerdata
+            var model = new RedigerBrukerViewModel 
             {
                 Fornavn = user.Fornavn,
                 Etternavn = user.Etternavn,
@@ -590,7 +591,7 @@ namespace KartverketGruppe1.Controllers
         [HttpPost]
         public async Task<IActionResult> RedigerProfil(RedigerBrukerViewModel model)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid) // Valider skjemaet
             {
                 var user = await _userManager.GetUserAsync(User);
                 if (user == null)
@@ -598,16 +599,17 @@ namespace KartverketGruppe1.Controllers
                     return NotFound();
                 }
 
+                // Oppdater brukerdata
                 user.Fornavn = model.Fornavn;
                 user.Etternavn = model.Etternavn;
                 user.PhoneNumber = model.PhoneNumber;
                 user.Fodselsdato = model.Fodselsdato;
 
-                var result = await _userManager.UpdateAsync(user);
+                var result = await _userManager.UpdateAsync(user); // Lagre oppdateringene
                 if (result.Succeeded)
                 {
 
-                    return RedirectToAction("BrukerProfil");
+                    return RedirectToAction("BrukerProfil"); // Naviger til profilsiden
                 }
 
                 foreach (var error in result.Errors)
