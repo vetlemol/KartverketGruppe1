@@ -72,7 +72,6 @@
                 }
 
                 .form-container img {
-                    background-image: url('/Images/KartikusNy.png');
                     max-width: 150px;
                     margin-bottom: 10px;
                 }
@@ -81,16 +80,20 @@
 <body>
     <div class="background-image"></div> <!-- Bakgrunnsbildet -->
 
+    <!--Blå boks som inneholder bilde av Kartikus og tekst til feilmeldingen-->
     <div class="container">
         <div class="form-container">
             <img src="~/Images/KartikusNy.png" alt="Kartikus" />
             <h2>En feil har oppstått</h2>
             <p>Oops... her har det skjedd en feil <br /> Prøv igjen senere</p>
+
+        <!--Knapp for å prøve igjen-->
             <button onclick="redirectHome()">Prøv igjen</button>
         </div>
     </div>
     <script>
 
+      <!--Funksjon for å sende brukeren tilbake til innmeldingssiden-->
         function redirectHome() {
             window.location.href = "/Kart/KartInnmelding";
         }
