@@ -37,12 +37,6 @@ namespace KartverketGruppe1.Controllers
             return View();
         }
 
-        //[HttpGet]
-        //public IActionResult InnmeldOversikt()
-        //{
-        //    return View();
-        //}
-
 
         public async Task<IActionResult> InnmeldOversikt(int id)
         {
@@ -73,12 +67,7 @@ namespace KartverketGruppe1.Controllers
         }
 
 
-        public IActionResult NyInnmelding() ////////////////////////////////////////////
-        {
-            return View();
-        }
-
-
+        // Denne lager VeiwBag for Avvikstype, Status og Prioritet for å kunne vise disse i en dropdown i view
         private async Task LoadViewbags()
         {
             ViewBag.Avvikstype = _context.Avvikstype
@@ -120,7 +109,7 @@ namespace KartverketGruppe1.Controllers
             var innmeldinger = await _context.Innmelding
                 .Include(i => i.Status)
                 .Include(i => i.Kommune)
-                .Where(i => i.BrukerID == currentUser.Id)
+                .Where(i => i.BrukerID == currentUser.Id) // Dette sørger for at bare innmeldingene til pålogget bruker vises
                 .OrderByDescending(i => i.Dato)
                 .ToListAsync();
 
@@ -151,7 +140,9 @@ namespace KartverketGruppe1.Controllers
                 .Include(i => i.Avvikstype)
                 .Include(i => i.Bruker)
                 .Include(i => i.Saksbehandler)
-                .FirstOrDefaultAsync(m => m.InnmeldingID == id && m.BrukerID == currentUser.Id);
+                .FirstOrDefaultAsync(m => m.InnmeldingID == id && m.BrukerID == currentUser.Id); 
+            // Dobbeltsjekker at innmeldingen tilhører pålogget bruker
+            // Hvis ikke kunne en skrevet innmeldingID til en annen i url
 
             if (innmelding == null)
             {
@@ -189,6 +180,8 @@ namespace KartverketGruppe1.Controllers
         //{
         //    return View(_brukerProfil);
         //}
+
+
 
         // Denne metoden viser detaljene for en brukerprofil hvis brukeren er logget inn
         public async Task<IActionResult> BrukerProfil()
@@ -250,12 +243,6 @@ namespace KartverketGruppe1.Controllers
             return View();
         }
 
-
-        public IActionResult Start()
-        {
-            return View();
-        }
-
         public IActionResult Innlogging()
         {
             return View();
@@ -267,8 +254,8 @@ namespace KartverketGruppe1.Controllers
             return View(new List<StedsnavnViewModel>());  // Tom Liste for Stedsnavn for å kunne søke etter Stedsnavn i kartavvik uten error ved første visning
         }
 
+
         // Håndterer søk etter Stedsnavn i kartinnmelding
-        // Funker, ikke rør :)
         [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> SokStedsnavn(string? SokeTekst)
@@ -279,17 +266,18 @@ namespace KartverketGruppe1.Controllers
             }
 
             // Får fortsatt ArgumentNullException hvis den ikke finner noe på søketekst
-
+            // Kaller på GetStedsnavnAsync i StedsnavnService for å hente stedsnavn basert på søketekst
             var stedsnavnResponse = await _stedsnavnService.GetStedsnavnAsync(SokeTekst);
             if (stedsnavnResponse?.Navn != null && stedsnavnResponse.Navn.Any())
             {
-                var viewModel = stedsnavnResponse.Navn.Select(n => new StedsnavnViewModel
+                var viewModel = stedsnavnResponse.Navn.Select(n => new StedsnavnViewModel // Henter info fra StedsnavnResponse i APIModels
+                                                                                          // og legger det i en liste
                 {
                     Nord = n.Representasjonspunkt.Nord,
                     Ost = n.Representasjonspunkt.Ost
-                }).ToList();
+                }).ToList(); // Lagrer Nord og Øst i en liste slik at view kan oppdatere kartplasseringen basert på denne dataen
 
-                return View("KartInnmelding", viewModel);
+                return View("KartInnmelding", viewModel); // Sender viewModel til Kartinnmelding view for å vise stedet på kart
             }
             else
             {
@@ -349,11 +337,13 @@ namespace KartverketGruppe1.Controllers
             return View(id);
         }
 
+
         public IActionResult SendMelding(int innmeldingId)
         {
             ViewBag.InnmeldingID = innmeldingId;
             return View();
         }
+
 
         [HttpPost]
         public async Task<IActionResult> NyMelding(int innmeldingId, string innhold)
@@ -449,22 +439,6 @@ namespace KartverketGruppe1.Controllers
                 return View("Index");
             }
         }
-
-        [AllowAnonymous]
-        [HttpGet]
-        public IActionResult KoordTilKommune()
-        {
-            return View();
-        }
-
-
-
-        [HttpGet]
-        public IActionResult TestHedda()
-        {
-            return View();
-        }
-
  
 
         [HttpPost]
