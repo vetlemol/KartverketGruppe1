@@ -1,4 +1,4 @@
-﻿using KartverketGruppe1.Data;
+using KartverketGruppe1.Data;
 using KartverketGruppe1.Models;
 using KartverketGruppe1.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -52,10 +52,18 @@ namespace KartverketGruppe1.Controllers
 
 
         [HttpPost] // Denne som brukes i KartInnmelding.cshtml
-        public async Task<IActionResult> LagreInnmelding(Innmelding innmelding)
+        public async Task<IActionResult> LagreInnmelding(Innmelding innmelding, IFormFile Dokumentasjon) // , IFormFile Dokumentasjon lagt til for å kunne laste opp filer
         {
             try
             {
+                // Konverterer opplastet fil til byte-array 
+                if (Dokumentasjon != null && Dokumentasjon.Length > 0)
+                {
+                    using var memoryStream = new MemoryStream();
+                    await Dokumentasjon.CopyToAsync(memoryStream);
+                    innmelding.Dokumentasjon = memoryStream.ToArray();
+                }
+
                 // Sjekk at nødvendige relasjoner eksisterer
                 var koordinat = await _context.Koordinat.FindAsync(innmelding.KoordinatID);
                 var kommune = await _context.Kommune.FindAsync(innmelding.KommuneID);
@@ -76,7 +84,7 @@ namespace KartverketGruppe1.Controllers
                     KommuneID = innmelding.KommuneID,
                     AvvikstypeID = innmelding.AvvikstypeID,
                     KoordinatID = innmelding.KoordinatID,
-                    StatusID = 3,
+                    StatusID = 1,
                     PrioritetID = 1
                 };
 
@@ -251,9 +259,6 @@ namespace KartverketGruppe1.Controllers
 
 
 
-
-
-
         public async Task<IActionResult> Fullskjerm(int id)
         {
             //var currentUser = await _userManager.GetUserAsync(User);
@@ -278,6 +283,25 @@ namespace KartverketGruppe1.Controllers
             }
 
             return View(innmelding);
+        }
+
+
+        // Funksjonen henter alle meldinger som tilhører en spesifikk innmelding (identifisert ved id),
+        // sorterer dem i synkende rekkefølge etter tidspunktet de ble sendt, og viser dem i en view.
+        public async Task<IActionResult> SeMeldinger(int id)
+        {
+
+            var meldinger = await _context.Meldinger
+                .Where(m => m.InnmeldingID == id)
+                .OrderByDescending(m => m.SendeTidspunkt)
+                .ToListAsync();
+
+            if (meldinger == null)
+            {
+                return NotFound();
+            }
+
+            return View(meldinger);
         }
 
 
@@ -346,7 +370,10 @@ namespace KartverketGruppe1.Controllers
                 var koordinat = new Koordinat
                 {
                     Latitude = model.Latitude,
-                    Longitude = model.Longitude
+                    Longitude = model.Longitude,
+                    /////// Endring 
+                    Koordinater = model.Koordinater,
+                    GeometryType = model.GeometryType
                 };
                 _context.Koordinat.Add(koordinat);
                 await _context.SaveChangesAsync();
@@ -464,6 +491,7 @@ namespace KartverketGruppe1.Controllers
         public string Koordinater { get; set; }
         public double Latitude { get; set; }
         public double Longitude { get; set; }
+        public string GeometryType { get; set; }
         public string Kommunenummer { get; set; }
         public string Kommunenavn { get; set; }
     }

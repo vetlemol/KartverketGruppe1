@@ -1,15 +1,19 @@
-﻿@model IEnumerable<KartverketGruppe1.Data.Innmelding>
+﻿ @model IEnumerable<KartverketGruppe1.Data.Innmelding>
 
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Mine Innmeldinger</title>
+    <title>Mine innmeldinger</title>
     <style>
         .innmelding-list {
             max-width: 800px;
-            margin: 20px auto;
+            /*margin: 20px auto; */
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 0px;
             padding: 20px;
+            text-align: center;
         }
 
         .innmelding-item {
@@ -59,11 +63,13 @@
 </head>
 <body>
     <div class="innmelding-list">
-        <h1>Mine Innmeldinger</h1>
+        <h2>Alle innmeldinger</h2>
 
         @foreach (var innmelding in Model)
         {
-            <div class="innmelding-item" onclick="redirectToTest()">
+            <div class="innmelding-item">
+              <a href="@Url.Action("RedigerInnmelding", new { id = innmelding.InnmeldingID })"
+                   class="button3" style="text-decoration: none;">
                 <div class="innmelding-header">
                     <strong>Innmelding #@innmelding.InnmeldingID</strong>
                     <span class="innmelding-status">@innmelding.Status?.Statustype</span>
@@ -79,10 +85,7 @@
                     <span>Kommune: @innmelding.Kommune?.Kommunenavn</span>
                     <span>Dato: @innmelding.Dato.ToString("dd.MM.yyyy")</span>
                 </div>
-                <a href="@Url.Action("Test", new { id = innmelding.InnmeldingID })"
-                   class="button3" style="text-decoration: none;">
-                    <p>Se detaljer</p>
-                </a>
+               </a>
             </div>
         }
     </div>
@@ -96,4 +99,4 @@
 
 
 </script>
-</html>
+</html> 

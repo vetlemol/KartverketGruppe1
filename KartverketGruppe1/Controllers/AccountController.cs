@@ -2,6 +2,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+using KartverketGruppe1.Data;
+using System.Linq;
 
 namespace KartverketGruppe1.Controllers
 {
@@ -13,13 +16,18 @@ namespace KartverketGruppe1.Controllers
          * UserManager: Håndterer brukeroperasjoner mot databasen
          * SignInManager: Håndterer autentisering og sesjonsstyring
          */
-
+        private readonly ILogger<AccountController> _logger;
+        private readonly ApplicationDbContext _context;
+        
         public AccountController(
         UserManager<ApplicationUser> userManager,
-        SignInManager<ApplicationUser> signInManager)
+        SignInManager<ApplicationUser> signInManager, 
+        ILogger<AccountController> logger, ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _logger = logger;
+            _context = context;
         }
 
         [AllowAnonymous] // Tillater anonym tilgang
@@ -52,6 +60,17 @@ namespace KartverketGruppe1.Controllers
                 ModelState.AddModelError(string.Empty, "Invalid login attempt.");
             }
             return View(model);
+        }
+
+          public IActionResult Loggut()
+        {
+            return View();
+        }
+        
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Login", "Account");
         }
 
         [AllowAnonymous]
@@ -91,16 +110,12 @@ namespace KartverketGruppe1.Controllers
             return View(model);
         }
 
+       
 
-        public IActionResult Loggut()
-        {
-            return View();
-        }
-        public async Task<IActionResult> Logout()
-        {
-            await _signInManager.SignOutAsync();
-            return RedirectToAction("Login", "Account");
-        }
+    
+
+     
+
 
         [HttpGet]
         public IActionResult SlettBruker()
@@ -108,24 +123,47 @@ namespace KartverketGruppe1.Controllers
             return View();
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> SlettBrukerConfirmed()
         {
-            var user = await _userManager.GetUserAsync(User);
+            var user = await _userManager.GetUserAsync(User); // Hent innlogget bruker
             if (user != null)
             {
+                // Slett alle innmeldinger tilknyttet brukeren
+                var innmeldinger = _context.Innmelding.Where(i => i.BrukerID == user.Id);
+                _context.Innmelding.RemoveRange(innmeldinger);
+                await _context.SaveChangesAsync();
+
+                // Slett brukeren
                 var result = await _userManager.DeleteAsync(user);
                 if (result.Succeeded)
                 {
-                    await _signInManager.SignOutAsync();
-                    return RedirectToAction("Login", "Account");
+                    await _signInManager.SignOutAsync(); // Logg ut brukeren
+                    return RedirectToAction("SlettBruker", "Account"); // Send brukeren til slett-bruker-siden
                 }
+                // Legg til feil i ModelState for visning
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
-            return View("SlettBruker");
+            return View("SlettBruker"); // Vis slett-bruker-siden med feil
+        }
+
+        [HttpGet]
+        public IActionResult RedigerProfil()
+        {
+            var user = _userManager.GetUserAsync(User).Result;
+            var model = new BrukerProfilViewModel
+            {
+                Name = user.Fornavn,
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber,
+                Fodselsdato = user.Fodselsdato ?? DateTime.MinValue,
+                // Legg til andre nødvendige felter
+            };
+            return View(model);
         }
     }
 }

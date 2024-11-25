@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
 
 namespace KartverketGruppe1.Controllers
 {
@@ -107,8 +108,8 @@ namespace KartverketGruppe1.Controllers
 
 
 
-            // Metoden viser en enkel oversikt over alle innmeldinger for en spesifikk bruker sortert etter dato
-            public async Task<IActionResult> Oversikt()
+        // Metoden viser en enkel oversikt over alle innmeldinger for en spesifikk bruker sortert etter dato
+        public async Task<IActionResult> Oversikt()
         {
             var currentUser = await _userManager.GetUserAsync(User);
             if (currentUser == null)
@@ -125,7 +126,7 @@ namespace KartverketGruppe1.Controllers
 
             return View(innmeldinger);
         }
-    
+
 
 
         // Denne metoden viser detaljene for en spesifikk innmelding
@@ -224,8 +225,8 @@ namespace KartverketGruppe1.Controllers
             {
                 Name = $"{currentUser.Fornavn} {currentUser.Etternavn}",
                 Email = currentUser.Email,
-                Phone = currentUser.PhoneNumber,
-                BirthDate = new DateTime(1999, 03, 27),
+                PhoneNumber = currentUser.PhoneNumber,
+                Fodselsdato = currentUser.Fodselsdato,
                 SubmissionsPerMonth = new List<int> { 3, 2, 0, 3, 1, 0, 2, 1, 0, 4, 0, 3 },
                 Years = new List<int> { 2022, 2023, 2024 }
             };
@@ -234,32 +235,7 @@ namespace KartverketGruppe1.Controllers
         }
 
 
-        [HttpGet]
-        public IActionResult RedigerBrukerProfil()
-        {
-            return View(_brukerProfil);
-        }
-
-
-        // Metode for å oppdatere brukerprofil
-        [HttpPost]
-        public IActionResult RedigerBrukerProfil(BrukerProfilViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                // Oppdaterer brukerinformasjon
-                _brukerProfil.Name = model.Name;
-                _brukerProfil.Email = model.Email;
-                _brukerProfil.Phone = model.Phone;
-                _brukerProfil.BirthDate = model.BirthDate;
-                _brukerProfil.Password = model.Password;
-
-
-                return View(model); 
-            }
-            
-            return RedirectToAction("BrukerProfil");
-        }
+    
 
 
         // IActionResult brukes her for å hente Views for forskjellige sider vi har i systemet
@@ -290,7 +266,6 @@ namespace KartverketGruppe1.Controllers
         {
             return View(new List<StedsnavnViewModel>());  // Tom Liste for Stedsnavn for å kunne søke etter Stedsnavn i kartavvik uten error ved første visning
         }
-
 
         // Håndterer søk etter Stedsnavn i kartinnmelding
         // Funker, ikke rør :)
@@ -345,6 +320,57 @@ namespace KartverketGruppe1.Controllers
         {
             return View();
         }
+
+
+        public async Task<IActionResult> MeldingInnmelding(int id)
+        {
+            if(id == null)
+            {
+                return NotFound();
+            }
+
+            var currentUser = await _userManager.GetUserAsync(User);
+            if(currentUser == null)
+            {
+                return RedirectToAction("login", "Account");
+            }
+
+            var innmeldingID = id;
+            //.Include(i => i.Bruker)
+            //.Include(i => i.Saksbehandler)
+            //.FirstOrDefaultAsync(m => m.InnmeldingID == id && m.BrukerID == currentUser.Id);
+
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+
+            return View(id);
+        }
+
+        public IActionResult SendMelding(int innmeldingId)
+        {
+            ViewBag.InnmeldingID = innmeldingId;
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> NyMelding(int innmeldingId, string innhold)
+        {
+            var melding = new Meldinger
+            {
+                InnmeldingID = innmeldingId,
+                Innhold = innhold,
+                SendeTidspunkt = DateTime.Now
+            };
+
+            _context.Meldinger.Add(melding);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("InnmeldOversikt", new { id = innmeldingId });
+        }
+
 
         [AllowAnonymous]
          public IActionResult Registrert()
@@ -438,6 +464,8 @@ namespace KartverketGruppe1.Controllers
         {
             return View();
         }
+
+ 
 
         [HttpPost]
         public IActionResult AddAvvik(string Avvik)
@@ -564,13 +592,64 @@ namespace KartverketGruppe1.Controllers
             }
         }
 
+        [HttpGet]
+        public async Task<IActionResult> RedigerProfil()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var model = new RedigerBrukerViewModel
+            {
+                Fornavn = user.Fornavn,
+                Etternavn = user.Etternavn,
+                PhoneNumber = user.PhoneNumber,
+                Fodselsdato = user.Fodselsdato,
+                Profilbilde = user.Profilbilde
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RedigerProfil(RedigerBrukerViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.GetUserAsync(User);
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                user.Fornavn = model.Fornavn;
+                user.Etternavn = model.Etternavn;
+                user.PhoneNumber = model.PhoneNumber;
+                user.Fodselsdato = model.Fodselsdato;
+
+                var result = await _userManager.UpdateAsync(user);
+                if (result.Succeeded)
+                {
+
+                    return RedirectToAction("BrukerProfil");
+                }
+
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+            }
+
+            return View(model);
+        }
 
 
 
 
-
-        // Laster inn tilfeldig bakgrunnsbilde fra wwwroot/Bakgrunnsbilder
-        [AllowAnonymous]
+            // Laster inn tilfeldig bakgrunnsbilde fra wwwroot/Bakgrunnsbilder
+            [AllowAnonymous]
         public IActionResult GetRandomBackgroundImage()
             {
             string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Bakgrunnsbilder");

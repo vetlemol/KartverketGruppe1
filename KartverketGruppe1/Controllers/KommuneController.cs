@@ -8,13 +8,6 @@ namespace KartverketGruppe1.Controllers
         private readonly IConfiguration _configuration;
         private readonly HttpClient _httpClient;
 
-
-        public KommuneController(IConfiguration configuration, HttpClient httpClient)
-        {
-            _configuration = configuration;
-            _httpClient = httpClient;
-        }
-
         [AllowAnonymous]
         [HttpGet]
         [Route("api/Kommune/GetByCoordinate")]
@@ -39,5 +32,12 @@ namespace KartverketGruppe1.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
+         public KommuneController(IConfiguration configuration, HttpClient httpClient)
+        {
+            _configuration = configuration;
+            _httpClient = httpClient;
+        }
+
     }
 }
