@@ -85,7 +85,8 @@ namespace KartverketGruppe1.Controllers
                     AvvikstypeID = innmelding.AvvikstypeID,
                     KoordinatID = innmelding.KoordinatID,
                     StatusID = 1,
-                    PrioritetID = 1
+                    PrioritetID = 1,
+                    Dokumentasjon = innmelding.Dokumentasjon
                 };
 
                 // Håndter bruker-ID
@@ -189,36 +190,6 @@ namespace KartverketGruppe1.Controllers
             }
         }
 
-        //[AllowAnonymous]
-        //[HttpPost]
-        //public async Task<IActionResult> SokStedsnavn(string? SokeTekst)
-        //{
-        //    if (string.IsNullOrEmpty(SokeTekst))
-        //    {
-        //        return View("KartInnmelding");
-        //    }
-
-        //    // Får fortsatt ArgumentNullException hvis den ikke finner noe på søketekst
-
-        //    var stedsnavnResponse = await _stedsnavnService.GetStedsnavnAsync(SokeTekst);
-        //    if (stedsnavnResponse?.Navn != null && stedsnavnResponse.Navn.Any())
-        //    {
-        //        var viewModel = stedsnavnResponse.Navn.Select(n => new StedsnavnViewModel
-        //        {
-        //            Nord = n.Representasjonspunkt.Nord,
-        //            Ost = n.Representasjonspunkt.Ost
-        //        }).ToList();
-
-        //        return View("KartInnmelding", viewModel);
-        //    }
-        //    else
-        //    {
-        //        ViewData["Error"] = $"No results found for '{SokeTekst}'.";
-        //        return View("KartInnmelding");
-        //    }
-        //}
-
-
 
         [AllowAnonymous]
         [HttpPost]
@@ -288,18 +259,12 @@ namespace KartverketGruppe1.Controllers
 
         public async Task<IActionResult> SeMeldinger(int id)
         {
-            //var currentUser = await _userManager.GetUserAsync(User);
-            //if (currentUser == null)
-            //{
-            //    return NotFound();
-            //}
-
             var meldinger = await _context.Meldinger
                 .Where(m => m.InnmeldingID == id)
                 .OrderByDescending(m => m.SendeTidspunkt)
                 .ToListAsync();
 
-            if (meldinger == null)
+            if (!meldinger.Any())
             {
                 return NotFound();
             }

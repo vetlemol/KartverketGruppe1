@@ -183,7 +183,7 @@
                         <input type="text" class="form-control" value="@(Model.Saksbehandler?.UserName ?? "Ikke tildelt")" readonly />
                     </div>
                     <a href="@Url.Action("SendMelding", new { innmeldingId = Model.InnmeldingID })" class="btn btn-primary">Ny melding</a> 
-                    <a href="@Url.Action("SeMeldinger", "Kart", new { innmeldingId = Model.InnmeldingID })" class="btn btn-primary">Se meldinger</a>
+                    <a href="@Url.Action("SeMeldinger", "Kart", new { Id = Model.InnmeldingID })" class="btn btn-primary">Se meldinger</a>
                 </div>
             </div>
         </div>
@@ -195,11 +195,12 @@
             <div class="card mb-3 bg-transparent border-0">
                 <h4>Kartutsnitt</h4>
                 @* <a href="@Url.Action("SendMelding", "Home", new { id = Model.InnmeldingID })">Send melding</a> *@
-                <a href="@Url.Action("SendMelding", new { innmeldingId = Model.InnmeldingID })" class="btn btn-primary">Ny melding</a>
+                @* <a href="@Url.Action("SendMelding", new { innmeldingId = Model.InnmeldingID })" class="btn btn-primary">Ny melding</a> *@
                 <a href="@Url.Action("Fullskjerm" , "Kart", new {id = Model.InnmeldingID})">Vis i fullskjerm</a>
                 <div class="card-body p-0">
                     <div id="map" style="height: 300px;">
                 </div>
+                    <button class="btn btn-secondary" onclick="RedirectToOversikt()">Lukk</button>
             </div>
         </div>
     </div>
@@ -230,7 +231,6 @@
     <div class="row mt-3">
         <div class="col-12 text-end">
            @*  <button class="btn btn-danger">Henvendelse</button> *@
-            <button class="btn btn-secondary" onclick="RedirectToOversikt()">Lukk</button>
             <button class="btn btn-success" onclick="@Url.Action("SendMelding" , "Home", new {id = Model.InnmeldingID})">Lagre</button>
         </div>
     </div>
