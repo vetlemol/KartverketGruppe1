@@ -159,7 +159,7 @@ namespace KartverketGruppe1.Controllers
                     nyInnmelding.Gjest_epost = innmelding.Gjest_epost;
                 }
 
-                _logger.LogInformation($"Lagrer innmelding med BrukerID: {nyInnmelding.BrukerID}, Gjest_epost: {nyInnmelding.Gjest_epost}");
+                _logger.LogInformation($"Lagrer innmelding med BrukerID: {nyInnmelding.BrukerID}, Gjest_epost: {nyInnmelding.Gjest_epost}"); 
 
                 _context.Innmelding.Add(nyInnmelding);
                 await _context.SaveChangesAsync();
@@ -312,7 +312,7 @@ namespace KartverketGruppe1.Controllers
                     };
                     _context.Kommune.Add(kommune);
                     await _context.SaveChangesAsync();
-                    _logger.LogInformation($"Opprettet ny kommune: {kommune.Kommunenavn}");
+                    _logger.LogInformation($"Opprettet ny kommune: {kommune.Kommunenavn}"); // Logger for sjekk og debugging 
                 }
 
                 // Lagre koordinat

@@ -194,10 +194,10 @@
             }
 
             <!-- Skjulte felt -->
-            <input type="hidden" asp-for="KoordinatID" id="KoordinatID" />
+            <input type="hidden" asp-for="KoordinatID" id="KoordinatID" /> <!-- Skjult felt for å lagre KoordinatID, hentes fra api kallet -->
             <input type="hidden" asp-for="KommuneID" id="KommuneID" />
-            <input type="hidden" asp-for="StatusID" value="1" />
-            <input type="hidden" asp-for="PrioritetID" value="1" />
+            <input type="hidden" asp-for="StatusID" value="1" /> <!-- Setter standardverdier som ikke bruker har tilgang på å endre -->
+            <input type="hidden" asp-for="PrioritetID" value="1" /> <!-- Status = ikke påbegynt, Prioritet = vanlig, Dato = nå -->
             <input type="hidden" asp-for="Dato" value="@DateTime.Now" />
 
             <!-- Koordinat og Kommune info skjult -->
@@ -318,7 +318,7 @@
                 map.addLayer(currentLayer);
 
                 document.querySelectorAll('.layer-btn').forEach(btn => btn.classList.remove('active'));
-                this.classList.add('active');
+                this.classList.add('active'); // Style for knapp til gjeldende kartgrunnlag, ser hvilket som er aktivt
             });
         });
 
@@ -339,7 +339,7 @@
 
 
 
-        function getGeometryData(layer) {
+        function getGeometryData(layer) { // Henter geometridata fra kartet
             let geometryType = '';
             let coordinates = '';
             let centerPoint = null;
@@ -352,8 +352,8 @@
             else if (layer instanceof L.Polyline && !(layer instanceof L.Polygon)) {
                 geometryType = 'LineString';
                 coordinates = JSON.stringify(layer.getLatLngs());
-                centerPoint = layer.getBounds().getCenter();
-            }
+                centerPoint = layer.getBounds().getCenter(); // centerPoint brukes for å hente koordinater fra ett spesifikt punkt
+            }                                                // for å unngå problemer med feks kommunegrenser osv.
             else if (layer instanceof L.Polygon) {
                 geometryType = 'Polygon';
                 coordinates = JSON.stringify(layer.getLatLngs());
@@ -363,7 +363,7 @@
             return {
                 geometryType: geometryType,
                 coordinates: coordinates,
-                latitude: centerPoint.lat,
+                latitude: centerPoint.lat, 
                 longitude: centerPoint.lng
             };
         }
@@ -378,7 +378,7 @@
                 }
                 currentGeometry = e.layer;
 
-                // Hent geometridata
+                // Hent geometridata (Henter koordinater, geometritype og lat / lng) fra funksjonen over
                 const geometryData = getGeometryData(currentGeometry);
 
                 // Oppdater skjulte felt med koordinater
@@ -387,7 +387,7 @@
 
                 // Hent kommune-info basert på senterpunktet
                 const kommuneResponse = await fetch(
-                    `/api/Kommune/GetByCoordinate?lat=${geometryData.latitude}&lng=${geometryData.longitude}&koordsys=4258`
+                    `/api/Kommune/GetByCoordinate?lat=${geometryData.latitude}&lng=${geometryData.longitude}&koordsys=4258` // geometryData har lat/lng for senterpunkt
                 );
 
                 if (!kommuneResponse.ok) {
@@ -397,7 +397,7 @@
                 const kommuneData = await kommuneResponse.json();
 
                 // Vis kommune-info
-                document.getElementById('kommunenavn').textContent = kommuneData.kommunenavn || '-';
+                document.getElementById('kommunenavn').textContent = kommuneData.kommunenavn || '-'; 
                 document.getElementById('kommunenummer').textContent = kommuneData.kommunenummer || '-';
 
                 // Lagre koordinat og kommune med geometridata
@@ -471,11 +471,11 @@
             if (!document.getElementById('KoordinatID').value ||
                 !document.getElementById('KommuneID').value) {
                 e.preventDefault();
-                alert('Vennligst velg en posisjon på kartet først');
+                alert('Vennligst velg en posisjon på kartet først'); // Sørger for at det er valgt en posisjon på kartet før innmelding, alert hvis ikke
                 return false;
             }
 
-            const avvikstype = document.querySelector('[name="AvvikstypeID"]').value;
+            const avvikstype = document.querySelector('[name="AvvikstypeID"]').value; // Sørger for at det er valgt en avvikstype fra viewbag før innmelding 
             if (!avvikstype) {
                 e.preventDefault();
                 alert('Vennligst velg type avvik');
